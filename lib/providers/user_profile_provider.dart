@@ -3,7 +3,7 @@ import 'package:dnd/services/auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-final userProfileProvider = FutureProvider.autoDispose<Player?>((ref) async {
+final userProfileProvider = FutureProvider<Player?>((ref) async {
   final user = ref.watch(authProvider);
 
   if (user == null) {
