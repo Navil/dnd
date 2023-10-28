@@ -1,4 +1,4 @@
-package com.example.dnd
+package at.valley.dnd
 
 import io.flutter.embedding.android.FlutterActivity
 

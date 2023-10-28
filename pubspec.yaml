@@ -30,7 +30,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  supabase_flutter:
+  supabase_flutter: ^1.10.23
+  google_fonts:
+  flutter_riverpod:
+  font_awesome_flutter:
+  flutter_easyloading:
+  flutter_svg:
+  go_router:
+  shared_preferences:
+  flutter_appauth: ^6.0.2
+  crypto: ^3.0.3
+  google_sign_in: ^6.1.5
 
 dev_dependencies:
   flutter_test:
