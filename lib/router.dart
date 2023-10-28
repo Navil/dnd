@@ -1,20 +1,19 @@
+import 'dart:async';
+
 import 'package:dnd/pages/edit_profile.dart';
+import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/user_profile_provider.dart';
-import 'package:dnd/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 const loginPath = "/login";
-const splashPath = "/splash";
+const homePath = "/";
+const editProfilePath = "edit_profile";
 
 final _key = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final user = ref.watch(authProvider);
-  final hasUserProfile = ref.watch(userProfileProvider
-      .select((value) => !value.isLoading && value.asData?.value != null));
-
   return GoRouter(
     navigatorKey: _key,
     debugLogDiagnostics: true,
@@ -23,39 +22,53 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: loginPath,
         builder: (context, state) => ElevatedButton(
             onPressed: () {
-              ref.read(authProvider.notifier).loginGoogle();
+                ref.read(authServiceProvider).loginGoogle();
             },
             child: const Text("Login")),
       ),
+      
       GoRoute(
-          path: '/',
+            path: homePath,
           builder: (context, state) => ElevatedButton(
               onPressed: () {
-                ref.read(authProvider.notifier).logout();
+                  ref.read(authServiceProvider).logout();
               },
               child: const Text("Logout")),
           routes: [
             GoRoute(
-              path: 'edit_profile',
+                path: editProfilePath,
               builder: (context, state) => const EditProfilePage(),
             ),
           ]),
     ],
-    redirect: (context, state) {
-      print("Redirect");
-      print(state.uri);
-      final isLoggedIn = user != null;
-      print(isLoggedIn);
-      print(hasUserProfile);
-      if (isLoggedIn && !hasUserProfile) {
-        return "/edit_profile";
-      }
-
-      final isLoggingIn = state.uri.toString() == loginPath;
-
-      if (isLoggingIn) return isLoggedIn ? "/" : null;
-
-      return isLoggedIn ? null : loginPath;
-    },
-  );
+      redirect: (context, state) => _redirectLogic(ref, state));
 });
+FutureOr<String?> _redirectLogic(ProviderRef ref, GoRouterState state) {
+  final authState = ref.watch(authStateProvider);
+  final isLoggedIn =
+      authState.maybeWhen(data: (user) => user != null, orElse: () => false);
+  final isLoggingIn =
+      authState.maybeWhen(loading: () => true, orElse: () => false);
+
+  if (!isLoggedIn && !isLoggingIn && state.path != loginPath) {
+    return loginPath;
+  }
+
+  if (isLoggedIn) {
+    final userId = authState.value!.id;
+    final userProfileState = ref.watch(playerDetailsProvider(userId));
+    final hasUserProfile = userProfileState.maybeWhen(
+        data: (details) => details != null, orElse: () => false);
+    final isUserProfileLoading =
+        userProfileState.maybeWhen(orElse: () => false, loading: () => true);
+
+    if (!hasUserProfile &&
+        state.path != editProfilePath &&
+        !isUserProfileLoading) {
+      print(editProfilePath);
+      return homePath + editProfilePath;
+    }
+  }
+
+  return null;
+}
