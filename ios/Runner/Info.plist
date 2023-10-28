@@ -56,5 +56,7 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access to the photo library is needed to upload photos to the public profile</string>
 </dict>
 </plist>

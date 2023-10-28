@@ -1,3 +1,4 @@
+import 'package:dnd/pages/edit_profile.dart';
 import 'package:dnd/providers/user_profile_provider.dart';
 import 'package:dnd/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ final _key = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
   final user = ref.watch(authProvider);
+  final hasUserProfile = ref.watch(userProfileProvider
+      .select((value) => !value.isLoading && value.asData?.value != null));
 
   return GoRouter(
     navigatorKey: _key,
@@ -25,30 +28,32 @@ final routerProvider = Provider<GoRouter>((ref) {
             child: const Text("Login")),
       ),
       GoRoute(
-        path: '/',
-        builder: (context, state) => ElevatedButton(
-            onPressed: () {
-              ref.read(authProvider.notifier).logout();
-            },
-            child: const Text("Logout")),
-      ),
-      GoRoute(
-        path: '/edit_profile',
-        builder: (context, state) => const Text("Edit Profile"),
-      ),
+          path: '/',
+          builder: (context, state) => ElevatedButton(
+              onPressed: () {
+                ref.read(authProvider.notifier).logout();
+              },
+              child: const Text("Logout")),
+          routes: [
+            GoRoute(
+              path: 'edit_profile',
+              builder: (context, state) => const EditProfilePage(),
+            ),
+          ]),
     ],
-    redirect: (context, state) async {
-      print("Reditrect");
-      bool playerExists = ref.read(userProfileProvider).hasValue;
-
+    redirect: (context, state) {
+      print("Redirect");
+      print(state.uri);
       final isLoggedIn = user != null;
-
-      final isLoggingIn = state.uri.toString() == loginPath;
-      if (isLoggingIn) return isLoggedIn ? "/" : null;
-
-      if (isLoggingIn && !playerExists) {
+      print(isLoggedIn);
+      print(hasUserProfile);
+      if (isLoggedIn && !hasUserProfile) {
         return "/edit_profile";
       }
+
+      final isLoggingIn = state.uri.toString() == loginPath;
+
+      if (isLoggingIn) return isLoggedIn ? "/" : null;
 
       return isLoggedIn ? null : loginPath;
     },
