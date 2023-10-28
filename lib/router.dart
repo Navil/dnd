@@ -1,3 +1,4 @@
+import 'package:dnd/providers/user_profile_provider.dart';
 import 'package:dnd/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,12 +32,23 @@ final routerProvider = Provider<GoRouter>((ref) {
             },
             child: const Text("Logout")),
       ),
+      GoRoute(
+        path: '/edit_profile',
+        builder: (context, state) => const Text("Edit Profile"),
+      ),
     ],
-    redirect: (context, state) {
+    redirect: (context, state) async {
+      print("Reditrect");
+      bool playerExists = ref.read(userProfileProvider).hasValue;
+
       final isLoggedIn = user != null;
 
       final isLoggingIn = state.uri.toString() == loginPath;
       if (isLoggingIn) return isLoggedIn ? "/" : null;
+
+      if (isLoggingIn && !playerExists) {
+        return "/edit_profile";
+      }
 
       return isLoggedIn ? null : loginPath;
     },
