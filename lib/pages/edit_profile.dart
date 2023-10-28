@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dnd/model/player.dart';
+import 'package:dnd/providers/supabase_provider.dart';
 import 'package:dnd/providers/user_profile_provider.dart';
 import 'package:dnd/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -28,16 +30,11 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   Player? _player;
 
   @override
-  void initState() {
-    super.initState();
-    _player = ref.read(userProfileProvider).value;
-    if (_player != null) {
-      _firstnameController.text = _player!.firstname;
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+
+    //AsyncValue<Player?> playerDetails = ref.read(playerDetailsProvider(null));
+    // Listen to the userProfileProvider
+  
     return WillPopScope(
       onWillPop: () async {
         return _player != null;
@@ -48,48 +45,54 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               automaticallyImplyLeading: _player != null),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _getProfilePictureWidget(),
-                TextField(
-                  controller: _firstnameController,
-                  decoration: const InputDecoration(
-                    label: Text("Firstname"),
-                    border: OutlineInputBorder(),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _getProfilePictureWidget(),
+                  TextField(
+                    controller: _firstnameController,
+                    decoration: const InputDecoration(
+                      label: Text("Firstname"),
+                      border: OutlineInputBorder(),
+                    ),
                   ),
-                ),
-                Column(
-                  children: [
-                    if (_errors.isNotEmpty)
-                      ..._errors.map((error) => Text(error)).toList(),
-                    SizedBox(
-                      height: 48,
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _errors.clear();
-                          if (_firstnameController.text.isEmpty) {
-                            _errors.add("Please provide a name.");
-                          }
-                          if (_newImage == null && _photoURL == null) {
-                            _errors.add("Please provide a photo.");
-                          }
+                  Column(
+                    children: [
+                      if (_errors.isNotEmpty)
+                        ..._errors.map((error) => Text(error)).toList(),
+                      SizedBox(
+                        height: 48,
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _errors.clear();
+                            if (_firstnameController.text.isEmpty) {
+                              _errors.add("Please provide a name.");
+                            }
+                            if (_newImage == null && _photoURL == null) {
+                              _errors.add("Please provide a photo.");
+                            }
 
-                          if (_errors.isNotEmpty) {
-                            setState(() {});
-                          } else {
-                            //Do upload
-                          }
-                        },
-                        child: const Text('Submit'),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
+                            if (_errors.isNotEmpty) {
+                              setState(() {});
+                            } else {
+                              Player player = _player ?? Player.empty();
+                              player.firstname = _firstnameController.text;
+                              ref.read(supabaseProvider).savePlayer(player);
+                              //Do upload
+                              GoRouter.of(context).pop();
+                            }
+                          },
+                          child: const Text('Submit'),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              )
+                
+            
           )),
     );
   }

@@ -5,27 +5,14 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-final authProvider = StateNotifierProvider<AuthService, User?>((ref) {
-  return AuthService();
-});
 
-class AuthService extends StateNotifier<User?> {
+
+
+class AuthService {
   final supabase = Supabase.instance.client;
-  AuthService() : super(null) {
-    _init();
-  }
-
-  Future<void> _init() async {
-    var user = Supabase.instance.client.auth.currentUser;
-    state = user;
-    Supabase.instance.client.auth.onAuthStateChange.listen((authState) {
-      state = authState.session?.user;
-    });
-  }
 
   Future<void> loginApple() async {
     /*
