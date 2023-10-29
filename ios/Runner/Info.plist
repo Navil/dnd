@@ -58,5 +58,7 @@
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access to the photo library is needed to upload photos to the public profile</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your approximate location is needed to find nearby groups.</string>
 </dict>
 </plist>

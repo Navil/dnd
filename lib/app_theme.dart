@@ -78,16 +78,16 @@ class AppTheme {
   static final TextTheme lightTextTheme = TextTheme(
     titleSmall: fontFamily(fontPath,
         textStyle: const TextStyle(
-            fontSize: 18, color: primaryColor, wordSpacing: 0.1)),
+            fontSize: 14, color: primaryColor, wordSpacing: 0.1)),
     titleMedium: fontFamily(fontPath,
         textStyle: const TextStyle(
-          fontSize: 20,
+          fontSize: 16,
           color: primaryColor,
           wordSpacing: 0.15,
         )),
     titleLarge: fontFamily(fontPath,
         textStyle: const TextStyle(
-            fontSize: 28,
+            fontSize: 22,
             color: primaryColor,
             wordSpacing: 0,
             fontWeight: FontWeight.normal)),
@@ -96,10 +96,10 @@ class AppTheme {
             fontSize: 12, color: Colors.black, wordSpacing: 0.4)),
     bodyMedium: fontFamily(fontPath,
         textStyle: const TextStyle(
-            fontSize: 15, color: Colors.black, wordSpacing: 0.25)),
+            fontSize: 14, color: Colors.black, wordSpacing: 0.25)),
     bodyLarge: fontFamily(fontPath,
         textStyle: const TextStyle(
-            fontSize: 18,
+            fontSize: 16,
             color: Colors.black,
             wordSpacing: 0.15,
             fontWeight: FontWeight.w500)),

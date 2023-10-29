@@ -45,7 +45,10 @@ dependencies:
   image_cropper:
   adaptive_dialog:
   cached_network_image:
-  location:
+  geolocator:
+  flutter_map:
+  latlong2:
+  async:
 
 dev_dependencies:
   flutter_test:

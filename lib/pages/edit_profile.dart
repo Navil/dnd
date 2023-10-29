@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/player.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/supabase_provider.dart';
@@ -27,23 +28,23 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   String? _photoURL;
   XFile? _newImage;
 
-  final List<String> _errors = [];
-
   Player? _player;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final userId = ref.watch(authUserProvider).value!.id;
+    final userId = ref.watch(authUserProvider).value?.id;
+    if (userId == null) {
+      return AdaptiveLoadingIndicator();
+    }
    
     Player? playerDetails = ref.watch(playerDetailsProvider(userId)).value;
     if (playerDetails != null) {
-      _player ??= playerDetails;
-      _firstnameController.text = playerDetails.firstname;
+      if (_player == null) {
+        _player = playerDetails;
+        _firstnameController.text = playerDetails.firstname;
+      }
     }
  
     return WillPopScope(
@@ -56,58 +57,55 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               automaticallyImplyLeading: _player != null),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _getProfilePictureWidget(),
-                  TextField(
-                    controller: _firstnameController,
-                    decoration: const InputDecoration(
-                      label: Text("Firstname"),
-                      border: OutlineInputBorder(),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _getProfilePictureWidget(),
+                    TextFormField(
+                      controller: _firstnameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        label: Text("Firstname (required)"),
+                        border: OutlineInputBorder(),
+                      ),
                     ),
-                  ),
-                  Column(
-                    children: [
-                      if (_errors.isNotEmpty)
-                        ..._errors.map((error) => Text(error)).toList(),
-                      SizedBox(
-                        height: 48,
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            _errors.clear();
-                            if (_firstnameController.text.isEmpty) {
-                              _errors.add("Please provide a name.");
-                            }
-                            if (_newImage == null && _photoURL == null) {
-                              _errors.add("Please provide a photo.");
-                            }
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 48,
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                Player player = _player ?? Player.empty(userId);
+                                player.firstname = _firstnameController.text;
+                                
+                                ref.read(supabaseProvider).savePlayer(player);
+                                //Do upload
+                                if (_newImage != null) {
+                                  print(await Supabase.instance.client.storage
+                                      .from("/players")
+                                      .upload(userId, File(_newImage!.path)));
+                                }
 
-                            if (_errors.isNotEmpty) {
-                              setState(() {});
-                            } else {
-                              Player player = _player ?? Player.empty();
-                              player.firstname = _firstnameController.text;
-                              ref.read(supabaseProvider).savePlayer(player);
-                              //Do upload
-                              if (_newImage != null) {
-                                print(await Supabase.instance.client.storage
-                                    .from("/players")
-                                    .upload(userId + "/profile-picture",
-                                        File(_newImage!.path)));
+                                GoRouter.of(context).pop();
                               }
-                             
-                              GoRouter.of(context).pop();
-                            }
-                          },
-                          child: const Text('Submit'),
-                        ),
-                      )
-                    ],
-                  )
-                ],
+                            },
+                            child: const Text('Submit'),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               )
                 
             
@@ -118,39 +116,44 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   _getProfilePictureWidget() {
     const imageSize = 150.0;
 
-    return Container(
-      margin: const EdgeInsets.all(16),
-      width: imageSize,
-      height: imageSize,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          _newImage == null
-              ? UserAvatar(url: _photoURL, radius: imageSize / 2)
-              : CircleAvatar(
-                  radius: imageSize / 2,
-                  backgroundColor: Colors.transparent,
-                  backgroundImage: FileImage(
-                    File(_newImage!.path),
-                  ),
-                ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: GestureDetector(
-                onTap: () => importImage(context),
-                child: CircleAvatar(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  radius: 25,
-                  child: const FaIcon(
-                    FontAwesomeIcons.image,
-                    size: 25,
-                    color: Colors.white,
-                  ),
-                )),
-          )
-        ],
-      ),
+    return Column(
+      children: [
+        Text("Profile Picture"),
+        Container(
+          margin: const EdgeInsets.all(16),
+          width: imageSize,
+          height: imageSize,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              _newImage == null
+                  ? UserAvatar(url: _photoURL, radius: imageSize / 2)
+                  : CircleAvatar(
+                      radius: imageSize / 2,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: FileImage(
+                        File(_newImage!.path),
+                      ),
+                    ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: GestureDetector(
+                    onTap: () => importImage(context),
+                    child: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      radius: 25,
+                      child: const FaIcon(
+                        FontAwesomeIcons.image,
+                        size: 25,
+                        color: Colors.white,
+                      ),
+                    )),
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -204,8 +207,8 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
       ],
       aspectRatioPresets: [CropAspectRatioPreset.square],
       compressQuality: 100,
-      maxWidth: 600,
-      maxHeight: 600,
+      maxWidth: 250,
+      maxHeight: 250,
     );
     return croppedFile;
   }

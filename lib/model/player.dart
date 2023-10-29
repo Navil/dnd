@@ -13,8 +13,8 @@ class Player {
     );
   }
 
-  factory Player.empty() {
-    return Player(id: "", createdAt: DateTime.now(), firstname: "");
+  factory Player.empty(String userId) {
+    return Player(id: userId, createdAt: DateTime.now(), firstname: "");
   }
 
   dynamic toJson() {

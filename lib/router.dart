@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dnd/pages/edit_profile.dart';
-import 'package:dnd/pages/home.dart';
+import 'package:dnd/pages/tabs.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/user_profile_provider.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       
       GoRoute(
             path: homePath,
-            builder: (context, state) => const HomePage(),
+            builder: (context, state) => const TabsPage(),
           routes: [
             GoRoute(
                 path: editProfilePath,
@@ -40,6 +40,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     ],
       redirect: (context, state) => _redirectLogic(ref, state));
 });
+
 FutureOr<String?> _redirectLogic(ProviderRef ref, GoRouterState state) {
   final authState = ref.watch(authUserProvider);
   final isLoggedIn =
