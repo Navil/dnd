@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dnd/pages/edit_profile.dart';
+import 'package:dnd/pages/home.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/user_profile_provider.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +30,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       
       GoRoute(
             path: homePath,
-          builder: (context, state) => ElevatedButton(
-              onPressed: () {
-                  ref.read(authServiceProvider).logout();
-              },
-              child: const Text("Logout")),
+            builder: (context, state) => const HomePage(),
           routes: [
             GoRoute(
                 path: editProfilePath,
@@ -44,7 +41,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       redirect: (context, state) => _redirectLogic(ref, state));
 });
 FutureOr<String?> _redirectLogic(ProviderRef ref, GoRouterState state) {
-  final authState = ref.watch(authStateProvider);
+  final authState = ref.watch(authUserProvider);
   final isLoggedIn =
       authState.maybeWhen(data: (user) => user != null, orElse: () => false);
   final isLoggingIn =

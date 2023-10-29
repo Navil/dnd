@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dnd/model/player.dart';
+import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/supabase_provider.dart';
 import 'package:dnd/providers/user_profile_provider.dart';
 import 'package:dnd/widgets/user_avatar.dart';
@@ -12,6 +13,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
   const EditProfilePage({super.key});
@@ -30,11 +32,20 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   Player? _player;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+  }
 
-    //AsyncValue<Player?> playerDetails = ref.read(playerDetailsProvider(null));
-    // Listen to the userProfileProvider
-  
+  @override
+  Widget build(BuildContext context) {
+    final userId = ref.watch(authUserProvider).value!.id;
+   
+    Player? playerDetails = ref.watch(playerDetailsProvider(userId)).value;
+    if (playerDetails != null) {
+      _player ??= playerDetails;
+      _firstnameController.text = playerDetails.firstname;
+    }
+ 
     return WillPopScope(
       onWillPop: () async {
         return _player != null;
@@ -65,7 +76,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                         height: 48,
                         width: MediaQuery.of(context).size.width / 2,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             _errors.clear();
                             if (_firstnameController.text.isEmpty) {
                               _errors.add("Please provide a name.");
@@ -81,6 +92,13 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                               player.firstname = _firstnameController.text;
                               ref.read(supabaseProvider).savePlayer(player);
                               //Do upload
+                              if (_newImage != null) {
+                                print(await Supabase.instance.client.storage
+                                    .from("/players")
+                                    .upload(userId + "/profile-picture",
+                                        File(_newImage!.path)));
+                              }
+                             
                               GoRouter.of(context).pop();
                             }
                           },

@@ -45,6 +45,7 @@ dependencies:
   image_cropper:
   adaptive_dialog:
   cached_network_image:
+  location:
 
 dev_dependencies:
   flutter_test:

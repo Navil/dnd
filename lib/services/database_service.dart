@@ -1,10 +1,10 @@
 import 'package:dnd/model/player.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SupabaseService {
+class DatabaseService {
   final String uid;
 
-  SupabaseService(this.uid);
+  DatabaseService(this.uid);
 
   Future<void> savePlayer(Player player) async {
     player.id = uid;
