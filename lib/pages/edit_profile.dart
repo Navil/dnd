@@ -36,17 +36,15 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   Widget build(BuildContext context) {
     final userId = ref.watch(authUserProvider).value?.id;
     if (userId == null) {
-      return AdaptiveLoadingIndicator();
+      return const AdaptiveLoadingIndicator();
     }
-   
+
     Player? playerDetails = ref.watch(playerDetailsProvider(userId)).value;
-    if (playerDetails != null) {
-      if (_player == null) {
-        _player = playerDetails;
-        _firstnameController.text = playerDetails.firstname;
-      }
+    if (playerDetails != null && _player == null) {
+      _player = playerDetails;
+      _firstnameController.text = playerDetails.firstname;
     }
- 
+
     return WillPopScope(
       onWillPop: () async {
         return _player != null;
@@ -56,7 +54,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               title: const Text("Edit profile"),
               automaticallyImplyLeading: _player != null),
           body: Padding(
-            padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -72,7 +70,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         label: Text("Firstname (required)"),
                         border: OutlineInputBorder(),
                       ),
@@ -87,7 +85,6 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                               if (_formKey.currentState!.validate()) {
                                 Player player = _player ?? Player.empty(userId);
                                 player.firstname = _firstnameController.text;
-                                
                                 ref.read(supabaseProvider).savePlayer(player);
                                 //Do upload
                                 if (_newImage != null) {
@@ -95,8 +92,9 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                                       .from("/players")
                                       .upload(userId, File(_newImage!.path)));
                                 }
-
-                                GoRouter.of(context).pop();
+                                if (mounted) {
+                                  GoRouter.of(context).pop();
+                                }
                               }
                             },
                             child: const Text('Submit'),
@@ -106,10 +104,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                     )
                   ],
                 ),
-              )
-                
-            
-          )),
+              ))),
     );
   }
 
@@ -118,7 +113,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
 
     return Column(
       children: [
-        Text("Profile Picture"),
+        const Text("Profile Picture"),
         Container(
           margin: const EdgeInsets.all(16),
           width: imageSize,

@@ -1,5 +1,7 @@
 import 'package:latlong2/latlong.dart';
 
+const int idForNoGroup = -1;
+
 class Group {
   late int id;
   late LatLng location;
@@ -24,9 +26,18 @@ class Group {
         location: json["location"]);
   }
 
+  factory Group.empty() {
+    return Group(
+        id: idForNoGroup,
+        isRemote: false,
+        location: const LatLng(0, 0),
+        createdAt: DateTime.now(),
+        description: "");
+  }
+
   dynamic toJson() {
     return {
-      "id": id,
+      if (id != idForNoGroup) ...{"id": id},
       "isRemote": isRemote,
       "description": description,
       'location': 'POINT(${location.latitude} ${location.longitude})'
