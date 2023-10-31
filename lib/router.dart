@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dnd/pages/edit_group.dart';
 import 'package:dnd/pages/edit_profile.dart';
 import 'package:dnd/pages/tabs.dart';
 import 'package:dnd/providers/auth_provider.dart';
@@ -11,6 +12,7 @@ import 'package:go_router/go_router.dart';
 const loginPath = "/login";
 const homePath = "/";
 const editProfilePath = "edit_profile";
+const editGroupPath = "edit_group";
 
 final _key = GlobalKey<NavigatorState>();
 
@@ -35,7 +37,15 @@ final routerProvider = Provider<GoRouter>((ref) {
             GoRoute(
                 path: editProfilePath,
               builder: (context, state) => const EditProfilePage(),
-            ),
+              ),
+              GoRoute(
+                  path: editGroupPath,
+                  builder: (context, state) {
+                    String? id = state.uri.queryParameters["id"];
+                    return EditGroupPage(id == null ? null : int.parse(id));
+                  }
+                  
+              ),
           ]),
     ],
       redirect: (context, state) => _redirectLogic(ref, state));
@@ -63,9 +73,10 @@ FutureOr<String?> _redirectLogic(ProviderRef ref, GoRouterState state) {
     if (!hasUserProfile &&
         state.path != editProfilePath &&
         !isUserProfileLoading) {
-      print(editProfilePath);
       return homePath + editProfilePath;
     }
+  } else if (state.path != loginPath) {
+    return loginPath;
   }
 
   return null;

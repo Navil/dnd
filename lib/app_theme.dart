@@ -82,7 +82,7 @@ class AppTheme {
     titleMedium: fontFamily(fontPath,
         textStyle: const TextStyle(
           fontSize: 16,
-          color: primaryColor,
+          color: Colors.black,
           wordSpacing: 0.15,
         )),
     titleLarge: fontFamily(fontPath,
