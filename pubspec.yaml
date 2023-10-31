@@ -49,6 +49,7 @@ dependencies:
   flutter_map:
   latlong2:
   async:
+  http:
 
 dev_dependencies:
   flutter_test:

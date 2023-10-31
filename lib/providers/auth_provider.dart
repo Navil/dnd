@@ -21,4 +21,8 @@ final authUserProvider = StreamProvider<User?>((ref) {
       : authStateChanges;
 });
 
+final loggedInUserProvider = Provider<User>((ref) {
+  return ref.watch(authUserProvider).value!;
+});
+
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());

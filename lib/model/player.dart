@@ -17,7 +17,7 @@ class Player {
     return Player(id: userId, createdAt: DateTime.now(), firstname: "");
   }
 
-  dynamic toJson() {
+  dynamic toDatabaseJson() {
     return {"id": id, "firstname": firstname};
   }
 }

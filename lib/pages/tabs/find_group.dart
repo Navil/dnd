@@ -1,7 +1,6 @@
 import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/providers/location_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,6 +31,7 @@ class _FindGroupTabState extends ConsumerState<FindGroupTab> {
                   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   userAgentPackageName: 'at.valley.dnd',
                 ),
+              
               ],
             ),
             Positioned(

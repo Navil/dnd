@@ -75,32 +75,28 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 48,
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                Player player = _player ?? Player.empty(userId);
-                                player.firstname = _firstnameController.text;
-                                ref.read(supabaseProvider).savePlayer(player);
-                                //Do upload
-                                if (_newImage != null) {
-                                  print(await Supabase.instance.client.storage
-                                      .from("/players")
-                                      .upload(userId, File(_newImage!.path)));
-                                }
-                                if (mounted) {
-                                  GoRouter.of(context).pop();
-                                }
-                              }
-                            },
-                            child: const Text('Submit'),
-                          ),
-                        )
-                      ],
+                    SizedBox(
+                      height: 48,
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            Player player = _player ?? Player.empty(userId);
+                            player.firstname = _firstnameController.text;
+                            ref.read(supabaseProvider).savePlayer(player);
+                            //Do upload
+                            if (_newImage != null) {
+                              print(await Supabase.instance.client.storage
+                                  .from("/players")
+                                  .upload(userId, File(_newImage!.path)));
+                            }
+                            if (mounted) {
+                              GoRouter.of(context).pop();
+                            }
+                          }
+                        },
+                        child: const Text('Submit'),
+                      ),
                     )
                   ],
                 ),

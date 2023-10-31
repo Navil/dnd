@@ -1,5 +1,5 @@
 import 'package:dnd/pages/tabs/find_group.dart';
-import 'package:dnd/pages/tabs/my_group.dart';
+import 'package:dnd/pages/tabs/my_groups.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
