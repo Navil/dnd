@@ -1,13 +1,14 @@
-import 'dart:async';
 
 import 'package:dnd/pages/edit_group.dart';
 import 'package:dnd/pages/edit_profile.dart';
 import 'package:dnd/pages/tabs.dart';
 import 'package:dnd/providers/auth_provider.dart';
-import 'package:dnd/providers/user_profile_provider.dart';
+import 'package:dnd/providers/player_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'router.g.dart';
 
 const loginPath = "/login";
 const homePath = "/";
@@ -16,7 +17,8 @@ const editGroupPath = "edit_group";
 
 final _key = GlobalKey<NavigatorState>();
 
-final routerProvider = Provider<GoRouter>((ref) {
+@riverpod
+GoRouter router(AutoDisposeRef ref) {
   return GoRouter(
     navigatorKey: _key,
     debugLogDiagnostics: true,
@@ -49,9 +51,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           ]),
     ],
       redirect: (context, state) => _redirectLogic(ref, state));
-});
+}
 
-FutureOr<String?> _redirectLogic(ProviderRef ref, GoRouterState state) {
+FutureOr<String?> _redirectLogic(AutoDisposeRef ref, GoRouterState state) {
+  print("Redirect " + state.path.toString());
   final authState = ref.watch(authUserProvider);
   final isLoggedIn =
       authState.maybeWhen(data: (user) => user != null, orElse: () => false);
@@ -64,7 +67,7 @@ FutureOr<String?> _redirectLogic(ProviderRef ref, GoRouterState state) {
 
   if (isLoggedIn) {
     final userId = authState.value!.id;
-    final userProfileState = ref.watch(playerDetailsProvider(userId));
+    final userProfileState = ref.read(playerProfileProvider(userId));
     final hasUserProfile = userProfileState.maybeWhen(
         data: (details) => details != null, orElse: () => false);
     final isUserProfileLoading =

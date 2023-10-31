@@ -62,9 +62,7 @@ class DatabaseService {
   Future<List<Group>> getGroupsOfPlayer() async {
     final groups =
         await memberDatabase.select<List<dynamic>>("group_id, groups(*)");
-    print(groups);
     return groups.map((groupData) {
-      print(groupData);
       return Group.fromJson(groupData["groups"]);
     }).toList();
   }

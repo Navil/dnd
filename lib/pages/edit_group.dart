@@ -22,6 +22,8 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
   Group? _group;
 
   final _descriptionController = TextEditingController();
+  final _titleController = TextEditingController();
+
 
   bool _isRemote = false;
 
@@ -53,6 +55,14 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
               children: [
                 Column(
                   children: [
+                    TextFormField(
+                      controller: _titleController,
+                      decoration: const InputDecoration(
+                        label: Text("Title"),
+                        hintText: "e.g. Critical Role",
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                     CheckboxListTile.adaptive(
                         title: const Text("Is it remote?"),
                         value: _isRemote,
@@ -114,6 +124,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                           _isLocationProvided()) {
                         Group group = Group(
                             description: _descriptionController.text,
+                            title: _titleController.text,
                             isRemote: _isRemote,
                             id: _group?.id,
                             ownerId: _group?.ownerId ??
@@ -126,7 +137,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                               address: _selectedAddress!, location: _location!);
                         }
 
-                        ref.read(supabaseProvider).saveGroup(group, address);
+                        ref.read(databaseProvider).saveGroup(group, address);
 
                         if (mounted) {
                           GoRouter.of(context).pop();
