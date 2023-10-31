@@ -1,21 +1,21 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
-
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'address_completer_provider.g.dart';
 const apiKeyDev = "AIzaSyB5o9uiM7P5fDa9k0cCxfinoRPzzgJDk_U";
 
-final addressAutocompleteProvider =
-    FutureProvider.family<List<AutocompletePrediction>, String>(
-        (ref, input) async {
-  if (input.isEmpty) {
+@riverpod
+Future<List<AutocompletePrediction>> addressAutocomplete(
+    Ref ref, String query) async {
+  if (query.isEmpty) {
     return [];
   }
 
   final url =
-      'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$apiKeyDev&types=address';
+      'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$query&key=$apiKeyDev&types=address';
   final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {
@@ -26,7 +26,8 @@ final addressAutocompleteProvider =
   } else {
     throw Exception('Failed to load suggestions');
   }
-});
+}
+
 
 class AutocompletePrediction {
   final String description;

@@ -17,7 +17,7 @@ class _FindGroupTabState extends ConsumerState<FindGroupTab> {
   final _mapController = MapController();
   @override
   Widget build(BuildContext context) {
-    final location = ref.watch(positionProvider);
+    final location = ref.watch(locationProvider);
     return switch (location) {
       AsyncData(:final value) => Stack(
           children: [
@@ -39,8 +39,8 @@ class _FindGroupTabState extends ConsumerState<FindGroupTab> {
               bottom: 20,
               child: FloatingActionButton(
                 onPressed: () async {
-                  ref.refresh(positionProvider).value;
-                  final newLocation = await ref.read(positionProvider.future);
+                  ref.refresh(locationProvider).value;
+                  final newLocation = await ref.read(locationProvider.future);
                   _mapController.move(
                       LatLng(newLocation.latitude, newLocation.longitude),
                       _mapController.camera.zoom);

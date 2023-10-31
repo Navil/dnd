@@ -1,6 +1,7 @@
 import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/group.dart';
 import 'package:dnd/providers/auth_provider.dart';
+import 'package:dnd/providers/group_profile_provider.dart';
 import 'package:dnd/providers/supabase_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,11 +25,11 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab> {
     membershipListener.on(
         RealtimeListenTypes.postgresChanges,
         ChannelFilter(
-          event: 'INSERT',
+          event: '*',
           schema: 'public',
           table: 'members',
           filter: 'user_id=eq.' + userId,
-        ), (payload, [ref]) {
+        ), (payload, [_]) {
       print("New Event");
       // Do something fun or interesting when there is an change on the database
     }).subscribe();
@@ -37,19 +38,35 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Group>>(
-        future: ref.watch(supabaseProvider).getGroupsOfPlayer(),
+        future: ref.watch(databaseProvider).getGroupsOfPlayer(),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return AdaptiveLoadingIndicator();
           }
-
           final groups = snapshot.data;
-          print(groups);
+          if (groups == null) {
+            return Center(
+              child: Text("You are currently not part of any group."),
+            );
+          }
+      
           return Stack(
             children: [
               ListView.builder(
+                itemCount: groups.length,
                 itemBuilder: (context, index) {
-                  return Text(groups![index].description);
+                  Group group = groups[index];
+                  return ListTile(
+                    title: Text(group.title),
+                    subtitle: Text(
+                      group.description,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    trailing: FaIcon(group.isRemote
+                        ? FontAwesomeIcons.globe
+                        : FontAwesomeIcons.locationDot),
+                  );
                 },
               ),
               Positioned(
