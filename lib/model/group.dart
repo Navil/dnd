@@ -6,10 +6,11 @@ part 'group.g.dart';
 @freezed
 class GroupModel with _$GroupModel {
   factory GroupModel(
-      {int? id,
+      {@JsonKey(includeIfNull: false) int? id,
       @JsonKey(name: "is_remote") required bool isRemote,
       required String title,
-      @JsonKey(includeToJson: false) required DateTime createdAt,
+      @JsonKey(includeToJson: false, name: "created_at")
+      required DateTime createdAt,
       required String description,
       @JsonKey(name: "owner_id") required String ownerId}) = _GroupModel;
 

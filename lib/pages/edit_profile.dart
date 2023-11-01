@@ -37,7 +37,6 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     if (userId == null) {
       return const AdaptiveLoadingIndicator();
     }
-
     UserModel? userDetails = ref.watch(userProfileProvider(userId)).value;
     if (userDetails != null && _user == null) {
       _user = userDetails;

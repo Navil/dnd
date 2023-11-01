@@ -6,11 +6,11 @@ part of 'database_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$databaseServiceHash() => r'403f552a67b3aab00ac6a1b71cc693cffaba9002';
+String _$databaseServiceHash() => r'c6e4ca566341314a19eaa7b7ac5a6c9f80e43eb8';
 
 /// See also [databaseService].
 @ProviderFor(databaseService)
-final databaseServiceProvider = AutoDisposeProvider<DatabaseService>.internal(
+final databaseServiceProvider = Provider<DatabaseService>.internal(
   databaseService,
   name: r'databaseServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,7 +20,7 @@ final databaseServiceProvider = AutoDisposeProvider<DatabaseService>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef DatabaseServiceRef = AutoDisposeProviderRef<DatabaseService>;
+typedef DatabaseServiceRef = ProviderRef<DatabaseService>;
 String _$getGroupsOfUserHash() => r'da36e2b479469176ba29bda69f92fd9992a2d4b7';
 
 /// See also [getGroupsOfUser].
@@ -37,7 +37,7 @@ final getGroupsOfUserProvider =
 );
 
 typedef GetGroupsOfUserRef = AutoDisposeFutureProviderRef<List<GroupModel>>;
-String _$userProfileHash() => r'f39033ff1ff0210be4add512b39a0971061eb285';
+String _$userProfileHash() => r'c4cb00540d3e3f4b5d3fa5b27aa3ae9bacf7f671';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -103,7 +103,7 @@ class UserProfileFamily extends Family<AsyncValue<UserModel?>> {
 }
 
 /// See also [userProfile].
-class UserProfileProvider extends AutoDisposeFutureProvider<UserModel?> {
+class UserProfileProvider extends FutureProvider<UserModel?> {
   /// See also [userProfile].
   UserProfileProvider(
     String uid,
@@ -155,7 +155,7 @@ class UserProfileProvider extends AutoDisposeFutureProvider<UserModel?> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<UserModel?> createElement() {
+  FutureProviderElement<UserModel?> createElement() {
     return _UserProfileProviderElement(this);
   }
 
@@ -173,19 +173,34 @@ class UserProfileProvider extends AutoDisposeFutureProvider<UserModel?> {
   }
 }
 
-mixin UserProfileRef on AutoDisposeFutureProviderRef<UserModel?> {
+mixin UserProfileRef on FutureProviderRef<UserModel?> {
   /// The parameter `uid` of this provider.
   String get uid;
 }
 
-class _UserProfileProviderElement
-    extends AutoDisposeFutureProviderElement<UserModel?> with UserProfileRef {
+class _UserProfileProviderElement extends FutureProviderElement<UserModel?>
+    with UserProfileRef {
   _UserProfileProviderElement(super.provider);
 
   @override
   String get uid => (origin as UserProfileProvider).uid;
 }
 
+String _$hasUserProfileHash() => r'e63c31aeee107b9cea9753f2f6eaf834415ff8ab';
+
+/// See also [hasUserProfile].
+@ProviderFor(hasUserProfile)
+final hasUserProfileProvider = Provider<bool>.internal(
+  hasUserProfile,
+  name: r'hasUserProfileProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$hasUserProfileHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef HasUserProfileRef = ProviderRef<bool>;
 String _$groupDetailsHash() => r'9b679bb951984dd7285bbda605a01a425e24d4ac';
 
 /// See also [groupDetails].
@@ -313,5 +328,21 @@ class _GroupDetailsProviderElement
   @override
   dynamic get id => (origin as GroupDetailsProvider).id;
 }
+
+String _$nearbyGroupsHash() => r'79301a6d7b4ac27a82afcb2badc9d66a0f13c312';
+
+/// See also [nearbyGroups].
+@ProviderFor(nearbyGroups)
+final nearbyGroupsProvider =
+    AutoDisposeFutureProvider<List<GroupSearchResult>>.internal(
+  nearbyGroups,
+  name: r'nearbyGroupsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$nearbyGroupsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef NearbyGroupsRef = AutoDisposeFutureProviderRef<List<GroupSearchResult>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

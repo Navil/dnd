@@ -1,10 +1,13 @@
 import 'package:dnd/model/group.dart';
 import 'package:dnd/model/group_address.dart';
 import 'package:dnd/model/user.dart';
+import 'package:dnd/providers/database_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DatabaseService {
   final String uid;
+  final Ref ref;
   final userDatabase = Supabase.instance.client.from("users");
   final groupDatabase = Supabase.instance.client.from("groups");
   final memberDatabase = Supabase.instance.client.from("members");
@@ -13,11 +16,12 @@ class DatabaseService {
 
   final membershipListener = Supabase.instance.client.channel('memberships');
 
-  DatabaseService(this.uid);
+  DatabaseService(this.ref, this.uid);
 
   Future<void> saveUser(UserModel user) async {
     try {
       await userDatabase.upsert(user.toJson());
+      ref.invalidate(userProfileProvider(uid));
     } catch (err) {
       print(err);
     }
@@ -28,7 +32,7 @@ class DatabaseService {
     if (response == null) {
       return null;
     }
-
+    print(response);
     return UserModel.fromJson(response);
   }
 
@@ -45,15 +49,12 @@ class DatabaseService {
         await groupDatabase.upsert(group.toJson()).select("id");
     final groupId = response[0]["id"];
     if (group.id == null) {
-      await addUserToGroup(groupId, uid);
+      await memberDatabase.upsert({"group_id": groupId, "user_id": uid});
     }
     if (address != null) {
       await groupAddressesDatabase.upsert(address.toDatabaseJson(groupId));
     }
-  }
-
-  Future<void> addUserToGroup(int groupId, String uid) async {
-    await memberDatabase.upsert({"group_id": groupId, "user_id": uid});
+    ref.invalidate(getGroupsOfUserProvider);
   }
 
   Future<void> addMember(GroupModel group, String userId) async {

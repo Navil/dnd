@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/group.dart';
 import 'package:dnd/providers/database_provider.dart';
@@ -13,25 +15,27 @@ class MyGroupsTab extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MyGroupsTabState();
 }
 
-class _MyGroupsTabState extends ConsumerState<MyGroupsTab> {
+class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
+    with AutomaticKeepAliveClientMixin<MyGroupsTab> {
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ref.watch(getGroupsOfUserProvider).when(
         error: (error, stackTrace) => Text(error.toString()),
         loading: () => AdaptiveLoadingIndicator(),
         data: (data) {
           final groups = data;
     
-          if (groups.isEmpty) {
-            return Center(
-              child: Text("You are currently not part of any group."),
-            );
-          }
-      
           return RefreshIndicator(
             onRefresh: () => ref.refresh(getGroupsOfUserProvider.future),
             child: Stack(
               children: [
+                groups.isEmpty
+                    ? Center(
+                        child: Text("You are currently not part of any group."),
+                      )
+                    :
                 ListView.builder(
                   itemCount: groups.length,
                   itemBuilder: (context, index) {
@@ -61,5 +65,10 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab> {
           );
 
         });
+
   }
+
+
+  @override
+  bool get wantKeepAlive => true;
 }

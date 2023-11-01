@@ -22,7 +22,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
   String get firstname => throw _privateConstructorUsedError;
-  @JsonKey(includeToJson: false)
+  @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $UserModelCopyWith<$Res> {
   $Res call(
       {String id,
       String firstname,
-      @JsonKey(includeToJson: false) DateTime createdAt});
+      @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt});
 }
 
 /// @nodoc
@@ -87,7 +87,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String firstname,
-      @JsonKey(includeToJson: false) DateTime createdAt});
+      @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt});
 }
 
 /// @nodoc
@@ -128,7 +128,8 @@ class _$UserModelImpl implements _UserModel {
   _$UserModelImpl(
       {required this.id,
       required this.firstname,
-      @JsonKey(includeToJson: false) required this.createdAt});
+      @JsonKey(includeToJson: false, name: "created_at")
+      required this.createdAt});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -138,7 +139,7 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String firstname;
   @override
-  @JsonKey(includeToJson: false)
+  @JsonKey(includeToJson: false, name: "created_at")
   final DateTime createdAt;
 
   @override
@@ -178,10 +179,10 @@ class _$UserModelImpl implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   factory _UserModel(
-          {required final String id,
-          required final String firstname,
-          @JsonKey(includeToJson: false) required final DateTime createdAt}) =
-      _$UserModelImpl;
+      {required final String id,
+      required final String firstname,
+      @JsonKey(includeToJson: false, name: "created_at")
+      required final DateTime createdAt}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -191,7 +192,7 @@ abstract class _UserModel implements UserModel {
   @override
   String get firstname;
   @override
-  @JsonKey(includeToJson: false)
+  @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
