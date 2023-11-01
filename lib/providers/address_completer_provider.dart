@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,7 +8,7 @@ const apiKeyDev = "AIzaSyB5o9uiM7P5fDa9k0cCxfinoRPzzgJDk_U";
 
 @riverpod
 Future<List<AutocompletePrediction>> addressAutocomplete(
-    Ref ref, String query) async {
+    AddressAutocompleteRef ref, String query) async {
   if (query.isEmpty) {
     return [];
   }

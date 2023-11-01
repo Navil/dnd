@@ -3,7 +3,7 @@ import 'package:dnd/pages/edit_group.dart';
 import 'package:dnd/pages/edit_profile.dart';
 import 'package:dnd/pages/tabs.dart';
 import 'package:dnd/providers/auth_provider.dart';
-import 'package:dnd/providers/player_profile.dart';
+import 'package:dnd/providers/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -54,7 +54,6 @@ GoRouter router(AutoDisposeRef ref) {
 }
 
 FutureOr<String?> _redirectLogic(AutoDisposeRef ref, GoRouterState state) {
-  print("Redirect " + state.path.toString());
   final authState = ref.watch(authUserProvider);
   final isLoggedIn =
       authState.maybeWhen(data: (user) => user != null, orElse: () => false);

@@ -2,8 +2,7 @@ import 'package:dnd/model/group.dart';
 import 'package:dnd/model/group_address.dart';
 import 'package:dnd/providers/address_completer_provider.dart';
 import 'package:dnd/providers/auth_provider.dart';
-import 'package:dnd/providers/group_profile_provider.dart';
-import 'package:dnd/providers/supabase_provider.dart';
+import 'package:dnd/providers/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -137,7 +136,9 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                               address: _selectedAddress!, location: _location!);
                         }
 
-                        ref.read(databaseProvider).saveGroup(group, address);
+                        ref
+                            .read(databaseServiceProvider)
+                            .saveGroup(group, address);
 
                         if (mounted) {
                           GoRouter.of(context).pop();

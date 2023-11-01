@@ -4,8 +4,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/player.dart';
 import 'package:dnd/providers/auth_provider.dart';
-import 'package:dnd/providers/supabase_provider.dart';
-import 'package:dnd/providers/player_profile.dart';
+import 'package:dnd/providers/database_provider.dart';
 import 'package:dnd/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -83,7 +82,9 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                           if (_formKey.currentState!.validate()) {
                             Player player = _player ?? Player.empty(userId);
                             player.firstname = _firstnameController.text;
-                            ref.read(databaseProvider).savePlayer(player);
+                            ref
+                                .read(databaseServiceProvider)
+                                .savePlayer(player);
                             //Do upload
                             if (_newImage != null) {
                               print(await Supabase.instance.client.storage

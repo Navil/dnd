@@ -13,10 +13,12 @@ class FindGroupTab extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _FindGroupTabState();
 }
 
-class _FindGroupTabState extends ConsumerState<FindGroupTab> {
+class _FindGroupTabState extends ConsumerState<FindGroupTab>
+    with AutomaticKeepAliveClientMixin<FindGroupTab> {
   final _mapController = MapController();
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final location = ref.watch(locationProvider);
     return switch (location) {
       AsyncData(:final value) => Stack(
@@ -54,4 +56,7 @@ class _FindGroupTabState extends ConsumerState<FindGroupTab> {
       _ => const AdaptiveLoadingIndicator(),
     };
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

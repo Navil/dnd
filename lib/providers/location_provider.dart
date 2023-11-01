@@ -1,10 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'location_provider.g.dart';
 
 @riverpod
-Future<Position> location(AutoDisposeRef ref) async {
+Future<Position> location(LocationRef ref) async {
   bool serviceEnabled;
   LocationPermission permission;
 
