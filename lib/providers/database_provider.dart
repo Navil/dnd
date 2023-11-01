@@ -1,5 +1,5 @@
 import 'package:dnd/model/group.dart';
-import 'package:dnd/model/player.dart';
+import 'package:dnd/model/user.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/services/database_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -12,17 +12,17 @@ DatabaseService databaseService(DatabaseServiceRef ref) {
 }
 
 @riverpod
-Future<List<Group>> getGroupsOfPlayer(GetGroupsOfPlayerRef ref) async {
-  return ref.watch(databaseServiceProvider).getGroupsOfPlayer();
+Future<List<GroupModel>> getGroupsOfUser(GetGroupsOfUserRef ref) async {
+  return ref.watch(databaseServiceProvider).getGroupsOfUser();
 }
 
 @riverpod
-Future<Player?> playerProfile(PlayerProfileRef ref, String uid) {
-  return ref.watch(databaseServiceProvider).loadPlayer(uid);
+Future<UserModel?> userProfile(UserProfileRef ref, String uid) {
+  return ref.watch(databaseServiceProvider).loadUser(uid);
 }
 
 @riverpod
-Future<Group?> groupDetails(GroupDetailsRef ref, id) {
+Future<GroupModel?> groupDetails(GroupDetailsRef ref, id) {
   return ref.watch(databaseServiceProvider).loadGroup(id);
 }
 
@@ -32,7 +32,7 @@ class GroupNotifier extends _$GroupNotifier {
   @override
   Future<List<Group>> build() async {
     _initGroupChannel();
-    return ref.read(databaseServiceProvider).getGroupsOfPlayer();
+    return ref.read(databaseServiceProvider).getGroupsOfUser();
   }
 
   void _initGroupChannel() {
@@ -47,7 +47,7 @@ class GroupNotifier extends _$GroupNotifier {
       (payload, [_]) async {
         print(payload);
         state = await AsyncValue.guard(
-          () async => ref.read(databaseServiceProvider).getGroupsOfPlayer(),
+          () async => ref.read(databaseServiceProvider).getGroupsOfUser(),
         );
       },
     ).subscribe();

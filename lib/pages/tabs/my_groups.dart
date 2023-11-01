@@ -16,7 +16,7 @@ class MyGroupsTab extends ConsumerStatefulWidget {
 class _MyGroupsTabState extends ConsumerState<MyGroupsTab> {
   @override
   Widget build(BuildContext context) {
-    return ref.watch(getGroupsOfPlayerProvider).when(
+    return ref.watch(getGroupsOfUserProvider).when(
         error: (error, stackTrace) => Text(error.toString()),
         loading: () => AdaptiveLoadingIndicator(),
         data: (data) {
@@ -29,13 +29,13 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab> {
           }
       
           return RefreshIndicator(
-            onRefresh: () => ref.refresh(getGroupsOfPlayerProvider.future),
+            onRefresh: () => ref.refresh(getGroupsOfUserProvider.future),
             child: Stack(
               children: [
                 ListView.builder(
                   itemCount: groups.length,
                   itemBuilder: (context, index) {
-                    Group group = groups[index];
+                    GroupModel group = groups[index];
                     return ListTile(
                       title: Text(group.title),
                       subtitle: Text(

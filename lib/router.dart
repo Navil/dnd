@@ -66,7 +66,7 @@ FutureOr<String?> _redirectLogic(AutoDisposeRef ref, GoRouterState state) {
 
   if (isLoggedIn) {
     final userId = authState.value!.id;
-    final userProfileState = ref.read(playerProfileProvider(userId));
+    final userProfileState = ref.read(userProfileProvider(userId));
     final hasUserProfile = userProfileState.maybeWhen(
         data: (details) => details != null, orElse: () => false);
     final isUserProfileLoading =

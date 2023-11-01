@@ -1,38 +1,18 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Group {
-  int? id;
-  DateTime? createdAt;
+part 'group.freezed.dart';
+part 'group.g.dart';
 
-  final bool isRemote;
-  String description;
-  String title;
-  String ownerId;
+@freezed
+class GroupModel with _$GroupModel {
+  factory GroupModel(
+      {int? id,
+      @JsonKey(name: "is_remote") required bool isRemote,
+      required String title,
+      @JsonKey(includeToJson: false) required DateTime createdAt,
+      required String description,
+      @JsonKey(name: "owner_id") required String ownerId}) = _GroupModel;
 
-
-  Group(
-      {required this.id,
-      required this.isRemote,
-      required this.title,
-      required this.createdAt,
-      required this.description,
-      required this.ownerId});
-
-  factory Group.fromJson(Map<String, dynamic> json) {
-    return Group(
-        id: json['id'],
-        isRemote: json['is_remote'] == "true",
-        createdAt: DateTime.parse(json['created_at']),
-        ownerId: json["owner_id"],
-        title: json["title"],
-        description: json["description"]);
-  }
-
-  dynamic toDatabaseJson() {
-    return {
-      if (id != null) ...{"id": id},
-      "is_remote": isRemote,
-      "description": description,
-      "title": title
-    };
-  }
+  factory GroupModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupModelFromJson(json);
 }
