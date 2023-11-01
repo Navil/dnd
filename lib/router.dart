@@ -18,7 +18,7 @@ const editGroupPath = "edit_group";
 final _key = GlobalKey<NavigatorState>();
 
 @riverpod
-GoRouter router(AutoDisposeRef ref) {
+GoRouter router(RouterRef ref) {
   return GoRouter(
     navigatorKey: _key,
     debugLogDiagnostics: true,
@@ -26,8 +26,10 @@ GoRouter router(AutoDisposeRef ref) {
       GoRoute(
         path: loginPath,
         builder: (context, state) => ElevatedButton(
-            onPressed: () {
-                ref.read(authServiceProvider).loginGoogle();
+              onPressed: () async {
+                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  await ref.read(authServiceProvider).loginGoogle();
+                });
             },
             child: const Text("Login")),
       ),
@@ -54,6 +56,7 @@ GoRouter router(AutoDisposeRef ref) {
 }
 
 FutureOr<String?> _redirectLogic(AutoDisposeRef ref, GoRouterState state) {
+  print("Redirecting " + state.path.toString());
   final authState = ref.watch(authUserProvider);
   final isLoggedIn =
       authState.maybeWhen(data: (user) => user != null, orElse: () => false);
@@ -65,16 +68,9 @@ FutureOr<String?> _redirectLogic(AutoDisposeRef ref, GoRouterState state) {
   }
 
   if (isLoggedIn) {
-    final userId = authState.value!.id;
-    final userProfileState = ref.read(userProfileProvider(userId));
-    final hasUserProfile = userProfileState.maybeWhen(
-        data: (details) => details != null, orElse: () => false);
-    final isUserProfileLoading =
-        userProfileState.maybeWhen(orElse: () => false, loading: () => true);
-
+    final hasUserProfile = ref.watch(hasUserProfileProvider);
     if (!hasUserProfile &&
-        state.path != editProfilePath &&
-        !isUserProfileLoading) {
+        state.path != editProfilePath) {
       return homePath + editProfilePath;
     }
   } else if (state.path != loginPath) {

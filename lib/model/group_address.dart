@@ -16,7 +16,7 @@ class GroupAddress {
     return {
       "id": addressId,
       "address": address,
-      'location': 'POINT(${location.latitude} ${location.longitude})'
+      'location': 'POINT(${location.longitude} ${location.latitude})'
     };
   }
 }

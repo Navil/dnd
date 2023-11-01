@@ -6,11 +6,11 @@ part of 'auth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authUserHash() => r'0cc02da2bc9cff14bd334a0d51da612ad99df712';
+String _$authUserHash() => r'8887a9b95d60cee6af79c3010f75f60b98f214c8';
 
 /// See also [authUser].
 @ProviderFor(authUser)
-final authUserProvider = AutoDisposeStreamProvider<User?>.internal(
+final authUserProvider = StreamProvider<User?>.internal(
   authUser,
   name: r'authUserProvider',
   debugGetCreateSourceHash:
@@ -19,12 +19,12 @@ final authUserProvider = AutoDisposeStreamProvider<User?>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef AuthUserRef = AutoDisposeStreamProviderRef<User?>;
-String _$loggedInUserHash() => r'c7edc4cd29ed20d455229854027daf7236b5ad71';
+typedef AuthUserRef = StreamProviderRef<User?>;
+String _$loggedInUserHash() => r'99990a39591f2766069424740541920ab3352bf5';
 
 /// See also [loggedInUser].
 @ProviderFor(loggedInUser)
-final loggedInUserProvider = AutoDisposeProvider<User>.internal(
+final loggedInUserProvider = Provider<User>.internal(
   loggedInUser,
   name: r'loggedInUserProvider',
   debugGetCreateSourceHash:
@@ -33,6 +33,20 @@ final loggedInUserProvider = AutoDisposeProvider<User>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef LoggedInUserRef = AutoDisposeProviderRef<User>;
+typedef LoggedInUserRef = ProviderRef<User>;
+String _$authServiceHash() => r'd95f6f0327b9783a3e7e039c4caaa93c6a60aa27';
+
+/// See also [authService].
+@ProviderFor(authService)
+final authServiceProvider = Provider<AuthService>.internal(
+  authService,
+  name: r'authServiceProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$authServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AuthServiceRef = ProviderRef<AuthService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

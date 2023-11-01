@@ -11,16 +11,24 @@ _$GroupModelImpl _$$GroupModelImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int?,
       isRemote: json['is_remote'] as bool,
       title: json['title'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String),
       description: json['description'] as String,
       ownerId: json['owner_id'] as String,
     );
 
-Map<String, dynamic> _$$GroupModelImplToJson(_$GroupModelImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'is_remote': instance.isRemote,
-      'title': instance.title,
-      'description': instance.description,
-      'owner_id': instance.ownerId,
-    };
+Map<String, dynamic> _$$GroupModelImplToJson(_$GroupModelImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  val['is_remote'] = instance.isRemote;
+  val['title'] = instance.title;
+  val['description'] = instance.description;
+  val['owner_id'] = instance.ownerId;
+  return val;
+}

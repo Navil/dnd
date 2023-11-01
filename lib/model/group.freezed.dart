@@ -20,11 +20,12 @@ GroupModel _$GroupModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GroupModel {
+  @JsonKey(includeIfNull: false)
   int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "is_remote")
   bool get isRemote => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  @JsonKey(includeToJson: false)
+  @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   @JsonKey(name: "owner_id")
@@ -43,10 +44,10 @@ abstract class $GroupModelCopyWith<$Res> {
       _$GroupModelCopyWithImpl<$Res, GroupModel>;
   @useResult
   $Res call(
-      {int? id,
+      {@JsonKey(includeIfNull: false) int? id,
       @JsonKey(name: "is_remote") bool isRemote,
       String title,
-      @JsonKey(includeToJson: false) DateTime createdAt,
+      @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt,
       String description,
       @JsonKey(name: "owner_id") String ownerId});
 }
@@ -109,10 +110,10 @@ abstract class _$$GroupModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? id,
+      {@JsonKey(includeIfNull: false) int? id,
       @JsonKey(name: "is_remote") bool isRemote,
       String title,
-      @JsonKey(includeToJson: false) DateTime createdAt,
+      @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt,
       String description,
       @JsonKey(name: "owner_id") String ownerId});
 }
@@ -168,10 +169,11 @@ class __$$GroupModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GroupModelImpl implements _GroupModel {
   _$GroupModelImpl(
-      {this.id,
+      {@JsonKey(includeIfNull: false) this.id,
       @JsonKey(name: "is_remote") required this.isRemote,
       required this.title,
-      @JsonKey(includeToJson: false) required this.createdAt,
+      @JsonKey(includeToJson: false, name: "created_at")
+      required this.createdAt,
       required this.description,
       @JsonKey(name: "owner_id") required this.ownerId});
 
@@ -179,6 +181,7 @@ class _$GroupModelImpl implements _GroupModel {
       _$$GroupModelImplFromJson(json);
 
   @override
+  @JsonKey(includeIfNull: false)
   final int? id;
   @override
   @JsonKey(name: "is_remote")
@@ -186,7 +189,7 @@ class _$GroupModelImpl implements _GroupModel {
   @override
   final String title;
   @override
-  @JsonKey(includeToJson: false)
+  @JsonKey(includeToJson: false, name: "created_at")
   final DateTime createdAt;
   @override
   final String description;
@@ -236,10 +239,11 @@ class _$GroupModelImpl implements _GroupModel {
 
 abstract class _GroupModel implements GroupModel {
   factory _GroupModel(
-          {final int? id,
+          {@JsonKey(includeIfNull: false) final int? id,
           @JsonKey(name: "is_remote") required final bool isRemote,
           required final String title,
-          @JsonKey(includeToJson: false) required final DateTime createdAt,
+          @JsonKey(includeToJson: false, name: "created_at")
+          required final DateTime createdAt,
           required final String description,
           @JsonKey(name: "owner_id") required final String ownerId}) =
       _$GroupModelImpl;
@@ -248,6 +252,7 @@ abstract class _GroupModel implements GroupModel {
       _$GroupModelImpl.fromJson;
 
   @override
+  @JsonKey(includeIfNull: false)
   int? get id;
   @override
   @JsonKey(name: "is_remote")
@@ -255,7 +260,7 @@ abstract class _GroupModel implements GroupModel {
   @override
   String get title;
   @override
-  @JsonKey(includeToJson: false)
+  @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt;
   @override
   String get description;
