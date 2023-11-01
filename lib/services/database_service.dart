@@ -11,6 +11,8 @@ class DatabaseService {
   final groupAddressesDatabase =
       Supabase.instance.client.from("group_addresses");
 
+  final membershipListener = Supabase.instance.client.channel('memberships');
+
   DatabaseService(this.uid);
 
   Future<void> savePlayer(Player player) async {
