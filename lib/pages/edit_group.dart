@@ -18,7 +18,7 @@ class EditGroupPage extends ConsumerStatefulWidget {
 
 class _EditGroupPageState extends ConsumerState<EditGroupPage> {
   final _formKey = GlobalKey<FormState>();
-  Group? _group;
+  GroupModel? _group;
 
   final _descriptionController = TextEditingController();
   final _titleController = TextEditingController();
@@ -34,7 +34,8 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
   @override
   Widget build(BuildContext context) {
     if (widget.id != null) {
-      Group? groupDetails = ref.watch(groupDetailsProvider(widget.id!)).value;
+      GroupModel? groupDetails =
+          ref.watch(groupDetailsProvider(widget.id!)).value;
       if (groupDetails != null && _group == null) {
         //Set all values on the UI
         _group = groupDetails;
@@ -121,14 +122,18 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
 
                       if (_formKey.currentState!.validate() &&
                           _isLocationProvided()) {
-                        Group group = Group(
-                            description: _descriptionController.text,
-                            title: _titleController.text,
-                            isRemote: _isRemote,
-                            id: _group?.id,
-                            ownerId: _group?.ownerId ??
-                                ref.read(authUserProvider).value!.id,
-                            createdAt: _group?.createdAt);
+
+                        GroupModel group = _group != null
+                            ? _group!.copyWith(
+                                description: _descriptionController.text,
+                                title: _titleController.text,
+                                isRemote: _isRemote)
+                            : GroupModel(
+                                description: _descriptionController.text,
+                                title: _titleController.text,
+                                isRemote: _isRemote,
+                                ownerId: ref.read(loggedInUserProvider).id,
+                                createdAt: DateTime.now());
 
                         GroupAddress? address;
                         if (!_isRemote) {

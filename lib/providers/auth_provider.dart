@@ -1,16 +1,12 @@
-import 'dart:ffi';
-
 import 'package:dnd/services/auth_service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 import 'dart:async';
 import 'package:async/async.dart';
 part 'auth_provider.g.dart';
 
-@Riverpod(keepAlive: true)
-Stream<User?> authUser(Ref ref) {
+@riverpod
+Stream<User?> authUser(AuthUserRef ref) {
   // Get the current user session
   final currentUser = Supabase.instance.client.auth.currentUser;
 
@@ -28,7 +24,7 @@ Stream<User?> authUser(Ref ref) {
 }
 
 @riverpod
-User loggedInUser(AutoDisposeRef ref) {
+User loggedInUser(LoggedInUserRef ref) {
   final user = ref.watch(authUserProvider).value;
   if (user == null) {
     throw "loggedInUser used but user is not logged in.";

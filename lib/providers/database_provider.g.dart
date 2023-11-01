@@ -21,23 +21,23 @@ final databaseServiceProvider = AutoDisposeProvider<DatabaseService>.internal(
 );
 
 typedef DatabaseServiceRef = AutoDisposeProviderRef<DatabaseService>;
-String _$getGroupsOfPlayerHash() => r'd9d2af624cfcf9524884d4fb8170948c0f10229e';
+String _$getGroupsOfUserHash() => r'da36e2b479469176ba29bda69f92fd9992a2d4b7';
 
-/// See also [getGroupsOfPlayer].
-@ProviderFor(getGroupsOfPlayer)
-final getGroupsOfPlayerProvider =
-    AutoDisposeFutureProvider<List<Group>>.internal(
-  getGroupsOfPlayer,
-  name: r'getGroupsOfPlayerProvider',
+/// See also [getGroupsOfUser].
+@ProviderFor(getGroupsOfUser)
+final getGroupsOfUserProvider =
+    AutoDisposeFutureProvider<List<GroupModel>>.internal(
+  getGroupsOfUser,
+  name: r'getGroupsOfUserProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$getGroupsOfPlayerHash,
+      : _$getGroupsOfUserHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef GetGroupsOfPlayerRef = AutoDisposeFutureProviderRef<List<Group>>;
-String _$playerProfileHash() => r'ad2416f4ea588799cdb4e7fb96545dc9b2acdab7';
+typedef GetGroupsOfUserRef = AutoDisposeFutureProviderRef<List<GroupModel>>;
+String _$userProfileHash() => r'f39033ff1ff0210be4add512b39a0971061eb285';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -60,27 +60,27 @@ class _SystemHash {
   }
 }
 
-/// See also [playerProfile].
-@ProviderFor(playerProfile)
-const playerProfileProvider = PlayerProfileFamily();
+/// See also [userProfile].
+@ProviderFor(userProfile)
+const userProfileProvider = UserProfileFamily();
 
-/// See also [playerProfile].
-class PlayerProfileFamily extends Family<AsyncValue<Player?>> {
-  /// See also [playerProfile].
-  const PlayerProfileFamily();
+/// See also [userProfile].
+class UserProfileFamily extends Family<AsyncValue<UserModel?>> {
+  /// See also [userProfile].
+  const UserProfileFamily();
 
-  /// See also [playerProfile].
-  PlayerProfileProvider call(
+  /// See also [userProfile].
+  UserProfileProvider call(
     String uid,
   ) {
-    return PlayerProfileProvider(
+    return UserProfileProvider(
       uid,
     );
   }
 
   @override
-  PlayerProfileProvider getProviderOverride(
-    covariant PlayerProfileProvider provider,
+  UserProfileProvider getProviderOverride(
+    covariant UserProfileProvider provider,
   ) {
     return call(
       provider.uid,
@@ -99,32 +99,32 @@ class PlayerProfileFamily extends Family<AsyncValue<Player?>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'playerProfileProvider';
+  String? get name => r'userProfileProvider';
 }
 
-/// See also [playerProfile].
-class PlayerProfileProvider extends AutoDisposeFutureProvider<Player?> {
-  /// See also [playerProfile].
-  PlayerProfileProvider(
+/// See also [userProfile].
+class UserProfileProvider extends AutoDisposeFutureProvider<UserModel?> {
+  /// See also [userProfile].
+  UserProfileProvider(
     String uid,
   ) : this._internal(
-          (ref) => playerProfile(
-            ref as PlayerProfileRef,
+          (ref) => userProfile(
+            ref as UserProfileRef,
             uid,
           ),
-          from: playerProfileProvider,
-          name: r'playerProfileProvider',
+          from: userProfileProvider,
+          name: r'userProfileProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$playerProfileHash,
-          dependencies: PlayerProfileFamily._dependencies,
+                  : _$userProfileHash,
+          dependencies: UserProfileFamily._dependencies,
           allTransitiveDependencies:
-              PlayerProfileFamily._allTransitiveDependencies,
+              UserProfileFamily._allTransitiveDependencies,
           uid: uid,
         );
 
-  PlayerProfileProvider._internal(
+  UserProfileProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -138,12 +138,12 @@ class PlayerProfileProvider extends AutoDisposeFutureProvider<Player?> {
 
   @override
   Override overrideWith(
-    FutureOr<Player?> Function(PlayerProfileRef provider) create,
+    FutureOr<UserModel?> Function(UserProfileRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: PlayerProfileProvider._internal(
-        (ref) => create(ref as PlayerProfileRef),
+      override: UserProfileProvider._internal(
+        (ref) => create(ref as UserProfileRef),
         from: from,
         name: null,
         dependencies: null,
@@ -155,13 +155,13 @@ class PlayerProfileProvider extends AutoDisposeFutureProvider<Player?> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<Player?> createElement() {
-    return _PlayerProfileProviderElement(this);
+  AutoDisposeFutureProviderElement<UserModel?> createElement() {
+    return _UserProfileProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is PlayerProfileProvider && other.uid == uid;
+    return other is UserProfileProvider && other.uid == uid;
   }
 
   @override
@@ -173,27 +173,27 @@ class PlayerProfileProvider extends AutoDisposeFutureProvider<Player?> {
   }
 }
 
-mixin PlayerProfileRef on AutoDisposeFutureProviderRef<Player?> {
+mixin UserProfileRef on AutoDisposeFutureProviderRef<UserModel?> {
   /// The parameter `uid` of this provider.
   String get uid;
 }
 
-class _PlayerProfileProviderElement
-    extends AutoDisposeFutureProviderElement<Player?> with PlayerProfileRef {
-  _PlayerProfileProviderElement(super.provider);
+class _UserProfileProviderElement
+    extends AutoDisposeFutureProviderElement<UserModel?> with UserProfileRef {
+  _UserProfileProviderElement(super.provider);
 
   @override
-  String get uid => (origin as PlayerProfileProvider).uid;
+  String get uid => (origin as UserProfileProvider).uid;
 }
 
-String _$groupDetailsHash() => r'f65acdccc2b9fa01f5f2272f272ed53ac3c05a2a';
+String _$groupDetailsHash() => r'9b679bb951984dd7285bbda605a01a425e24d4ac';
 
 /// See also [groupDetails].
 @ProviderFor(groupDetails)
 const groupDetailsProvider = GroupDetailsFamily();
 
 /// See also [groupDetails].
-class GroupDetailsFamily extends Family<AsyncValue<Group?>> {
+class GroupDetailsFamily extends Family<AsyncValue<GroupModel?>> {
   /// See also [groupDetails].
   const GroupDetailsFamily();
 
@@ -231,7 +231,7 @@ class GroupDetailsFamily extends Family<AsyncValue<Group?>> {
 }
 
 /// See also [groupDetails].
-class GroupDetailsProvider extends AutoDisposeFutureProvider<Group?> {
+class GroupDetailsProvider extends AutoDisposeFutureProvider<GroupModel?> {
   /// See also [groupDetails].
   GroupDetailsProvider(
     dynamic id,
@@ -266,7 +266,7 @@ class GroupDetailsProvider extends AutoDisposeFutureProvider<Group?> {
 
   @override
   Override overrideWith(
-    FutureOr<Group?> Function(GroupDetailsRef provider) create,
+    FutureOr<GroupModel?> Function(GroupDetailsRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -283,7 +283,7 @@ class GroupDetailsProvider extends AutoDisposeFutureProvider<Group?> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<Group?> createElement() {
+  AutoDisposeFutureProviderElement<GroupModel?> createElement() {
     return _GroupDetailsProviderElement(this);
   }
 
@@ -301,13 +301,13 @@ class GroupDetailsProvider extends AutoDisposeFutureProvider<Group?> {
   }
 }
 
-mixin GroupDetailsRef on AutoDisposeFutureProviderRef<Group?> {
+mixin GroupDetailsRef on AutoDisposeFutureProviderRef<GroupModel?> {
   /// The parameter `id` of this provider.
   dynamic get id;
 }
 
 class _GroupDetailsProviderElement
-    extends AutoDisposeFutureProviderElement<Group?> with GroupDetailsRef {
+    extends AutoDisposeFutureProviderElement<GroupModel?> with GroupDetailsRef {
   _GroupDetailsProviderElement(super.provider);
 
   @override

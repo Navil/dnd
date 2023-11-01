@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dnd/adaptive/loading_indicator.dart';
-import 'package:dnd/model/player.dart';
+import 'package:dnd/model/user.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/database_provider.dart';
 import 'package:dnd/widgets/user_avatar.dart';
@@ -27,7 +27,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   String? _photoURL;
   XFile? _newImage;
 
-  Player? _player;
+  UserModel? _user;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -38,20 +38,20 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
       return const AdaptiveLoadingIndicator();
     }
 
-    Player? playerDetails = ref.watch(playerProfileProvider(userId)).value;
-    if (playerDetails != null && _player == null) {
-      _player = playerDetails;
-      _firstnameController.text = playerDetails.firstname;
+    UserModel? userDetails = ref.watch(userProfileProvider(userId)).value;
+    if (userDetails != null && _user == null) {
+      _user = userDetails;
+      _firstnameController.text = userDetails.firstname;
     }
 
     return WillPopScope(
       onWillPop: () async {
-        return _player != null;
+        return _user != null;
       },
       child: Scaffold(
           appBar: AppBar(
               title: const Text("Edit profile"),
-              automaticallyImplyLeading: _player != null),
+              automaticallyImplyLeading: _user != null),
           body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
@@ -80,15 +80,23 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            Player player = _player ?? Player.empty(userId);
-                            player.firstname = _firstnameController.text;
+                            UserModel user = _user != null
+                                ? _user!.copyWith(
+                                    id: userId,
+                                    firstname: _firstnameController.text,
+                                  )
+                                : UserModel(
+                                    id: userId,
+                                    firstname: _firstnameController.text,
+                                    createdAt: DateTime.now());
+                         
                             ref
                                 .read(databaseServiceProvider)
-                                .savePlayer(player);
+                                .saveUser(user);
                             //Do upload
                             if (_newImage != null) {
                               print(await Supabase.instance.client.storage
-                                  .from("/players")
+                                  .from("/users")
                                   .upload(userId, File(_newImage!.path)));
                             }
                             if (mounted) {
