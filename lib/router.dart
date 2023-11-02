@@ -12,8 +12,11 @@ part 'router.g.dart';
 
 const loginPath = "/login";
 const homePath = "/";
-const editProfilePath = "edit_profile";
-const editGroupPath = "edit_group";
+const _editProfilePath = "edit_profile";
+const _editGroupPath = "edit_group";
+const editProfilePath = "/$_editProfilePath";
+const editGroupPath = "/$_editGroupPath";
+
 
 final _key = GlobalKey<NavigatorState>();
 
@@ -39,11 +42,11 @@ GoRouter router(RouterRef ref) {
             builder: (context, state) => const TabsPage(),
           routes: [
             GoRoute(
-                path: editProfilePath,
+                path: _editProfilePath,
               builder: (context, state) => const EditProfilePage(),
               ),
               GoRoute(
-                  path: editGroupPath,
+                  path: _editGroupPath,
                   builder: (context, state) {
                     String? id = state.uri.queryParameters["id"];
                     return EditGroupPage(id == null ? null : int.parse(id));
@@ -56,7 +59,6 @@ GoRouter router(RouterRef ref) {
 }
 
 FutureOr<String?> _redirectLogic(AutoDisposeRef ref, GoRouterState state) {
-  print("Redirecting " + state.path.toString());
   final authState = ref.watch(authUserProvider);
   final isLoggedIn =
       authState.maybeWhen(data: (user) => user != null, orElse: () => false);
@@ -70,8 +72,8 @@ FutureOr<String?> _redirectLogic(AutoDisposeRef ref, GoRouterState state) {
   if (isLoggedIn) {
     final hasUserProfile = ref.watch(hasUserProfileProvider);
     if (!hasUserProfile &&
-        state.path != editProfilePath) {
-      return homePath + editProfilePath;
+        state.path != _editProfilePath) {
+      return homePath + _editProfilePath;
     }
   } else if (state.path != loginPath) {
     return loginPath;

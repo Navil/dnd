@@ -201,7 +201,7 @@ final hasUserProfileProvider = Provider<bool>.internal(
 );
 
 typedef HasUserProfileRef = ProviderRef<bool>;
-String _$groupDetailsHash() => r'9b679bb951984dd7285bbda605a01a425e24d4ac';
+String _$groupDetailsHash() => r'a34a4a428a07a94d8dda18c70b9e20e3c391fc3d';
 
 /// See also [groupDetails].
 @ProviderFor(groupDetails)
@@ -214,7 +214,7 @@ class GroupDetailsFamily extends Family<AsyncValue<GroupModel?>> {
 
   /// See also [groupDetails].
   GroupDetailsProvider call(
-    dynamic id,
+    int id,
   ) {
     return GroupDetailsProvider(
       id,
@@ -249,7 +249,7 @@ class GroupDetailsFamily extends Family<AsyncValue<GroupModel?>> {
 class GroupDetailsProvider extends AutoDisposeFutureProvider<GroupModel?> {
   /// See also [groupDetails].
   GroupDetailsProvider(
-    dynamic id,
+    int id,
   ) : this._internal(
           (ref) => groupDetails(
             ref as GroupDetailsRef,
@@ -277,7 +277,7 @@ class GroupDetailsProvider extends AutoDisposeFutureProvider<GroupModel?> {
     required this.id,
   }) : super.internal();
 
-  final dynamic id;
+  final int id;
 
   @override
   Override overrideWith(
@@ -318,7 +318,7 @@ class GroupDetailsProvider extends AutoDisposeFutureProvider<GroupModel?> {
 
 mixin GroupDetailsRef on AutoDisposeFutureProviderRef<GroupModel?> {
   /// The parameter `id` of this provider.
-  dynamic get id;
+  int get id;
 }
 
 class _GroupDetailsProviderElement
@@ -326,10 +326,10 @@ class _GroupDetailsProviderElement
   _GroupDetailsProviderElement(super.provider);
 
   @override
-  dynamic get id => (origin as GroupDetailsProvider).id;
+  int get id => (origin as GroupDetailsProvider).id;
 }
 
-String _$nearbyGroupsHash() => r'79301a6d7b4ac27a82afcb2badc9d66a0f13c312';
+String _$nearbyGroupsHash() => r'6599649bc09f4cac4c2552405e3710f95739abd6';
 
 /// See also [nearbyGroups].
 @ProviderFor(nearbyGroups)

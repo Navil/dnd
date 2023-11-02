@@ -35,7 +35,7 @@ bool hasUserProfile(HasUserProfileRef ref) {
 }
 
 @riverpod
-Future<GroupModel?> groupDetails(GroupDetailsRef ref, id) {
+Future<GroupModel?> groupDetails(GroupDetailsRef ref, int id) {
   return ref.watch(databaseServiceProvider).loadGroup(id);
 }
 
@@ -47,7 +47,6 @@ Future<List<GroupSearchResult>> nearbyGroups(NearbyGroupsRef ref) async {
     'lat': location.latitude,
     'long': location.longitude,
   }));
-  print(data[0]);
   return data
       .map((group) =>
           GroupSearchResult(GroupModel.fromJson(group), group["dist_meters"]))

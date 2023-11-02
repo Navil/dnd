@@ -23,18 +23,16 @@ class UserAvatar extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(radius * 2)),
         child: url != null && url != ''
-            ? Hero(
-                tag: "profilePicture",
-                child: CachedNetworkImage(
-                  fit: BoxFit.fill,
-                  progressIndicatorBuilder: (context, url, downloadProgress) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                          value: downloadProgress.progress),
-                    );
-                  },
-                  imageUrl: url!,
-                ))
+            ? CachedNetworkImage(
+                fit: BoxFit.fill,
+                progressIndicatorBuilder: (context, url, downloadProgress) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                        value: downloadProgress.progress),
+                  );
+                },
+                imageUrl: url!,
+              )
             : Center(
                 child: FaIcon(FontAwesomeIcons.user,
                     color: Theme.of(context).colorScheme.secondary,

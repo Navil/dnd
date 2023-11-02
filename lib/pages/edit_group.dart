@@ -1,3 +1,4 @@
+import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/group.dart';
 import 'package:dnd/model/group_address.dart';
 import 'package:dnd/providers/address_completer_provider.dart';
@@ -34,11 +35,20 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
   @override
   Widget build(BuildContext context) {
     if (widget.id != null) {
-      GroupModel? groupDetails =
-          ref.watch(groupDetailsProvider(widget.id!)).value;
-      if (groupDetails != null && _group == null) {
-        //Set all values on the UI
+      final groupDetailsListener = ref.watch(groupDetailsProvider(widget.id!));
+
+      if (groupDetailsListener.isLoading) {
+        return const AdaptiveLoadingIndicator();
+      }
+
+      if (groupDetailsListener.hasValue && _group == null) {
+        final GroupModel groupDetails = groupDetailsListener.value!;
         _group = groupDetails;
+        _descriptionController.text = groupDetails.description;
+        _titleController.text = groupDetails.title;
+        _isRemote = groupDetails.isRemote;
+        _selectedAddress = groupDetails.address?.address;
+        _location = groupDetails.address?.location;
       }
     }
 
@@ -84,19 +94,22 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                               _onAddressSelected(prediction, ref),
                           displayStringForOption: (option) =>
                               option.description,
-                          initialValue: TextEditingValue(text: "Test")),
+                        initialValue:
+                            TextEditingValue(text: _selectedAddress ?? ""),
+                      ),
                       if (_location == null && _submitPressed)
                         Text(
                           "Please provide an address.",
-                          style: TextStyle().copyWith(
+                          style: const TextStyle().copyWith(
                               color: Theme.of(context).colorScheme.error),
                         )
                       else
-                        Text(
+                        const Text(
                             "Your address will only be shown to members of this group.")
                     ]
                   ],
                 ),
+                Text(_location.toString()),
                
                 TextFormField(
                   controller: _descriptionController,
@@ -109,7 +122,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                Text("Members"),
+                const Text("Members"),
                 SizedBox(
                   height: 48,
                   width: MediaQuery.of(context).size.width / 2,
@@ -119,31 +132,31 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                         _submitPressed = true;
                       });
                     
-
                       if (_formKey.currentState!.validate() &&
                           _isLocationProvided()) {
+                        GroupAddressModel? address;
 
+                        if (_selectedAddress != null && _location != null) {
+                          address = GroupAddressModel(
+                              address: _selectedAddress!, location: _location!);
+                        }
                         GroupModel group = _group != null
                             ? _group!.copyWith(
                                 description: _descriptionController.text,
                                 title: _titleController.text,
-                                isRemote: _isRemote)
+                                isRemote: _isRemote,
+                                address: address)
                             : GroupModel(
                                 description: _descriptionController.text,
                                 title: _titleController.text,
                                 isRemote: _isRemote,
                                 ownerId: ref.read(loggedInUserProvider).id,
-                                createdAt: DateTime.now());
-
-                        GroupAddress? address;
-                        if (!_isRemote) {
-                          address = GroupAddress(
-                              address: _selectedAddress!, location: _location!);
-                        }
+                                createdAt: DateTime.now(),
+                                address: address);
 
                         ref
                             .read(databaseServiceProvider)
-                            .saveGroup(group, address);
+                            .saveGroup(group);
 
                         if (mounted) {
                           GoRouter.of(context).pop();

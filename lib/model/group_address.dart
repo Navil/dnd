@@ -1,22 +1,39 @@
+import 'dart:typed_data';
+
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
+part 'group_address.freezed.dart';
+part 'group_address.g.dart';
 
-class GroupAddress {
-  int? id;
-  LatLng location;
-  String address;
+@freezed
+class GroupAddressModel with _$GroupAddressModel {
+  factory GroupAddressModel(
+      {int? id,
+      @JsonKey(toJson: locationToJson, fromJson: locationFromJson)
+      required LatLng location,
+      required String address}) = _GroupAddressModel;
 
-  GroupAddress({this.id, required this.location, required this.address});
+  factory GroupAddressModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupAddressModelFromJson(json);
+}
 
-  dynamic toDatabaseJson(int? existingId) {
-    final addressId = existingId ?? id;
-    if (addressId == null) {
-      throw "Provide an Id to save a GroupAddress.";
-    }
+String locationToJson(LatLng location) {
+  return 'POINT(${location.longitude} ${location.latitude})';
+}
 
-    return {
-      "id": addressId,
-      "address": address,
-      'location': 'POINT(${location.longitude} ${location.latitude})'
-    };
+LatLng locationFromJson(String hexString) {
+  Uint8List bytes = Uint8List(hexString.length ~/ 2);
+  for (int i = 0; i < hexString.length; i += 2) {
+    bytes[i ~/ 2] = int.parse(hexString.substring(i, i + 2), radix: 16);
   }
+
+  // Create ByteData from byte array
+  final byteData = ByteData.sublistView(bytes);
+
+  Endian endian = Endian.little;
+
+  double longitude = byteData.getFloat64(9, endian);
+  double latitude = byteData.getFloat64(9 + 8, endian);
+
+  return LatLng(latitude, longitude);
 }

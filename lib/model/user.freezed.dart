@@ -22,6 +22,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
   String get firstname => throw _privateConstructorUsedError;
+  String? get pictureUrl => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt => throw _privateConstructorUsedError;
 
@@ -39,6 +40,7 @@ abstract class $UserModelCopyWith<$Res> {
   $Res call(
       {String id,
       String firstname,
+      String? pictureUrl,
       @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt});
 }
 
@@ -57,6 +59,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   $Res call({
     Object? id = null,
     Object? firstname = null,
+    Object? pictureUrl = freezed,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -68,6 +71,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.firstname
           : firstname // ignore: cast_nullable_to_non_nullable
               as String,
+      pictureUrl: freezed == pictureUrl
+          ? _value.pictureUrl
+          : pictureUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -87,6 +94,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String firstname,
+      String? pictureUrl,
       @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt});
 }
 
@@ -103,6 +111,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? firstname = null,
+    Object? pictureUrl = freezed,
     Object? createdAt = null,
   }) {
     return _then(_$UserModelImpl(
@@ -114,6 +123,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.firstname
           : firstname // ignore: cast_nullable_to_non_nullable
               as String,
+      pictureUrl: freezed == pictureUrl
+          ? _value.pictureUrl
+          : pictureUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -128,6 +141,7 @@ class _$UserModelImpl implements _UserModel {
   _$UserModelImpl(
       {required this.id,
       required this.firstname,
+      this.pictureUrl,
       @JsonKey(includeToJson: false, name: "created_at")
       required this.createdAt});
 
@@ -139,12 +153,14 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String firstname;
   @override
+  final String? pictureUrl;
+  @override
   @JsonKey(includeToJson: false, name: "created_at")
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, firstname: $firstname, createdAt: $createdAt)';
+    return 'UserModel(id: $id, firstname: $firstname, pictureUrl: $pictureUrl, createdAt: $createdAt)';
   }
 
   @override
@@ -155,13 +171,16 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.firstname, firstname) ||
                 other.firstname == firstname) &&
+            (identical(other.pictureUrl, pictureUrl) ||
+                other.pictureUrl == pictureUrl) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, firstname, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, firstname, pictureUrl, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -181,6 +200,7 @@ abstract class _UserModel implements UserModel {
   factory _UserModel(
       {required final String id,
       required final String firstname,
+      final String? pictureUrl,
       @JsonKey(includeToJson: false, name: "created_at")
       required final DateTime createdAt}) = _$UserModelImpl;
 
@@ -191,6 +211,8 @@ abstract class _UserModel implements UserModel {
   String get id;
   @override
   String get firstname;
+  @override
+  String? get pictureUrl;
   @override
   @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt;
