@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:latlong2/latlong.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'address_completer_provider.g.dart';
 const apiKeyDev = "AIzaSyB5o9uiM7P5fDa9k0cCxfinoRPzzgJDk_U";

@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 part 'group_address.freezed.dart';
 part 'group_address.g.dart';
 
