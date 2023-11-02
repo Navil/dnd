@@ -1,5 +1,4 @@
 import 'package:dnd/model/group.dart';
-import 'package:dnd/model/group_address.dart';
 import 'package:dnd/model/user.dart';
 import 'package:dnd/providers/database_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,12 +18,8 @@ class DatabaseService {
   DatabaseService(this.ref, this.uid);
 
   Future<void> saveUser(UserModel user) async {
-    try {
-      await userDatabase.upsert(user.toJson());
-      ref.invalidate(userProfileProvider(uid));
-    } catch (err) {
-      print(err);
-    }
+    await userDatabase.upsert(user.toJson());
+    ref.invalidate(userProfileProvider(uid));
   }
 
   Future<UserModel?> loadUser(String uid) async {
@@ -32,27 +27,39 @@ class DatabaseService {
     if (response == null) {
       return null;
     }
-    print(response);
     return UserModel.fromJson(response);
   }
 
   Future<GroupModel?> loadGroup(int id) async {
-    final response = await groupDatabase.select().eq('id', id).single();
+    final response = await groupDatabase
+        .select("*, group_addresses(*)")
+        .eq('id', id)
+        .single();
     if (response == null) {
       return null;
     }
-    return GroupModel.fromJson(response);
+
+    GroupModel model = GroupModel.fromJson(response);
+    return model;
   }
 
-  Future<void> saveGroup(GroupModel group, GroupAddress? address) async {
-    final response =
-        await groupDatabase.upsert(group.toJson()).select("id");
-    final groupId = response[0]["id"];
+  Future<void> saveGroup(GroupModel group) async {
+    Map<String, dynamic> response =
+        await groupDatabase.upsert(group.toJson()).select("id").single();
+    final groupId = response.values.first;
+
+    //New group, so add self as member
     if (group.id == null) {
       await memberDatabase.upsert({"group_id": groupId, "user_id": uid});
     }
-    if (address != null) {
-      await groupAddressesDatabase.upsert(address.toDatabaseJson(groupId));
+
+    //Group has an address, so
+    if (!group.isRemote) {
+      await groupAddressesDatabase
+          .upsert(group.address!.copyWith(id: groupId).toJson());
+    } else if (group.address != null) {
+      //If the group switched to remote
+      await groupAddressesDatabase.delete().eq("id", groupId);
     }
     ref.invalidate(getGroupsOfUserProvider);
   }

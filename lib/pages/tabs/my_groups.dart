@@ -1,8 +1,7 @@
-import 'dart:async';
-
 import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/group.dart';
 import 'package:dnd/providers/database_provider.dart';
+import 'package:dnd/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,7 +22,7 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
     super.build(context);
     return ref.watch(getGroupsOfUserProvider).when(
         error: (error, stackTrace) => Text(error.toString()),
-        loading: () => AdaptiveLoadingIndicator(),
+        loading: () => const AdaptiveLoadingIndicator(),
         data: (data) {
           final groups = data;
     
@@ -32,7 +31,7 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
             child: Stack(
               children: [
                 groups.isEmpty
-                    ? Center(
+                    ? const Center(
                         child: Text("You are currently not part of any group."),
                       )
                     :
@@ -41,6 +40,8 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
                   itemBuilder: (context, index) {
                     GroupModel group = groups[index];
                     return ListTile(
+                            onTap: () =>
+                                context.go("$editGroupPath?id=${group.id}"),
                       title: Text(group.title),
                       subtitle: Text(
                         group.description,
@@ -57,6 +58,7 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
                   right: 20,
                   bottom: 20,
                   child: FloatingActionButton(
+                      heroTag: "my-groups",
                       child: const FaIcon(FontAwesomeIcons.plus),
                       onPressed: () => context.go("/edit_group")),
                 )

@@ -14,6 +14,10 @@ _$GroupModelImpl _$$GroupModelImplFromJson(Map<String, dynamic> json) =>
       createdAt: DateTime.parse(json['created_at'] as String),
       description: json['description'] as String,
       ownerId: json['owner_id'] as String,
+      address: json['group_addresses'] == null
+          ? null
+          : GroupAddressModel.fromJson(
+              json['group_addresses'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$GroupModelImplToJson(_$GroupModelImpl instance) {

@@ -6,7 +6,7 @@ part of 'auth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authUserHash() => r'8887a9b95d60cee6af79c3010f75f60b98f214c8';
+String _$authUserHash() => r'c5e026faf5eb61270f7c7114bc678ad52d1e5c96';
 
 /// See also [authUser].
 @ProviderFor(authUser)
@@ -20,7 +20,7 @@ final authUserProvider = StreamProvider<User?>.internal(
 );
 
 typedef AuthUserRef = StreamProviderRef<User?>;
-String _$loggedInUserHash() => r'99990a39591f2766069424740541920ab3352bf5';
+String _$loggedInUserHash() => r'7b78e6db424e26f68e2d5e09c8fa16cc4673e6ae';
 
 /// See also [loggedInUser].
 @ProviderFor(loggedInUser)

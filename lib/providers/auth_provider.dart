@@ -8,7 +8,6 @@ part 'auth_provider.g.dart';
 @Riverpod(keepAlive: true)
 Stream<User?> authUser(AuthUserRef ref) {
   return Supabase.instance.client.auth.onAuthStateChange.map((event) {
-    print("authUser");
     return event.session?.user;
   });
 }
@@ -17,7 +16,6 @@ Stream<User?> authUser(AuthUserRef ref) {
 @Riverpod(keepAlive: true)
 User loggedInUser(LoggedInUserRef ref) {
   final user = ref.watch(authUserProvider).value;
-  print("loggedInUser");
   if (user == null) {
     throw "loggedInUser used but user is not logged in.";
   }

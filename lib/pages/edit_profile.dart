@@ -5,6 +5,7 @@ import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/user.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/database_provider.dart';
+import 'package:dnd/providers/storage_provider.dart';
 import 'package:dnd/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +14,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
   const EditProfilePage({super.key});
@@ -41,6 +41,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     if (userDetails != null && _user == null) {
       _user = userDetails;
       _firstnameController.text = userDetails.firstname;
+      _photoURL = userDetails.pictureUrl;
     }
 
     return WillPopScope(
@@ -79,25 +80,31 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
+                            String? newImageUrl;
+                            //Do upload
+                            if (_newImage != null) {
+                              newImageUrl = await ref
+                                  .read(storageServiceProvider)
+                                  .uploadProfilePicture(_newImage!);
+                            }
+
                             UserModel user = _user != null
                                 ? _user!.copyWith(
                                     id: userId,
                                     firstname: _firstnameController.text,
+                                    pictureUrl:
+                                        newImageUrl ?? _user!.pictureUrl
                                   )
                                 : UserModel(
                                     id: userId,
                                     firstname: _firstnameController.text,
-                                    createdAt: DateTime.now());
+                                    createdAt: DateTime.now(),
+                                    pictureUrl: newImageUrl);
                          
                             ref
                                 .read(databaseServiceProvider)
                                 .saveUser(user);
-                            //Do upload
-                            if (_newImage != null) {
-                              print(await Supabase.instance.client.storage
-                                  .from("/users")
-                                  .upload(userId, File(_newImage!.path)));
-                            }
+                           
                             if (mounted) {
                               GoRouter.of(context).pop();
                             }
