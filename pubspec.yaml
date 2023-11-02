@@ -46,13 +46,13 @@ dependencies:
   adaptive_dialog:
   cached_network_image:
   geolocator:
-  flutter_map:
-  latlong2:
   async:
   http:
   riverpod_annotation:
   json_annotation:
   freezed_annotation:
+  url_launcher:
+  google_maps_flutter:
 
 dev_dependencies:
   flutter_test:

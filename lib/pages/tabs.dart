@@ -20,7 +20,10 @@ class TabsPage extends ConsumerStatefulWidget {
 
 class _TabsPageState extends ConsumerState<TabsPage> {
   Timer? _timer;
-  final List<Widget> _tabs = <Widget>[FindGroupTab(), MyGroupsTab()];
+  final List<Widget> _tabs = <Widget>[
+    const FindGroupTab(),
+    const MyGroupsTab()
+  ];
 
   final PageController _pageController = PageController();
   final ValueNotifier<int> _selectedIndexNotifier = ValueNotifier<int>(0);
@@ -28,7 +31,7 @@ class _TabsPageState extends ConsumerState<TabsPage> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(minutes: 10), (timer) {
+    _timer = Timer.periodic(const Duration(minutes: 10), (timer) {
       ref.invalidate(getGroupsOfUserProvider);
     });
   }

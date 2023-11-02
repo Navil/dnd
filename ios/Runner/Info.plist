@@ -60,5 +60,10 @@
 	<string>Access to the photo library is needed to upload photos to the public profile</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your approximate location is needed to find nearby groups.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>googlechromes</string>
+		<string>comgooglemaps</string>
+	</array>
 </dict>
 </plist>

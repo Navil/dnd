@@ -4,10 +4,11 @@ import 'package:dnd/model/group_address.dart';
 import 'package:dnd/providers/address_completer_provider.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/database_provider.dart';
+import 'package:dnd/widgets/group_marker_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EditGroupPage extends ConsumerStatefulWidget {
   final int? id;
@@ -73,15 +74,26 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                         border: OutlineInputBorder(),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: TextFormField(
+                        controller: _descriptionController,
+                        minLines: 3,
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: const InputDecoration(
+                          label: Text("Description"),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
                     CheckboxListTile.adaptive(
                         title: const Text("Is it remote?"),
                         value: _isRemote,
                         onChanged: (bool? value) {
                           setState(() {
                             _isRemote = value == true;
-                            if (value != true) {
-                              _location = null;
-                            }
                           });
                         }),
                     if (!_isRemote) ...[
@@ -103,25 +115,28 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                           style: const TextStyle().copyWith(
                               color: Theme.of(context).colorScheme.error),
                         )
-                      else
-                        const Text(
-                            "Your address will only be shown to members of this group.")
+                      else if (_location != null) ...[
+                        ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(40)),
+                          child: Container(
+                              padding: const EdgeInsets.all(8),
+                              height: 200,
+                              child: GroupMarkerMap(location: _location!)),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            "Your address will only be shown to members of this group.",
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ]
+                       
                     ]
                   ],
                 ),
-                Text(_location.toString()),
-               
-                TextFormField(
-                  controller: _descriptionController,
-                  minLines: 3,
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  textCapitalization: TextCapitalization.sentences,
-                  decoration: const InputDecoration(
-                    label: Text("Description"),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+              
                 const Text("Members"),
                 SizedBox(
                   height: 48,
