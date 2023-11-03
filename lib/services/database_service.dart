@@ -69,10 +69,19 @@ class DatabaseService {
   }
 
   Future<List<GroupModel>> getGroupsOfUser() async {
-    final groups =
-        await memberDatabase.select<List<dynamic>>("group_id, groups(*)");
-    return groups.map((groupData) {
-      return GroupModel.fromJson(groupData["groups"]);
+    final memberResponse = await memberDatabase
+        .select<List<Map<String, dynamic>>>('group_id')
+        .eq('user_id', uid);
+
+    final groupResponse = await groupDatabase
+        .select<List<Map<String, dynamic>>>("*, members(*, users(*))")
+        .in_("id", memberResponse.map((member) => member["group_id"]).toList());
+    //print(groupResponse);
+    return groupResponse.map((group) {
+      return GroupModel.fromJson({
+        ...group,
+        "members": group["members"].map((member) => member["users"]).toList()
+      });
     }).toList();
   }
 }

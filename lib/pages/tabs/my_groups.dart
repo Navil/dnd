@@ -2,6 +2,7 @@ import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/group.dart';
 import 'package:dnd/providers/database_provider.dart';
 import 'package:dnd/router.dart';
+import 'package:dnd/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -39,19 +40,44 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
                   itemCount: groups.length,
                   itemBuilder: (context, index) {
                     GroupModel group = groups[index];
-                    return ListTile(
-                            onTap: () =>
-                                context.go("$editGroupPath?id=${group.id}"),
-                      title: Text(group.title),
-                      subtitle: Text(
-                        group.description,
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      trailing: FaIcon(group.isRemote
-                          ? FontAwesomeIcons.globe
-                          : FontAwesomeIcons.locationDot),
-                    );
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    onTap: () => context
+                                        .go("$editGroupPath?id=${group.id}"),
+                                    title: Text(group.title),
+                                    subtitle: Text(
+                                      group.description,
+                                      maxLines: 5,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    trailing: FaIcon(group.isRemote
+                                        ? FontAwesomeIcons.globe
+                                        : FontAwesomeIcons.locationDot),
+                                  ),
+                                  if (group.members?.isNotEmpty == true)
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 8.0),
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: group.members!
+                                              .map((user) => UserAvatar(
+                                                  url: user.pictureUrl))
+                                              .toList(),
+                                        ),
+                                      ),
+                                    )
+                                ],
+                              ),
+                            ),
+                          );
                   },
                 ),
                 Positioned(

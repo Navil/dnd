@@ -39,7 +39,7 @@ class AuthService {
     debugPrint('Loging in Google');
 
     final clientId = Platform.isIOS
-        ? '505188764209-ovv4rlth4mbhu4q42urteeptmehpfauh.apps.googleusercontent.com'
+        ? '505188764209-fvu88ukbg5n7adhro168lsm15rll7g52.apps.googleusercontent.com'
         : '505188764209-e5dh6shttbrmaaian6ifbv8ql1ulrgbo.apps.googleusercontent.com';
     late final String? idToken;
     late final String? accessToken;

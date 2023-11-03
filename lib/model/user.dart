@@ -7,7 +7,7 @@ class UserModel with _$UserModel {
   factory UserModel(
       {required String id,
       required String firstname,
-      String? pictureUrl,
+      @JsonKey(name: "picture_url") String? pictureUrl,
       @JsonKey(includeToJson: false, name: "created_at")
       required DateTime createdAt}) = _UserModel;
 

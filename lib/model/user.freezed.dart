@@ -22,6 +22,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
   String get firstname => throw _privateConstructorUsedError;
+  @JsonKey(name: "picture_url")
   String? get pictureUrl => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -40,7 +41,7 @@ abstract class $UserModelCopyWith<$Res> {
   $Res call(
       {String id,
       String firstname,
-      String? pictureUrl,
+      @JsonKey(name: "picture_url") String? pictureUrl,
       @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt});
 }
 
@@ -94,7 +95,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String firstname,
-      String? pictureUrl,
+      @JsonKey(name: "picture_url") String? pictureUrl,
       @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt});
 }
 
@@ -141,7 +142,7 @@ class _$UserModelImpl implements _UserModel {
   _$UserModelImpl(
       {required this.id,
       required this.firstname,
-      this.pictureUrl,
+      @JsonKey(name: "picture_url") this.pictureUrl,
       @JsonKey(includeToJson: false, name: "created_at")
       required this.createdAt});
 
@@ -153,6 +154,7 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String firstname;
   @override
+  @JsonKey(name: "picture_url")
   final String? pictureUrl;
   @override
   @JsonKey(includeToJson: false, name: "created_at")
@@ -200,7 +202,7 @@ abstract class _UserModel implements UserModel {
   factory _UserModel(
       {required final String id,
       required final String firstname,
-      final String? pictureUrl,
+      @JsonKey(name: "picture_url") final String? pictureUrl,
       @JsonKey(includeToJson: false, name: "created_at")
       required final DateTime createdAt}) = _$UserModelImpl;
 
@@ -212,6 +214,7 @@ abstract class _UserModel implements UserModel {
   @override
   String get firstname;
   @override
+  @JsonKey(name: "picture_url")
   String? get pictureUrl;
   @override
   @JsonKey(includeToJson: false, name: "created_at")
