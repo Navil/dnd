@@ -1,19 +1,21 @@
 import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/app_theme.dart';
+import 'package:dnd/environment.dart';
 import 'package:dnd/router.dart';
 import 'package:dnd/screens/warning_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Supabase.initialize(
-    url: 'https://dnywdwysnsqkdkvuuvmy.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRueXdkd3lzbnNxa2RrdnV1dm15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTgzOTA4MTUsImV4cCI6MjAxMzk2NjgxNX0.zkMINnmfZPGzt5noMsIZAlxk-AmOPgfqPCrw7ADPj04',
+    url: Environment.subabaseUrl,
+    anonKey: Environment.supabaseAnonKey,
   );
   runApp(const ProviderScope(child: MyApp()));
 }
