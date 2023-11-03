@@ -15,24 +15,22 @@ class FindGroupTab extends ConsumerStatefulWidget {
 
 class _FindGroupTabState extends ConsumerState<FindGroupTab>
     with AutomaticKeepAliveClientMixin<FindGroupTab> {
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final location = ref.watch(locationProvider);
     final nearbyGroups = ref.watch(nearbyGroupsProvider);
-      
-    return switch (location) {
+
+    return switch (nearbyGroups) {
       AsyncData() => Stack(
           children: [
-            if (nearbyGroups.value?.isNotEmpty == true)
+            if (nearbyGroups.value.isNotEmpty == true)
               ListView.builder(
                 itemBuilder: (context, index) => ListTile(
-                  title: Text(nearbyGroups.value![index].group.title),
+                  title: Text(nearbyGroups.value[index].group.title),
                   trailing: GroupDistance(
-                      (nearbyGroups.value![index].distanceInMeters)),
+                      (nearbyGroups.value[index].distanceInMeters)),
                 ),
-                itemCount: nearbyGroups.value!.length,
+                itemCount: nearbyGroups.value.length,
               ),
             Positioned(
               right: 20,
@@ -51,7 +49,7 @@ class _FindGroupTabState extends ConsumerState<FindGroupTab>
       _ => const AdaptiveLoadingIndicator(),
     };
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }

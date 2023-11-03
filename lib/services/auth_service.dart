@@ -3,13 +3,11 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
+import 'package:dnd/environment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-
-
 
 class AuthService {
   final supabase = Supabase.instance.client;
@@ -38,9 +36,7 @@ class AuthService {
   Future<void> loginGoogle() async {
     debugPrint('Loging in Google');
 
-    final clientId = Platform.isIOS
-        ? '505188764209-ovv4rlth4mbhu4q42urteeptmehpfauh.apps.googleusercontent.com'
-        : '505188764209-e5dh6shttbrmaaian6ifbv8ql1ulrgbo.apps.googleusercontent.com';
+    final clientId = Environment.googleOAuthClient;
     late final String? idToken;
     late final String? accessToken;
     String? rawNonce;

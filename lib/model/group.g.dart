@@ -18,6 +18,9 @@ _$GroupModelImpl _$$GroupModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : GroupAddressModel.fromJson(
               json['group_addresses'] as Map<String, dynamic>),
+      members: (json['users'] as List<dynamic>?)
+          ?.map((e) => UserModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$GroupModelImplToJson(_$GroupModelImpl instance) {

@@ -32,6 +32,8 @@ mixin _$GroupModel {
   String get ownerId => throw _privateConstructorUsedError;
   @JsonKey(name: "group_addresses", includeToJson: false)
   GroupAddressModel? get address => throw _privateConstructorUsedError;
+  @JsonKey(name: "users", includeToJson: false)
+  List<UserModel>? get members => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,7 +55,8 @@ abstract class $GroupModelCopyWith<$Res> {
       String description,
       @JsonKey(name: "owner_id") String ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false)
-      GroupAddressModel? address});
+      GroupAddressModel? address,
+      @JsonKey(name: "users", includeToJson: false) List<UserModel>? members});
 
   $GroupAddressModelCopyWith<$Res>? get address;
 }
@@ -78,6 +81,7 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
     Object? description = null,
     Object? ownerId = null,
     Object? address = freezed,
+    Object? members = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -108,6 +112,10 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as GroupAddressModel?,
+      members: freezed == members
+          ? _value.members
+          : members // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>?,
     ) as $Val);
   }
 
@@ -140,7 +148,8 @@ abstract class _$$GroupModelImplCopyWith<$Res>
       String description,
       @JsonKey(name: "owner_id") String ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false)
-      GroupAddressModel? address});
+      GroupAddressModel? address,
+      @JsonKey(name: "users", includeToJson: false) List<UserModel>? members});
 
   @override
   $GroupAddressModelCopyWith<$Res>? get address;
@@ -164,6 +173,7 @@ class __$$GroupModelImplCopyWithImpl<$Res>
     Object? description = null,
     Object? ownerId = null,
     Object? address = freezed,
+    Object? members = freezed,
   }) {
     return _then(_$GroupModelImpl(
       id: freezed == id
@@ -194,6 +204,10 @@ class __$$GroupModelImplCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as GroupAddressModel?,
+      members: freezed == members
+          ? _value._members
+          : members // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>?,
     ));
   }
 }
@@ -209,7 +223,10 @@ class _$GroupModelImpl implements _GroupModel {
       required this.createdAt,
       required this.description,
       @JsonKey(name: "owner_id") required this.ownerId,
-      @JsonKey(name: "group_addresses", includeToJson: false) this.address});
+      @JsonKey(name: "group_addresses", includeToJson: false) this.address,
+      @JsonKey(name: "users", includeToJson: false)
+      final List<UserModel>? members})
+      : _members = members;
 
   factory _$GroupModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$GroupModelImplFromJson(json);
@@ -233,10 +250,20 @@ class _$GroupModelImpl implements _GroupModel {
   @override
   @JsonKey(name: "group_addresses", includeToJson: false)
   final GroupAddressModel? address;
+  final List<UserModel>? _members;
+  @override
+  @JsonKey(name: "users", includeToJson: false)
+  List<UserModel>? get members {
+    final value = _members;
+    if (value == null) return null;
+    if (_members is EqualUnmodifiableListView) return _members;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'GroupModel(id: $id, isRemote: $isRemote, title: $title, createdAt: $createdAt, description: $description, ownerId: $ownerId, address: $address)';
+    return 'GroupModel(id: $id, isRemote: $isRemote, title: $title, createdAt: $createdAt, description: $description, ownerId: $ownerId, address: $address, members: $members)';
   }
 
   @override
@@ -253,13 +280,22 @@ class _$GroupModelImpl implements _GroupModel {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
-            (identical(other.address, address) || other.address == address));
+            (identical(other.address, address) || other.address == address) &&
+            const DeepCollectionEquality().equals(other._members, _members));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, isRemote, title, createdAt,
-      description, ownerId, address);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      isRemote,
+      title,
+      createdAt,
+      description,
+      ownerId,
+      address,
+      const DeepCollectionEquality().hash(_members));
 
   @JsonKey(ignore: true)
   @override
@@ -285,7 +321,9 @@ abstract class _GroupModel implements GroupModel {
       required final String description,
       @JsonKey(name: "owner_id") required final String ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false)
-      final GroupAddressModel? address}) = _$GroupModelImpl;
+      final GroupAddressModel? address,
+      @JsonKey(name: "users", includeToJson: false)
+      final List<UserModel>? members}) = _$GroupModelImpl;
 
   factory _GroupModel.fromJson(Map<String, dynamic> json) =
       _$GroupModelImpl.fromJson;
@@ -309,6 +347,9 @@ abstract class _GroupModel implements GroupModel {
   @override
   @JsonKey(name: "group_addresses", includeToJson: false)
   GroupAddressModel? get address;
+  @override
+  @JsonKey(name: "users", includeToJson: false)
+  List<UserModel>? get members;
   @override
   @JsonKey(ignore: true)
   _$$GroupModelImplCopyWith<_$GroupModelImpl> get copyWith =>

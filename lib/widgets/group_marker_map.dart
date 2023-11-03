@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,7 +14,7 @@ class GroupMarkerMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
-      mapType: MapType.hybrid,
+      mapType: MapType.normal,
       myLocationButtonEnabled: false,
       rotateGesturesEnabled: false,
       tiltGesturesEnabled: false,

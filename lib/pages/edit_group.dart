@@ -25,7 +25,6 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
   final _descriptionController = TextEditingController();
   final _titleController = TextEditingController();
 
-
   bool _isRemote = false;
 
   String? _selectedAddress;
@@ -56,6 +55,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
     return Scaffold(
       appBar:
           AppBar(title: Text(_group == null ? "Create Group" : "Edit Group")),
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -98,14 +98,13 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                         }),
                     if (!_isRemote) ...[
                       Autocomplete<AutocompletePrediction>(
-                          optionsBuilder: (textEditingValue) async =>
-                              await ref.watch(addressAutocompleteProvider(
-                                      textEditingValue.text)
-                                  .future),
-                          onSelected: (prediction) =>
-                              _onAddressSelected(prediction, ref),
-                          displayStringForOption: (option) =>
-                              option.description,
+                        optionsBuilder: (textEditingValue) async =>
+                            await ref.watch(addressAutocompleteProvider(
+                                    textEditingValue.text)
+                                .future),
+                        onSelected: (prediction) =>
+                            _onAddressSelected(prediction, ref),
+                        displayStringForOption: (option) => option.description,
                         initialValue:
                             TextEditingValue(text: _selectedAddress ?? ""),
                       ),
@@ -132,11 +131,9 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                           ),
                         )
                       ]
-                       
                     ]
                   ],
                 ),
-              
                 const Text("Members"),
                 SizedBox(
                   height: 48,
@@ -146,7 +143,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                       setState(() {
                         _submitPressed = true;
                       });
-                    
+
                       if (_formKey.currentState!.validate() &&
                           _isLocationProvided()) {
                         GroupAddressModel? address;
@@ -169,9 +166,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                                 createdAt: DateTime.now(),
                                 address: address);
 
-                        ref
-                            .read(databaseServiceProvider)
-                            .saveGroup(group);
+                        ref.read(databaseServiceProvider).saveGroup(group);
 
                         if (mounted) {
                           GoRouter.of(context).pop();
@@ -181,7 +176,6 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                     child: const Text('Submit'),
                   ),
                 )
-                    
               ]),
         ),
       ),

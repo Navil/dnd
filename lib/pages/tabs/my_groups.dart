@@ -16,7 +16,6 @@ class MyGroupsTab extends ConsumerStatefulWidget {
 
 class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
     with AutomaticKeepAliveClientMixin<MyGroupsTab> {
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -25,7 +24,7 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
         loading: () => const AdaptiveLoadingIndicator(),
         data: (data) {
           final groups = data;
-    
+
           return RefreshIndicator(
             onRefresh: () => ref.refresh(getGroupsOfUserProvider.future),
             child: Stack(
@@ -34,26 +33,26 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
                     ? const Center(
                         child: Text("You are currently not part of any group."),
                       )
-                    :
-                ListView.builder(
-                  itemCount: groups.length,
-                  itemBuilder: (context, index) {
-                    GroupModel group = groups[index];
-                    return ListTile(
+                    : ListView.builder(
+                        itemCount: groups.length,
+                        itemBuilder: (context, index) {
+                          GroupModel group = groups[index];
+                          print(group);
+                          return ListTile(
                             onTap: () =>
                                 context.go("$editGroupPath?id=${group.id}"),
-                      title: Text(group.title),
-                      subtitle: Text(
-                        group.description,
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
+                            title: Text(group.title),
+                            subtitle: Text(
+                              group.description,
+                              maxLines: 5,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: FaIcon(group.isRemote
+                                ? FontAwesomeIcons.globe
+                                : FontAwesomeIcons.locationDot),
+                          );
+                        },
                       ),
-                      trailing: FaIcon(group.isRemote
-                          ? FontAwesomeIcons.globe
-                          : FontAwesomeIcons.locationDot),
-                    );
-                  },
-                ),
                 Positioned(
                   right: 20,
                   bottom: 20,
@@ -65,11 +64,8 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
               ],
             ),
           );
-
         });
-
   }
-
 
   @override
   bool get wantKeepAlive => true;

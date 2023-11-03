@@ -7,7 +7,7 @@ part of 'address_completer_provider.dart';
 // **************************************************************************
 
 String _$addressAutocompleteHash() =>
-    r'8b53da13bfade1fb1318895fe92464dd2b91b293';
+    r'0c1168fd4d3d1e3aca810789ac48f61c77efdc11';
 
 /// Copied from Dart SDK
 class _SystemHash {

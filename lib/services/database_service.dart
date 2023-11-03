@@ -10,6 +10,7 @@ class DatabaseService {
   final userDatabase = Supabase.instance.client.from("users");
   final groupDatabase = Supabase.instance.client.from("groups");
   final memberDatabase = Supabase.instance.client.from("members");
+  final groupsOfUserView = Supabase.instance.client.from("groups_of_user");
   final groupAddressesDatabase =
       Supabase.instance.client.from("group_addresses");
 
@@ -69,10 +70,18 @@ class DatabaseService {
   }
 
   Future<List<GroupModel>> getGroupsOfUser() async {
-    final groups =
-        await memberDatabase.select<List<dynamic>>("group_id, groups(*)");
-    return groups.map((groupData) {
-      return GroupModel.fromJson(groupData["groups"]);
-    }).toList();
+    try {
+      final groups =
+          await groupsOfUserView.select<List<dynamic>>("*").eq("id", uid);
+      print(groups);
+
+      return groups.map((groupData) {
+        return GroupModel.fromJson(
+            {...groupData["groups"], "users": groupData["users"]});
+      }).toList();
+    } catch (errir) {
+      print(errir);
+      rethrow;
+    }
   }
 }
