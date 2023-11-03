@@ -17,7 +17,6 @@ class MyGroupsTab extends ConsumerStatefulWidget {
 
 class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
     with AutomaticKeepAliveClientMixin<MyGroupsTab> {
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -26,7 +25,7 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
         loading: () => const AdaptiveLoadingIndicator(),
         data: (data) {
           final groups = data;
-    
+
           return RefreshIndicator(
             onRefresh: () => ref.refresh(getGroupsOfUserProvider.future),
             child: Stack(
@@ -91,11 +90,8 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
               ],
             ),
           );
-
         });
-
   }
-
 
   @override
   bool get wantKeepAlive => true;

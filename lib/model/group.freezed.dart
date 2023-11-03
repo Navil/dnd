@@ -32,7 +32,11 @@ mixin _$GroupModel {
   String get ownerId => throw _privateConstructorUsedError;
   @JsonKey(name: "group_addresses", includeToJson: false)
   GroupAddressModel? get address => throw _privateConstructorUsedError;
+<<<<<<< HEAD
   @JsonKey(includeToJson: false)
+=======
+  @JsonKey(name: "users", includeToJson: false)
+>>>>>>> 49d59048d785cba2cc6c0af0426a36c5ebb12331
   List<UserModel>? get members => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,7 +60,11 @@ abstract class $GroupModelCopyWith<$Res> {
       @JsonKey(name: "owner_id") String ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false)
       GroupAddressModel? address,
+<<<<<<< HEAD
       @JsonKey(includeToJson: false) List<UserModel>? members});
+=======
+      @JsonKey(name: "users", includeToJson: false) List<UserModel>? members});
+>>>>>>> 49d59048d785cba2cc6c0af0426a36c5ebb12331
 
   $GroupAddressModelCopyWith<$Res>? get address;
 }
@@ -149,7 +157,11 @@ abstract class _$$GroupModelImplCopyWith<$Res>
       @JsonKey(name: "owner_id") String ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false)
       GroupAddressModel? address,
+<<<<<<< HEAD
       @JsonKey(includeToJson: false) List<UserModel>? members});
+=======
+      @JsonKey(name: "users", includeToJson: false) List<UserModel>? members});
+>>>>>>> 49d59048d785cba2cc6c0af0426a36c5ebb12331
 
   @override
   $GroupAddressModelCopyWith<$Res>? get address;
@@ -224,7 +236,12 @@ class _$GroupModelImpl implements _GroupModel {
       required this.description,
       @JsonKey(name: "owner_id") required this.ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false) this.address,
+<<<<<<< HEAD
       @JsonKey(includeToJson: false) final List<UserModel>? members})
+=======
+      @JsonKey(name: "users", includeToJson: false)
+      final List<UserModel>? members})
+>>>>>>> 49d59048d785cba2cc6c0af0426a36c5ebb12331
       : _members = members;
 
   factory _$GroupModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -251,7 +268,11 @@ class _$GroupModelImpl implements _GroupModel {
   final GroupAddressModel? address;
   final List<UserModel>? _members;
   @override
+<<<<<<< HEAD
   @JsonKey(includeToJson: false)
+=======
+  @JsonKey(name: "users", includeToJson: false)
+>>>>>>> 49d59048d785cba2cc6c0af0426a36c5ebb12331
   List<UserModel>? get members {
     final value = _members;
     if (value == null) return null;
@@ -312,6 +333,7 @@ class _$GroupModelImpl implements _GroupModel {
 
 abstract class _GroupModel implements GroupModel {
   factory _GroupModel(
+<<<<<<< HEAD
           {@JsonKey(includeIfNull: false) final int? id,
           @JsonKey(name: "is_remote") required final bool isRemote,
           required final String title,
@@ -323,6 +345,19 @@ abstract class _GroupModel implements GroupModel {
           final GroupAddressModel? address,
           @JsonKey(includeToJson: false) final List<UserModel>? members}) =
       _$GroupModelImpl;
+=======
+      {@JsonKey(includeIfNull: false) final int? id,
+      @JsonKey(name: "is_remote") required final bool isRemote,
+      required final String title,
+      @JsonKey(includeToJson: false, name: "created_at")
+      required final DateTime createdAt,
+      required final String description,
+      @JsonKey(name: "owner_id") required final String ownerId,
+      @JsonKey(name: "group_addresses", includeToJson: false)
+      final GroupAddressModel? address,
+      @JsonKey(name: "users", includeToJson: false)
+      final List<UserModel>? members}) = _$GroupModelImpl;
+>>>>>>> 49d59048d785cba2cc6c0af0426a36c5ebb12331
 
   factory _GroupModel.fromJson(Map<String, dynamic> json) =
       _$GroupModelImpl.fromJson;
@@ -347,7 +382,11 @@ abstract class _GroupModel implements GroupModel {
   @JsonKey(name: "group_addresses", includeToJson: false)
   GroupAddressModel? get address;
   @override
+<<<<<<< HEAD
   @JsonKey(includeToJson: false)
+=======
+  @JsonKey(name: "users", includeToJson: false)
+>>>>>>> 49d59048d785cba2cc6c0af0426a36c5ebb12331
   List<UserModel>? get members;
   @override
   @JsonKey(ignore: true)

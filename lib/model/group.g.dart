@@ -18,7 +18,11 @@ _$GroupModelImpl _$$GroupModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : GroupAddressModel.fromJson(
               json['group_addresses'] as Map<String, dynamic>),
+<<<<<<< HEAD
       members: (json['members'] as List<dynamic>?)
+=======
+      members: (json['users'] as List<dynamic>?)
+>>>>>>> 49d59048d785cba2cc6c0af0426a36c5ebb12331
           ?.map((e) => UserModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

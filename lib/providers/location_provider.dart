@@ -1,5 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'location_provider.g.dart';
 
 @riverpod

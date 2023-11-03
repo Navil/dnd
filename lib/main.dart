@@ -1,8 +1,8 @@
 import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/app_theme.dart';
 import 'package:dnd/environment.dart';
+import 'package:dnd/pages/warning_screen.dart';
 import 'package:dnd/router.dart';
-import 'package:dnd/screens/warning_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

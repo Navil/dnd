@@ -10,6 +10,7 @@ class DatabaseService {
   final userDatabase = Supabase.instance.client.from("users");
   final groupDatabase = Supabase.instance.client.from("groups");
   final memberDatabase = Supabase.instance.client.from("members");
+  final groupsOfUserView = Supabase.instance.client.from("groups_of_user");
   final groupAddressesDatabase =
       Supabase.instance.client.from("group_addresses");
 
