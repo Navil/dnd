@@ -46,10 +46,14 @@ dependencies:
   adaptive_dialog:
   cached_network_image:
   geolocator:
-  flutter_map:
-  latlong2:
   async:
   flutter_dotenv:
+  http:
+  riverpod_annotation:
+  json_annotation:
+  freezed_annotation:
+  url_launcher:
+  google_maps_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +65,14 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  riverpod_lint:
+  custom_lint:
+
+    # a tool for running code generators
+  build_runner:
+  freezed:
+  json_serializable:
+  riverpod_generator:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
