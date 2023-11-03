@@ -1,24 +1,28 @@
 import 'package:dnd/services/auth_service.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 import 'dart:async';
-import 'package:async/async.dart';
+part 'auth_provider.g.dart';
 
-final authUserProvider = StreamProvider<User?>((ref) {
-  // Get the current user session
-  final currentUser = Supabase.instance.client.auth.currentUser;
 
-  // Create a stream that listens to auth state changes
-  final authStateChanges =
-      Supabase.instance.client.auth.onAuthStateChange.map((event) {
+@Riverpod(keepAlive: true)
+Stream<User?> authUser(AuthUserRef ref) {
+  return Supabase.instance.client.auth.onAuthStateChange.map((event) {
     return event.session?.user;
   });
+}
 
-  // If there's a current user, start the stream with that user
-  // Otherwise, listen for auth state changes
-  return currentUser != null
-      ? StreamGroup.merge([Stream.value(currentUser), authStateChanges])
-      : authStateChanges;
-});
 
-final authServiceProvider = Provider<AuthService>((ref) => AuthService());
+@Riverpod(keepAlive: true)
+User loggedInUser(LoggedInUserRef ref) {
+  final user = ref.watch(authUserProvider).value;
+  if (user == null) {
+    throw "loggedInUser used but user is not logged in.";
+  }
+  return user;
+}
+
+@Riverpod(keepAlive: true)
+AuthService authService(AuthServiceRef ref) {
+  return AuthService();
+}

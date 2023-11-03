@@ -1,46 +1,26 @@
-import 'package:latlong2/latlong.dart';
+import 'package:dnd/model/group_address.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-const int idForNoGroup = -1;
+part 'group.freezed.dart';
+part 'group.g.dart';
 
-class Group {
-  late int id;
-  late LatLng location;
-  late bool isRemote;
-  late String description;
-  late DateTime createdAt;
+addressFromJson(Map<String, dynamic> json) {
+  return GroupAddressModel.fromJson(json);
+}
 
-  Group(
-      {required this.id,
-      required this.isRemote,
-      required this.createdAt,
-      required this.location,
-      required this.description});
+@freezed
+class GroupModel with _$GroupModel {
+  factory GroupModel(
+      {@JsonKey(includeIfNull: false) int? id,
+      @JsonKey(name: "is_remote") required bool isRemote,
+      required String title,
+      @JsonKey(includeToJson: false, name: "created_at")
+      required DateTime createdAt,
+      required String description,
+      @JsonKey(name: "owner_id") required String ownerId,
+      @JsonKey(name: "group_addresses", includeToJson: false)
+      GroupAddressModel? address}) = _GroupModel;
 
-  factory Group.fromJson(Map<String, dynamic> json) {
-    print(json);
-    return Group(
-        id: json['id'],
-        isRemote: json['is_remote'] == "true",
-        createdAt: DateTime.parse(json['created_at']),
-        description: json["description"],
-        location: json["location"]);
-  }
-
-  factory Group.empty() {
-    return Group(
-        id: idForNoGroup,
-        isRemote: false,
-        location: const LatLng(0, 0),
-        createdAt: DateTime.now(),
-        description: "");
-  }
-
-  dynamic toJson() {
-    return {
-      if (id != idForNoGroup) ...{"id": id},
-      "isRemote": isRemote,
-      "description": description,
-      'location': 'POINT(${location.latitude} ${location.longitude})'
-    };
-  }
+  factory GroupModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupModelFromJson(json);
 }

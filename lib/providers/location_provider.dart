@@ -1,7 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'location_provider.g.dart';
 
-final positionProvider = FutureProvider.autoDispose<Position>((ref) async {
+@riverpod
+Future<Position> location(LocationRef ref) async {
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -36,4 +38,4 @@ final positionProvider = FutureProvider.autoDispose<Position>((ref) async {
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
   return await Geolocator.getCurrentPosition();
-});
+}

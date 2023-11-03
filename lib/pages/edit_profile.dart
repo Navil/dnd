@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dnd/adaptive/loading_indicator.dart';
-import 'package:dnd/model/player.dart';
+import 'package:dnd/model/user.dart';
 import 'package:dnd/providers/auth_provider.dart';
-import 'package:dnd/providers/supabase_provider.dart';
-import 'package:dnd/providers/user_profile_provider.dart';
+import 'package:dnd/providers/database_provider.dart';
+import 'package:dnd/providers/storage_provider.dart';
 import 'package:dnd/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +14,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
   const EditProfilePage({super.key});
@@ -28,7 +27,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   String? _photoURL;
   XFile? _newImage;
 
-  Player? _player;
+  UserModel? _user;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -38,21 +37,21 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     if (userId == null) {
       return const AdaptiveLoadingIndicator();
     }
-
-    Player? playerDetails = ref.watch(playerDetailsProvider(userId)).value;
-    if (playerDetails != null && _player == null) {
-      _player = playerDetails;
-      _firstnameController.text = playerDetails.firstname;
+    UserModel? userDetails = ref.watch(userProfileProvider(userId)).value;
+    if (userDetails != null && _user == null) {
+      _user = userDetails;
+      _firstnameController.text = userDetails.firstname;
+      _photoURL = userDetails.pictureUrl;
     }
 
     return WillPopScope(
       onWillPop: () async {
-        return _player != null;
+        return _user != null;
       },
       child: Scaffold(
           appBar: AppBar(
               title: const Text("Edit profile"),
-              automaticallyImplyLeading: _player != null),
+              automaticallyImplyLeading: _user != null),
           body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
@@ -75,32 +74,44 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 48,
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                Player player = _player ?? Player.empty(userId);
-                                player.firstname = _firstnameController.text;
-                                ref.read(supabaseProvider).savePlayer(player);
-                                //Do upload
-                                if (_newImage != null) {
-                                  print(await Supabase.instance.client.storage
-                                      .from("/players")
-                                      .upload(userId, File(_newImage!.path)));
-                                }
-                                if (mounted) {
-                                  GoRouter.of(context).pop();
-                                }
-                              }
-                            },
-                            child: const Text('Submit'),
-                          ),
-                        )
-                      ],
+                    SizedBox(
+                      height: 48,
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            String? newImageUrl;
+                            //Do upload
+                            if (_newImage != null) {
+                              newImageUrl = await ref
+                                  .read(storageServiceProvider)
+                                  .uploadProfilePicture(_newImage!);
+                            }
+
+                            UserModel user = _user != null
+                                ? _user!.copyWith(
+                                    id: userId,
+                                    firstname: _firstnameController.text,
+                                    pictureUrl:
+                                        newImageUrl ?? _user!.pictureUrl
+                                  )
+                                : UserModel(
+                                    id: userId,
+                                    firstname: _firstnameController.text,
+                                    createdAt: DateTime.now(),
+                                    pictureUrl: newImageUrl);
+                         
+                            ref
+                                .read(databaseServiceProvider)
+                                .saveUser(user);
+                           
+                            if (mounted) {
+                              GoRouter.of(context).pop();
+                            }
+                          }
+                        },
+                        child: const Text('Submit'),
+                      ),
                     )
                   ],
                 ),
