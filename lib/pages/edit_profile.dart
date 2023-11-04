@@ -7,6 +7,7 @@ import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/database_provider.dart';
 import 'package:dnd/providers/storage_provider.dart';
 import 'package:dnd/utils/capitalize.dart';
+import 'package:dnd/utils/datetime_utils.dart';
 import 'package:dnd/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -118,22 +119,30 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                                   .read(storageServiceProvider)
                                   .uploadProfilePicture(_newImage!);
                             }
+                            final now = DateTime.timestamp();
+                            final firstname = _firstnameController.text;
+                            final experienceLevel = ExperienceLevel
+                                .values[_experienceLevel.toInt()];
+                            final timezoneOffset =
+                                DateTimeUtils.getTimezoneOffset();
 
                             UserModel user = _user != null
                                 ? _user!.copyWith(
                                     id: userId,
-                                    firstname: _firstnameController.text,
+                                    firstname: firstname,
                                     pictureUrl:
                                         newImageUrl ?? _user!.pictureUrl,
-                                    experienceLevel: ExperienceLevel
-                                        .values[_experienceLevel.toInt()])
+                                    experienceLevel: experienceLevel,
+                                    lastOnline: now,
+                                    timezoneOffset: timezoneOffset)
                                 : UserModel(
                                     id: userId,
-                                    firstname: _firstnameController.text,
-                                    createdAt: DateTime.now(),
+                                    firstname: firstname,
+                                    createdAt: now,
                                     pictureUrl: newImageUrl,
-                                    experienceLevel: ExperienceLevel
-                                        .values[_experienceLevel.toInt()]);
+                                    experienceLevel: experienceLevel,
+                                    lastOnline: now,
+                                    timezoneOffset: timezoneOffset);
 
                             ref.read(databaseServiceProvider).saveUser(user);
 
@@ -207,6 +216,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
       if (error.code == 'photo_access_denied' && mounted) {
         await showOkAlertDialog(
             context: context,
+            title: "Missing Permission",
             message:
                 "You must give this application permission to access your photos.");
       }

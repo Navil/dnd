@@ -33,6 +33,7 @@ class _TabsPageState extends ConsumerState<TabsPage> {
     super.initState();
     _timer = Timer.periodic(const Duration(minutes: 10), (timer) {
       ref.invalidate(getGroupsOfUserProvider);
+      ref.read(databaseServiceProvider).updateLastOnline();
     });
   }
 

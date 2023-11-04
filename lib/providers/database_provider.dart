@@ -47,7 +47,6 @@ Future<List<GroupSearchResult>> nearbyGroups(NearbyGroupsRef ref) async {
     'lat': location.latitude,
     'long': location.longitude,
   }));
-  print(data);
   return data
       .map((group) =>
           GroupSearchResult(

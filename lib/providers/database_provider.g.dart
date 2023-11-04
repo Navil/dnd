@@ -329,7 +329,7 @@ class _GroupDetailsProviderElement
   int get id => (origin as GroupDetailsProvider).id;
 }
 
-String _$nearbyGroupsHash() => r'0d95aa36772b9cbbf87eea9ca184725be469a5f6';
+String _$nearbyGroupsHash() => r'32a90b2eb0d49466a38441b9cd220ffc0bd9dca4';
 
 /// See also [nearbyGroups].
 @ProviderFor(nearbyGroups)

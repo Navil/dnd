@@ -26,6 +26,10 @@ mixin _$UserModel {
   String? get pictureUrl => throw _privateConstructorUsedError;
   @JsonKey(name: "experience_level")
   ExperienceLevel get experienceLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: "last_online")
+  DateTime get lastOnline => throw _privateConstructorUsedError;
+  @JsonKey(name: "timezone_offset")
+  int get timezoneOffset => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt => throw _privateConstructorUsedError;
 
@@ -45,6 +49,8 @@ abstract class $UserModelCopyWith<$Res> {
       String firstname,
       @JsonKey(name: "picture_url") String? pictureUrl,
       @JsonKey(name: "experience_level") ExperienceLevel experienceLevel,
+      @JsonKey(name: "last_online") DateTime lastOnline,
+      @JsonKey(name: "timezone_offset") int timezoneOffset,
       @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt});
 }
 
@@ -65,6 +71,8 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? firstname = null,
     Object? pictureUrl = freezed,
     Object? experienceLevel = null,
+    Object? lastOnline = null,
+    Object? timezoneOffset = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -84,6 +92,14 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.experienceLevel
           : experienceLevel // ignore: cast_nullable_to_non_nullable
               as ExperienceLevel,
+      lastOnline: null == lastOnline
+          ? _value.lastOnline
+          : lastOnline // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      timezoneOffset: null == timezoneOffset
+          ? _value.timezoneOffset
+          : timezoneOffset // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -105,6 +121,8 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String firstname,
       @JsonKey(name: "picture_url") String? pictureUrl,
       @JsonKey(name: "experience_level") ExperienceLevel experienceLevel,
+      @JsonKey(name: "last_online") DateTime lastOnline,
+      @JsonKey(name: "timezone_offset") int timezoneOffset,
       @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt});
 }
 
@@ -123,6 +141,8 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? firstname = null,
     Object? pictureUrl = freezed,
     Object? experienceLevel = null,
+    Object? lastOnline = null,
+    Object? timezoneOffset = null,
     Object? createdAt = null,
   }) {
     return _then(_$UserModelImpl(
@@ -142,6 +162,14 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.experienceLevel
           : experienceLevel // ignore: cast_nullable_to_non_nullable
               as ExperienceLevel,
+      lastOnline: null == lastOnline
+          ? _value.lastOnline
+          : lastOnline // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      timezoneOffset: null == timezoneOffset
+          ? _value.timezoneOffset
+          : timezoneOffset // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -158,6 +186,8 @@ class _$UserModelImpl implements _UserModel {
       required this.firstname,
       @JsonKey(name: "picture_url") this.pictureUrl,
       @JsonKey(name: "experience_level") required this.experienceLevel,
+      @JsonKey(name: "last_online") required this.lastOnline,
+      @JsonKey(name: "timezone_offset") required this.timezoneOffset,
       @JsonKey(includeToJson: false, name: "created_at")
       required this.createdAt});
 
@@ -175,12 +205,18 @@ class _$UserModelImpl implements _UserModel {
   @JsonKey(name: "experience_level")
   final ExperienceLevel experienceLevel;
   @override
+  @JsonKey(name: "last_online")
+  final DateTime lastOnline;
+  @override
+  @JsonKey(name: "timezone_offset")
+  final int timezoneOffset;
+  @override
   @JsonKey(includeToJson: false, name: "created_at")
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, firstname: $firstname, pictureUrl: $pictureUrl, experienceLevel: $experienceLevel, createdAt: $createdAt)';
+    return 'UserModel(id: $id, firstname: $firstname, pictureUrl: $pictureUrl, experienceLevel: $experienceLevel, lastOnline: $lastOnline, timezoneOffset: $timezoneOffset, createdAt: $createdAt)';
   }
 
   @override
@@ -195,14 +231,18 @@ class _$UserModelImpl implements _UserModel {
                 other.pictureUrl == pictureUrl) &&
             (identical(other.experienceLevel, experienceLevel) ||
                 other.experienceLevel == experienceLevel) &&
+            (identical(other.lastOnline, lastOnline) ||
+                other.lastOnline == lastOnline) &&
+            (identical(other.timezoneOffset, timezoneOffset) ||
+                other.timezoneOffset == timezoneOffset) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, firstname, pictureUrl, experienceLevel, createdAt);
+  int get hashCode => Object.hash(runtimeType, id, firstname, pictureUrl,
+      experienceLevel, lastOnline, timezoneOffset, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -225,6 +265,8 @@ abstract class _UserModel implements UserModel {
       @JsonKey(name: "picture_url") final String? pictureUrl,
       @JsonKey(name: "experience_level")
       required final ExperienceLevel experienceLevel,
+      @JsonKey(name: "last_online") required final DateTime lastOnline,
+      @JsonKey(name: "timezone_offset") required final int timezoneOffset,
       @JsonKey(includeToJson: false, name: "created_at")
       required final DateTime createdAt}) = _$UserModelImpl;
 
@@ -241,6 +283,12 @@ abstract class _UserModel implements UserModel {
   @override
   @JsonKey(name: "experience_level")
   ExperienceLevel get experienceLevel;
+  @override
+  @JsonKey(name: "last_online")
+  DateTime get lastOnline;
+  @override
+  @JsonKey(name: "timezone_offset")
+  int get timezoneOffset;
   @override
   @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt;

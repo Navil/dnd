@@ -1,6 +1,7 @@
 import 'package:dnd/model/group.dart';
 import 'package:dnd/model/user.dart';
 import 'package:dnd/providers/database_provider.dart';
+import 'package:dnd/utils/datetime_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -18,8 +19,24 @@ class DatabaseService {
   DatabaseService(this.ref, this.uid);
 
   Future<void> saveUser(UserModel user) async {
-    await userDatabase.upsert(user.toJson());
+    await userDatabase.upsert(user);
     ref.invalidate(userProfileProvider(uid));
+  }
+
+  Future<void> removeMembersFromGroup(List<String> members, int groupId) async {
+    await memberDatabase
+        .delete()
+        .eq("group_id", groupId)
+        .in_("user_id", members);
+  }
+
+  updateLastOnline() async {
+    UserModel? userModel = await ref.read(userProfileProvider(uid).future);
+    if (userModel != null) {
+      DateTime now = DateTime.timestamp();
+      await saveUser(userModel.copyWith(
+          lastOnline: now, timezoneOffset: DateTimeUtils.getTimezoneOffset()));
+    }
   }
 
   Future<UserModel?> loadUser(String uid) async {
@@ -38,7 +55,7 @@ class DatabaseService {
 
   Future<GroupModel?> loadGroup(int id) async {
     final response = await groupDatabase
-        .select("*, group_addresses(*)")
+        .select("*, group_addresses(*),members(*,users(*))")
         .eq('id', id)
         .single();
     if (response == null) {

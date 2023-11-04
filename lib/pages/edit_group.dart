@@ -1,9 +1,11 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/group.dart';
 import 'package:dnd/model/group_address.dart';
 import 'package:dnd/providers/address_completer_provider.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/database_provider.dart';
+import 'package:dnd/widgets/deletable_group_member.dart';
 import 'package:dnd/widgets/group_marker_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,8 +34,11 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
 
   bool _submitPressed = false;
 
+  List<String> _markedUsersForDeletion = [];
+
   @override
   Widget build(BuildContext context) {
+   
     if (widget.id != null) {
       final groupDetailsListener = ref.watch(groupDetailsProvider(widget.id!));
 
@@ -134,7 +139,19 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                     ]
                   ],
                 ),
-                const Text("Members"),
+                if (_group?.members?.isNotEmpty == true)
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: _group!.members!.map((member) {
+                        return DeletableGroupMember(
+                            userId: member.userId,
+                            pictureUrl: member.user?.pictureUrl,
+                            onTap: () => _markMemberDeleted(member.userId));
+                      }).toList(),
+                    ),
+                  ),
+                 
                 SizedBox(
                   height: 48,
                   width: MediaQuery.of(context).size.width / 2,
@@ -146,8 +163,25 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
 
                       if (_formKey.currentState!.validate() &&
                           _isLocationProvided()) {
-                        GroupAddressModel? address;
+                        final databaseService =
+                            ref.read(databaseServiceProvider);
+                        final numberDelete = _markedUsersForDeletion.length;
+                        if (numberDelete > 0) {
+                          final dialogResult = await showOkCancelAlertDialog(
+                              context: context,
+                              okLabel: "Yes",
+                              message:
+                                  "You are about to remove ${numberDelete > 1 ? ("$numberDelete members") : "a member"} from this group. Are you sure you want to proceed?");
 
+                          if (dialogResult == OkCancelResult.cancel) {
+                            return;
+                          }
+
+                          await databaseService.removeMembersFromGroup(
+                              _markedUsersForDeletion, _group!.id!);
+                        }
+                       
+                        GroupAddressModel? address;
                         if (_selectedAddress != null && _location != null) {
                           address = GroupAddressModel(
                               address: _selectedAddress!, location: _location!);
@@ -163,7 +197,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                                 title: _titleController.text,
                                 isRemote: _isRemote,
                                 ownerId: ref.read(loggedInUserProvider).id,
-                                createdAt: DateTime.now(),
+                                createdAt: DateTime.timestamp(),
                                 address: address);
 
                         ref.read(databaseServiceProvider).saveGroup(group);
@@ -182,6 +216,14 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
     );
   }
 
+  _markMemberDeleted(String userId) {
+    setState(() {
+      if (!_markedUsersForDeletion.remove(userId)) {
+        _markedUsersForDeletion.add(userId);
+      }
+    });
+  }
+
   _isLocationProvided() {
     return (_isRemote || (_selectedAddress != null && _location != null));
   }
@@ -195,4 +237,5 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
     _submitPressed = false;
     setState(() {});
   }
+
 }

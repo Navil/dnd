@@ -13,6 +13,8 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       pictureUrl: json['picture_url'] as String?,
       experienceLevel:
           $enumDecode(_$ExperienceLevelEnumMap, json['experience_level']),
+      lastOnline: DateTime.parse(json['last_online'] as String),
+      timezoneOffset: json['timezone_offset'] as int,
       createdAt: DateTime.parse(json['created_at'] as String),
     );
 
@@ -22,6 +24,8 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'firstname': instance.firstname,
       'picture_url': instance.pictureUrl,
       'experience_level': _$ExperienceLevelEnumMap[instance.experienceLevel]!,
+      'last_online': instance.lastOnline.toIso8601String(),
+      'timezone_offset': instance.timezoneOffset,
     };
 
 const _$ExperienceLevelEnumMap = {
