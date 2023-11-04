@@ -6,6 +6,7 @@ import 'package:dnd/model/user.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/database_provider.dart';
 import 'package:dnd/providers/storage_provider.dart';
+import 'package:dnd/utils/capitalize.dart';
 import 'package:dnd/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +27,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   final TextEditingController _firstnameController = TextEditingController();
   String? _photoURL;
   XFile? _newImage;
+  double _experienceLevel = 0;
 
   UserModel? _user;
 
@@ -42,6 +44,9 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
       _user = userDetails;
       _firstnameController.text = userDetails.firstname;
       _photoURL = userDetails.pictureUrl;
+      _experienceLevel = ExperienceLevel.values
+          .indexOf(userDetails.experienceLevel)
+          .toDouble();
     }
 
     return WillPopScope(
@@ -74,6 +79,32 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                         border: OutlineInputBorder(),
                       ),
                     ),
+                    Column(
+                      children: [
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "What is your experience?",
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        Slider.adaptive(
+                            value: _experienceLevel,
+                            label: ExperienceLevel
+                                .values[_experienceLevel.toInt()].name
+                                .capitalize(),
+                            divisions: ExperienceLevel.values.length - 1,
+                            max: ExperienceLevel.values.length.toDouble() - 1,
+                            onChanged: (double value) {
+                              setState(() {
+                                _experienceLevel = value;
+                              });
+                            }),
+                        Text(ExperienceLevel
+                            .values[_experienceLevel.toInt()].name
+                            .capitalize())
+                      ],
+                    ),
                     SizedBox(
                       height: 48,
                       width: MediaQuery.of(context).size.width / 2,
@@ -93,18 +124,19 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                                     id: userId,
                                     firstname: _firstnameController.text,
                                     pictureUrl:
-                                        newImageUrl ?? _user!.pictureUrl
-                                  )
+                                        newImageUrl ?? _user!.pictureUrl,
+                                    experienceLevel: ExperienceLevel
+                                        .values[_experienceLevel.toInt()])
                                 : UserModel(
                                     id: userId,
                                     firstname: _firstnameController.text,
                                     createdAt: DateTime.now(),
-                                    pictureUrl: newImageUrl);
-                         
-                            ref
-                                .read(databaseServiceProvider)
-                                .saveUser(user);
-                           
+                                    pictureUrl: newImageUrl,
+                                    experienceLevel: ExperienceLevel
+                                        .values[_experienceLevel.toInt()]);
+
+                            ref.read(databaseServiceProvider).saveUser(user);
+
                             if (mounted) {
                               GoRouter.of(context).pop();
                             }

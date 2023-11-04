@@ -24,7 +24,8 @@ class DatabaseService {
 
   Future<UserModel?> loadUser(String uid) async {
     try {
-      final response = await userDatabase.select().eq('id', uid).single();
+      final response = await userDatabase.select().eq('id', uid).maybeSingle();
+      print(response);
       if (response == null) {
         return null;
       }
@@ -74,7 +75,6 @@ class DatabaseService {
   }
 
   Future<List<GroupModel>> getGroupsOfUser() async {
-
     final memberResponse = await memberDatabase
         .select<List<Map<String, dynamic>>>('groups(*, members(*, users(*)))')
         .eq('user_id', uid);

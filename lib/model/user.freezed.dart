@@ -24,6 +24,8 @@ mixin _$UserModel {
   String get firstname => throw _privateConstructorUsedError;
   @JsonKey(name: "picture_url")
   String? get pictureUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: "experience_level")
+  ExperienceLevel get experienceLevel => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt => throw _privateConstructorUsedError;
 
@@ -42,6 +44,7 @@ abstract class $UserModelCopyWith<$Res> {
       {String id,
       String firstname,
       @JsonKey(name: "picture_url") String? pictureUrl,
+      @JsonKey(name: "experience_level") ExperienceLevel experienceLevel,
       @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt});
 }
 
@@ -61,6 +64,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? id = null,
     Object? firstname = null,
     Object? pictureUrl = freezed,
+    Object? experienceLevel = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -76,6 +80,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.pictureUrl
           : pictureUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      experienceLevel: null == experienceLevel
+          ? _value.experienceLevel
+          : experienceLevel // ignore: cast_nullable_to_non_nullable
+              as ExperienceLevel,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -96,6 +104,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       {String id,
       String firstname,
       @JsonKey(name: "picture_url") String? pictureUrl,
+      @JsonKey(name: "experience_level") ExperienceLevel experienceLevel,
       @JsonKey(includeToJson: false, name: "created_at") DateTime createdAt});
 }
 
@@ -113,6 +122,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? firstname = null,
     Object? pictureUrl = freezed,
+    Object? experienceLevel = null,
     Object? createdAt = null,
   }) {
     return _then(_$UserModelImpl(
@@ -128,6 +138,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.pictureUrl
           : pictureUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      experienceLevel: null == experienceLevel
+          ? _value.experienceLevel
+          : experienceLevel // ignore: cast_nullable_to_non_nullable
+              as ExperienceLevel,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -143,6 +157,7 @@ class _$UserModelImpl implements _UserModel {
       {required this.id,
       required this.firstname,
       @JsonKey(name: "picture_url") this.pictureUrl,
+      @JsonKey(name: "experience_level") required this.experienceLevel,
       @JsonKey(includeToJson: false, name: "created_at")
       required this.createdAt});
 
@@ -157,12 +172,15 @@ class _$UserModelImpl implements _UserModel {
   @JsonKey(name: "picture_url")
   final String? pictureUrl;
   @override
+  @JsonKey(name: "experience_level")
+  final ExperienceLevel experienceLevel;
+  @override
   @JsonKey(includeToJson: false, name: "created_at")
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, firstname: $firstname, pictureUrl: $pictureUrl, createdAt: $createdAt)';
+    return 'UserModel(id: $id, firstname: $firstname, pictureUrl: $pictureUrl, experienceLevel: $experienceLevel, createdAt: $createdAt)';
   }
 
   @override
@@ -175,14 +193,16 @@ class _$UserModelImpl implements _UserModel {
                 other.firstname == firstname) &&
             (identical(other.pictureUrl, pictureUrl) ||
                 other.pictureUrl == pictureUrl) &&
+            (identical(other.experienceLevel, experienceLevel) ||
+                other.experienceLevel == experienceLevel) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, firstname, pictureUrl, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, id, firstname, pictureUrl, experienceLevel, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -203,6 +223,8 @@ abstract class _UserModel implements UserModel {
       {required final String id,
       required final String firstname,
       @JsonKey(name: "picture_url") final String? pictureUrl,
+      @JsonKey(name: "experience_level")
+      required final ExperienceLevel experienceLevel,
       @JsonKey(includeToJson: false, name: "created_at")
       required final DateTime createdAt}) = _$UserModelImpl;
 
@@ -216,6 +238,9 @@ abstract class _UserModel implements UserModel {
   @override
   @JsonKey(name: "picture_url")
   String? get pictureUrl;
+  @override
+  @JsonKey(name: "experience_level")
+  ExperienceLevel get experienceLevel;
   @override
   @JsonKey(includeToJson: false, name: "created_at")
   DateTime get createdAt;

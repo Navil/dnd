@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'user.freezed.dart';
 part 'user.g.dart';
 
@@ -8,9 +9,18 @@ class UserModel with _$UserModel {
       {required String id,
       required String firstname,
       @JsonKey(name: "picture_url") String? pictureUrl,
+      @JsonKey(name: "experience_level")
+      required ExperienceLevel experienceLevel,
       @JsonKey(includeToJson: false, name: "created_at")
       required DateTime createdAt}) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 }
+
+ExperienceLevel experienceLevelFromJson(dynamic jsonValue) {
+  return ExperienceLevel.values
+      .firstWhere((element) => element.name == jsonValue);
+}
+
+enum ExperienceLevel { beginner, intermediate, experienced, veteran }
