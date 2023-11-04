@@ -54,6 +54,7 @@ dependencies:
   freezed_annotation:
   url_launcher:
   google_maps_flutter:
+  maps_launcher:
 
 dev_dependencies:
   flutter_test:

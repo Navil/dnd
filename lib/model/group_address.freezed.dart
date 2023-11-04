@@ -58,7 +58,7 @@ class _$GroupAddressModelCopyWithImpl<$Res, $Val extends GroupAddressModel>
   @override
   $Res call({
     Object? id = freezed,
-    Object? location = null,
+    Object? location = freezed,
     Object? address = null,
   }) {
     return _then(_value.copyWith(
@@ -66,7 +66,7 @@ class _$GroupAddressModelCopyWithImpl<$Res, $Val extends GroupAddressModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      location: null == location
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as LatLng,
@@ -105,7 +105,7 @@ class __$$GroupAddressModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? location = null,
+    Object? location = freezed,
     Object? address = null,
   }) {
     return _then(_$GroupAddressModelImpl(
@@ -113,7 +113,7 @@ class __$$GroupAddressModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      location: null == location
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as LatLng,
@@ -156,14 +156,14 @@ class _$GroupAddressModelImpl implements _GroupAddressModel {
         (other.runtimeType == runtimeType &&
             other is _$GroupAddressModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.location, location) ||
-                other.location == location) &&
+            const DeepCollectionEquality().equals(other.location, location) &&
             (identical(other.address, address) || other.address == address));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, location, address);
+  int get hashCode => Object.hash(
+      runtimeType, id, const DeepCollectionEquality().hash(location), address);
 
   @JsonKey(ignore: true)
   @override

@@ -16,7 +16,8 @@ class StorageService {
     const filename = "profile-picture.jpg";
 
     final url = "$uid/$filename";
-    await userStorage.upload(url, File(image.path),
+    dynamic file = File(image.path);
+    await userStorage.upload(url, file,
         fileOptions: const FileOptions(upsert: true));
     return userStorage.getPublicUrl(url);
   }

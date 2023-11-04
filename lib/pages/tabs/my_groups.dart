@@ -67,8 +67,14 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: group.members!
-                                              .map((user) => UserAvatar(
-                                                  url: user.pictureUrl))
+                                              .map((member) => Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 8.0),
+                                                    child: UserAvatar(
+                                                        url: member
+                                                            .user?.pictureUrl),
+                                                  ))
                                               .toList(),
                                         ),
                                       ),

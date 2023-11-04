@@ -123,6 +123,16 @@ class AuthService {
     );
   }
 
+  loginTestuser1() async {
+    await supabase.auth
+        .signInWithPassword(email: "test1@test.com", password: "test1");
+  }
+
+  loginTestuser2() async {
+    await supabase.auth
+        .signInWithPassword(email: "test2@test.com", password: "test2");
+  }
+
   logout() async {
     await supabase.auth.signOut();
   }

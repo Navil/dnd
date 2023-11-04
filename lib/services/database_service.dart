@@ -24,11 +24,16 @@ class DatabaseService {
   }
 
   Future<UserModel?> loadUser(String uid) async {
-    final response = await userDatabase.select().eq('id', uid).single();
-    if (response == null) {
+    try {
+      final response = await userDatabase.select().eq('id', uid).single();
+      if (response == null) {
+        return null;
+      }
+      return UserModel.fromJson(response);
+    } catch (error) {
+      print(error);
       return null;
     }
-    return UserModel.fromJson(response);
   }
 
   Future<GroupModel?> loadGroup(int id) async {
@@ -70,19 +75,13 @@ class DatabaseService {
   }
 
   Future<List<GroupModel>> getGroupsOfUser() async {
+
     final memberResponse = await memberDatabase
-        .select<List<Map<String, dynamic>>>('group_id')
+        .select<List<Map<String, dynamic>>>('groups(*, members(*, users(*)))')
         .eq('user_id', uid);
 
-    final groupResponse = await groupDatabase
-        .select<List<Map<String, dynamic>>>("*, members(*, users(*))")
-        .in_("id", memberResponse.map((member) => member["group_id"]).toList());
-    //print(groupResponse);
-    return groupResponse.map((group) {
-      return GroupModel.fromJson({
-        ...group,
-        "members": group["members"].map((member) => member["users"]).toList()
-      });
+    return memberResponse.map((group) {
+      return GroupModel.fromJson(group["groups"]);
     }).toList();
   }
 }

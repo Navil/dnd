@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GroupMarkerMap extends StatelessWidget {
@@ -25,25 +26,20 @@ class GroupMarkerMap extends StatelessWidget {
       },
       markers: {
         Marker(
+            infoWindow: InfoWindow(
+                title: "Open Maps",
+                onTap: navigate,
+                snippet: "Click to Navigate"),
             markerId: MarkerId(location.toString()),
-            position: location,
-            onTap: navigate)
+            position: location)
       },
     );
   }
 
-  void navigate() async {
+  Future<bool> navigate() async {
     double lat = location.latitude;
     double lng = location.longitude;
 
-    String googleUrl = 'comgooglemaps://?center=$lat,$lng';
-    String appleUrl = 'https://maps.apple.com/?sll=$lat,$lng';
-    if (await canLaunchUrl(Uri.parse("comgooglemaps://"))) {
-      await launchUrl(Uri.parse(googleUrl));
-    } else if (await canLaunchUrl(Uri.parse(appleUrl))) {
-      await launchUrl(Uri.parse(appleUrl));
-    } else {
-      throw 'Could not launch url';
-    }
+    return await MapsLauncher.launchCoordinates(lat, lng);
   }
 }

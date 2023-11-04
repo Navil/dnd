@@ -1,4 +1,5 @@
 import 'package:dnd/model/group_address.dart';
+import 'package:dnd/model/member.dart';
 import 'package:dnd/model/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -21,7 +22,7 @@ class GroupModel with _$GroupModel {
       @JsonKey(name: "owner_id") required String ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false)
       GroupAddressModel? address,
-      @JsonKey(includeToJson: false) List<UserModel>? members}) = _GroupModel;
+      @JsonKey(includeToJson: false) List<MemberModel>? members}) = _GroupModel;
 
   factory GroupModel.fromJson(Map<String, dynamic> json) =>
       _$GroupModelFromJson(json);
