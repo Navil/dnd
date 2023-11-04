@@ -2,6 +2,7 @@ import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/providers/database_provider.dart';
 import 'package:dnd/providers/location_provider.dart';
 import 'package:dnd/widgets/group_distance.dart';
+import 'package:dnd/widgets/member_count.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,13 +26,34 @@ class _FindGroupTabState extends ConsumerState<FindGroupTab>
           children: [
             if (nearbyGroups.value.isNotEmpty == true)
               ListView.builder(
-                itemBuilder: (context, index) => ListTile(
-                  title: Text(nearbyGroups.value[index].group.title),
-                  trailing: GroupDistance(
-                      (nearbyGroups.value[index].distanceInMeters)),
-                ),
+                itemBuilder: (context, index) {
+                  final result = nearbyGroups.value[index];
+                  return ListTile(
+                    title: Text(result.group.title),
+                    subtitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MemberCount(
+                            number: result.numMembers,
+                            memberType: MemberType.member),
+                        Row(
+                          children: [
+                            MemberCount(
+                                number: result.numDungeonMasters,
+                                memberType: MemberType.dm),
+                            MemberCount(
+                                number: result.numPlayers,
+                                memberType: MemberType.player),
+                          ],
+                        ),
+                      ],
+                    ),
+                    trailing: GroupDistance((result.distanceInMeters)),
+                  );
+                },
                 itemCount: nearbyGroups.value.length,
               ),
+
             Positioned(
               right: 20,
               bottom: 20,

@@ -21,6 +21,6 @@ class GroupDistance extends ConsumerWidget {
       unit = "mi";
     }
 
-    return Text("< ${distance.ceil()} $unit");
+    return SizedBox(width: 50, child: Text("< ${distance.ceil()} $unit"));
   }
 }

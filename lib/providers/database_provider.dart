@@ -47,17 +47,27 @@ Future<List<GroupSearchResult>> nearbyGroups(NearbyGroupsRef ref) async {
     'lat': location.latitude,
     'long': location.longitude,
   }));
+  print(data);
   return data
       .map((group) =>
-          GroupSearchResult(GroupModel.fromJson(group), group["dist_meters"]))
+          GroupSearchResult(
+          GroupModel.fromJson(group),
+          group["dist_meters"],
+          group["num_members"],
+          group["num_dms"],
+          group["num_members"] - group["num_dms"]))
       .toList();
 }
 
 class GroupSearchResult {
   GroupModel group;
   num distanceInMeters;
+  int numMembers;
+  int numDungeonMasters;
+  int numPlayers;
 
-  GroupSearchResult(this.group, this.distanceInMeters);
+  GroupSearchResult(this.group, this.distanceInMeters, this.numMembers,
+      this.numDungeonMasters, this.numPlayers);
 }
 
 /*
