@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:dnd/environment.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -36,7 +36,20 @@ class AuthService {
   Future<void> loginGoogle() async {
     debugPrint('Loging in Google');
 
-    final clientId = Environment.googleOAuthClient;
+    final String clientId;
+
+    if (Platform.isAndroid) {
+      clientId = Environment.googleOAuthClientAndroid;
+    } else if (Platform.isIOS) {
+      clientId = Environment.googleOAuthClientIos;
+    } else if (kIsWeb) {
+      clientId = Environment.googleOAuthClientWeb;
+    } else {
+      throw "Platform not configured for Google Sign In.";
+    }
+    Platform.isAndroid
+        ? Environment.googleOAuthClientAndroid
+        : Environment.googleOAuthClientIos;
     late final String? idToken;
     late final String? accessToken;
     String? rawNonce;
