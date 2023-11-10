@@ -7,10 +7,11 @@ class AppTheme {
   static const int themeLight = 1;
   static const int themeDark = 2;
 
-  static const primaryColor = Color.fromARGB(255, 146, 23, 23);
+  static const primaryColor = Color.fromARGB(255, 152, 2, 2);
   static final secondaryColor = primaryColor.withOpacity(0.7);
+  static final backgroundColor = Colors.black38;
 
-  //Change Font Family Default
+  //Change Font Family DefaultR
   static const String fontPath = "Poppins";
   static const fontFamily = GoogleFonts.getFont;
 
@@ -126,6 +127,7 @@ class AppTheme {
       textStyle: lightTextTheme.bodySmall,
       padding: const EdgeInsets.symmetric(horizontal: 6),
     ),
+    chipTheme: ChipThemeData(selectedColor: primaryColor),
     tooltipTheme: const TooltipThemeData(
       margin: EdgeInsets.all(16),
       showDuration: Duration(seconds: 5),
@@ -172,7 +174,7 @@ class AppTheme {
     brightness: Brightness.light,
     primaryColor: primaryColor,
     canvasColor: const Color(0xfff2f3f7),
-    scaffoldBackgroundColor: const Color(0xffffffff),
+    scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
       systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarBrightness: Brightness.light,

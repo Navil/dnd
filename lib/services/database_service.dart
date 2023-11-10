@@ -1,4 +1,6 @@
+import 'package:dnd/model/chat.dart';
 import 'package:dnd/model/group.dart';
+import 'package:dnd/model/message.dart';
 import 'package:dnd/model/user.dart';
 import 'package:dnd/providers/database_provider.dart';
 import 'package:dnd/utils/datetime_utils.dart';
@@ -11,10 +13,11 @@ class DatabaseService {
   final userDatabase = Supabase.instance.client.from("users");
   final groupDatabase = Supabase.instance.client.from("groups");
   final memberDatabase = Supabase.instance.client.from("members");
+  final chatDatabase = Supabase.instance.client.from("chats");
+  final messagesDatabase = Supabase.instance.client.from("messages");
+
   final groupAddressesDatabase =
       Supabase.instance.client.from("group_addresses");
-
-  final membershipListener = Supabase.instance.client.channel('memberships');
 
   DatabaseService(this.ref, this.uid);
 
@@ -42,7 +45,7 @@ class DatabaseService {
   Future<UserModel?> loadUser(String uid) async {
     try {
       final response = await userDatabase.select().eq('id', uid).maybeSingle();
-      print(response);
+    
       if (response == null) {
         return null;
       }
@@ -91,6 +94,10 @@ class DatabaseService {
     await groupDatabase.upsert(group.toJson());
   }
 
+  Future<void> createChat(int groupId) async {
+    await chatDatabase.insert({"group_id": groupId, "user_id": uid});
+  }
+
   Future<List<GroupModel>> getGroupsOfUser() async {
     final memberResponse = await memberDatabase
         .select<List<Map<String, dynamic>>>('groups(*, members(*, users(*)))')
@@ -99,5 +106,47 @@ class DatabaseService {
     return memberResponse.map((group) {
       return GroupModel.fromJson(group["groups"]);
     }).toList();
+  }
+
+  Future<List<ChatModel>> getChatRequestsOfUser() async {
+    final chatResponse = await chatDatabase
+        .select<List<Map<String, dynamic>>>('*,groups(*)')
+        .eq('user_id', uid);
+
+    List<ChatModel> chats =
+        chatResponse.map((chat) => ChatModel.fromJson(chat)).toList();
+
+    for (var i = 0; i < chats.length; i++) {
+      final newestMessage = await messagesDatabase
+          .select<List<Map<String, dynamic>>>('*, users(*)')
+          .eq('chat_id', chats[i].id)
+          .order('created_at', ascending: false)
+          .limit(1);
+      print(newestMessage);
+      if (newestMessage.isNotEmpty) {
+        chats[i] = chats[i]
+            .copyWith(messages: [MessageModel.fromJson(newestMessage[0])]);
+      }
+    }
+    return chats;
+  }
+
+  Future<List<MessageModel>> getMessagesForChat(int chatId) async {
+    final messagesResponse = await messagesDatabase
+        .select<List<Map<String, dynamic>>>("*, users(*)")
+        .eq("chat_id", chatId)
+        .order("created_at", ascending: false)
+        .limit(50);
+
+    return messagesResponse
+        .map((message) => MessageModel.fromJson(message))
+        .toList();
+  }
+
+  Future<MessageModel> getMessageById(int messageId) async {
+    return MessageModel.fromJson(await messagesDatabase
+        .select("*, users(*)")
+        .eq("id", messageId)
+        .single());
   }
 }

@@ -20,10 +20,4 @@ class UserModel with _$UserModel {
       _$UserModelFromJson(json);
 }
 
-
-ExperienceLevel experienceLevelFromJson(dynamic jsonValue) {
-  return ExperienceLevel.values
-      .firstWhere((element) => element.name == jsonValue);
-}
-
 enum ExperienceLevel { beginner, intermediate, experienced, veteran }

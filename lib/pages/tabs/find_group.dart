@@ -49,6 +49,13 @@ class _FindGroupTabState extends ConsumerState<FindGroupTab>
                       ],
                     ),
                     trailing: GroupDistance((result.distanceInMeters)),
+                    leading: IconButton(
+                        onPressed: () => {
+                              ref
+                                  .read(databaseServiceProvider)
+                                  .createChat(result.group.id!)
+                            },
+                        icon: FaIcon(FontAwesomeIcons.message)),
                   );
                 },
                 itemCount: nearbyGroups.value.length,

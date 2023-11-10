@@ -18,6 +18,9 @@ _$GroupModelImpl _$$GroupModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : GroupAddressModel.fromJson(
               json['group_addresses'] as Map<String, dynamic>),
+      chat: json['chat'] == null
+          ? null
+          : ChatModel.fromJson(json['chat'] as Map<String, dynamic>),
       members: (json['members'] as List<dynamic>?)
           ?.map((e) => MemberModel.fromJson(e as Map<String, dynamic>))
           .toList(),

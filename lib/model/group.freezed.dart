@@ -33,6 +33,8 @@ mixin _$GroupModel {
   @JsonKey(name: "group_addresses", includeToJson: false)
   GroupAddressModel? get address => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false)
+  ChatModel? get chat => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   List<MemberModel>? get members => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,9 +58,11 @@ abstract class $GroupModelCopyWith<$Res> {
       @JsonKey(name: "owner_id") String ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false)
       GroupAddressModel? address,
+      @JsonKey(includeToJson: false) ChatModel? chat,
       @JsonKey(includeToJson: false) List<MemberModel>? members});
 
   $GroupAddressModelCopyWith<$Res>? get address;
+  $ChatModelCopyWith<$Res>? get chat;
 }
 
 /// @nodoc
@@ -81,6 +85,7 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
     Object? description = null,
     Object? ownerId = null,
     Object? address = freezed,
+    Object? chat = freezed,
     Object? members = freezed,
   }) {
     return _then(_value.copyWith(
@@ -112,6 +117,10 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as GroupAddressModel?,
+      chat: freezed == chat
+          ? _value.chat
+          : chat // ignore: cast_nullable_to_non_nullable
+              as ChatModel?,
       members: freezed == members
           ? _value.members
           : members // ignore: cast_nullable_to_non_nullable
@@ -128,6 +137,18 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
 
     return $GroupAddressModelCopyWith<$Res>(_value.address!, (value) {
       return _then(_value.copyWith(address: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatModelCopyWith<$Res>? get chat {
+    if (_value.chat == null) {
+      return null;
+    }
+
+    return $ChatModelCopyWith<$Res>(_value.chat!, (value) {
+      return _then(_value.copyWith(chat: value) as $Val);
     });
   }
 }
@@ -149,10 +170,13 @@ abstract class _$$GroupModelImplCopyWith<$Res>
       @JsonKey(name: "owner_id") String ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false)
       GroupAddressModel? address,
+      @JsonKey(includeToJson: false) ChatModel? chat,
       @JsonKey(includeToJson: false) List<MemberModel>? members});
 
   @override
   $GroupAddressModelCopyWith<$Res>? get address;
+  @override
+  $ChatModelCopyWith<$Res>? get chat;
 }
 
 /// @nodoc
@@ -173,6 +197,7 @@ class __$$GroupModelImplCopyWithImpl<$Res>
     Object? description = null,
     Object? ownerId = null,
     Object? address = freezed,
+    Object? chat = freezed,
     Object? members = freezed,
   }) {
     return _then(_$GroupModelImpl(
@@ -204,6 +229,10 @@ class __$$GroupModelImplCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as GroupAddressModel?,
+      chat: freezed == chat
+          ? _value.chat
+          : chat // ignore: cast_nullable_to_non_nullable
+              as ChatModel?,
       members: freezed == members
           ? _value._members
           : members // ignore: cast_nullable_to_non_nullable
@@ -224,6 +253,7 @@ class _$GroupModelImpl implements _GroupModel {
       required this.description,
       @JsonKey(name: "owner_id") required this.ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false) this.address,
+      @JsonKey(includeToJson: false) this.chat,
       @JsonKey(includeToJson: false) final List<MemberModel>? members})
       : _members = members;
 
@@ -249,6 +279,9 @@ class _$GroupModelImpl implements _GroupModel {
   @override
   @JsonKey(name: "group_addresses", includeToJson: false)
   final GroupAddressModel? address;
+  @override
+  @JsonKey(includeToJson: false)
+  final ChatModel? chat;
   final List<MemberModel>? _members;
   @override
   @JsonKey(includeToJson: false)
@@ -262,7 +295,7 @@ class _$GroupModelImpl implements _GroupModel {
 
   @override
   String toString() {
-    return 'GroupModel(id: $id, isRemote: $isRemote, title: $title, createdAt: $createdAt, description: $description, ownerId: $ownerId, address: $address, members: $members)';
+    return 'GroupModel(id: $id, isRemote: $isRemote, title: $title, createdAt: $createdAt, description: $description, ownerId: $ownerId, address: $address, chat: $chat, members: $members)';
   }
 
   @override
@@ -280,6 +313,7 @@ class _$GroupModelImpl implements _GroupModel {
                 other.description == description) &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.chat, chat) || other.chat == chat) &&
             const DeepCollectionEquality().equals(other._members, _members));
   }
 
@@ -294,6 +328,7 @@ class _$GroupModelImpl implements _GroupModel {
       description,
       ownerId,
       address,
+      chat,
       const DeepCollectionEquality().hash(_members));
 
   @JsonKey(ignore: true)
@@ -321,6 +356,7 @@ abstract class _GroupModel implements GroupModel {
           @JsonKey(name: "owner_id") required final String ownerId,
           @JsonKey(name: "group_addresses", includeToJson: false)
           final GroupAddressModel? address,
+          @JsonKey(includeToJson: false) final ChatModel? chat,
           @JsonKey(includeToJson: false) final List<MemberModel>? members}) =
       _$GroupModelImpl;
 
@@ -346,6 +382,9 @@ abstract class _GroupModel implements GroupModel {
   @override
   @JsonKey(name: "group_addresses", includeToJson: false)
   GroupAddressModel? get address;
+  @override
+  @JsonKey(includeToJson: false)
+  ChatModel? get chat;
   @override
   @JsonKey(includeToJson: false)
   List<MemberModel>? get members;

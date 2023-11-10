@@ -34,7 +34,9 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
 
   bool _submitPressed = false;
 
-  List<String> _markedUsersForDeletion = [];
+  final List<String> _markedUsersForDeletion = [];
+
+  Map<int, TimeRange> _selectedTimesLocal = {};
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +104,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                           });
                         }),
                     if (!_isRemote) ...[
+                      Text("Address:"),
                       Autocomplete<AutocompletePrediction>(
                         optionsBuilder: (textEditingValue) async =>
                             await ref.watch(addressAutocompleteProvider(
@@ -139,19 +142,54 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                     ]
                   ],
                 ),
+                Text(
+                    "Please select times for the sessions. You can also leave this empty. If you can't narrow it down, you can instead put a text."),
+                Wrap(
+                  children:
+                      List.generate(7, (index) => index + 1).map((weekday) {
+                    bool isSelected = _selectedTimesLocal[weekday] != null;
+                    return Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: FilterChip(
+                        labelStyle: TextStyle(
+                          color: isSelected ? Colors.white : Colors.black,
+                        ),
+                        checkmarkColor: Colors.white,
+                        label: Text(weekdays[weekday - 1]),
+                        selected: isSelected,
+                        onSelected: (value) async {
+                          if (value) {
+                            await _pickHours(weekday);
+                          } else {
+                            setState(() {
+                              _selectedTimesLocal
+                                  .removeWhere((key, value) => key == weekday);
+                            });
+                          }
+                        },
+                      ),
+                    );
+                  }).toList(),
+                ),
+                
                 if (_group?.members?.isNotEmpty == true)
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: _group!.members!.map((member) {
-                        return DeletableGroupMember(
-                            userId: member.userId,
-                            pictureUrl: member.user?.pictureUrl,
-                            onTap: () => _markMemberDeleted(member.userId));
-                      }).toList(),
-                    ),
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text("Members:"),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: _group!.members!.map((member) {
+                            return DeletableGroupMember(
+                                userId: member.userId,
+                                pictureUrl: member.user?.pictureUrl,
+                                onTap: () => _markMemberDeleted(member.userId));
+                          }).toList(),
+                        ),
+                      ),
+                    ],
                   ),
-                 
                 SizedBox(
                   height: 48,
                   width: MediaQuery.of(context).size.width / 2,
@@ -228,6 +266,36 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
     return (_isRemote || (_selectedAddress != null && _location != null));
   }
 
+  _pickHours(int weekday) async {
+    final startTime = await showTimePicker(
+        context: context, initialTime: TimeOfDay(hour: 18, minute: 00));
+    if (startTime != null) {
+      final endTime = await showTimePicker(
+          context: context,
+          initialTime:
+              TimeOfDay(hour: startTime.hour + 2, minute: startTime.minute));
+      if (endTime != null) {
+        if ((endTime.hour * 60 + endTime.minute) <=
+            (startTime.hour * 60 + startTime.minute)) {
+          final dialogResult = await showOkCancelAlertDialog(
+              context: context,
+              message:
+                  "The end time is earlier than the start time. Is it over night and intended?");
+
+          if (dialogResult == OkCancelResult.cancel) {
+            await showOkAlertDialog(
+                context: context,
+                message: "The end time must be after the start time.");
+            return;
+          }
+        }
+        setState(() {
+          _selectedTimesLocal[weekday] = TimeRange(startTime, endTime);
+        });
+      }
+    }
+  }
+
   _onAddressSelected(
       AutocompletePrediction selectedPrediction, WidgetRef ref) async {
     _selectedAddress = selectedPrediction.description;
@@ -238,4 +306,13 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
     setState(() {});
   }
 
+}
+
+final weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+class TimeRange {
+  TimeOfDay startTime;
+  TimeOfDay endTime;
+
+  TimeRange(this.startTime, this.endTime);
 }

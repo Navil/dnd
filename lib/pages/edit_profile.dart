@@ -216,7 +216,6 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
       if (error.code == 'photo_access_denied' && mounted) {
         await showOkAlertDialog(
             context: context,
-            title: "Missing Permission",
             message:
                 "You must give this application permission to access your photos.");
       }

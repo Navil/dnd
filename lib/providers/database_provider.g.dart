@@ -37,6 +37,24 @@ final getGroupsOfUserProvider =
 );
 
 typedef GetGroupsOfUserRef = AutoDisposeFutureProviderRef<List<GroupModel>>;
+String _$getChatRequestsOfUserHash() =>
+    r'23e60171d3169f344211dd280ab42188c58d1f13';
+
+/// See also [getChatRequestsOfUser].
+@ProviderFor(getChatRequestsOfUser)
+final getChatRequestsOfUserProvider =
+    AutoDisposeFutureProvider<List<ChatModel>>.internal(
+  getChatRequestsOfUser,
+  name: r'getChatRequestsOfUserProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getChatRequestsOfUserHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetChatRequestsOfUserRef
+    = AutoDisposeFutureProviderRef<List<ChatModel>>;
 String _$userProfileHash() => r'c4cb00540d3e3f4b5d3fa5b27aa3ae9bacf7f671';
 
 /// Copied from Dart SDK
@@ -344,5 +362,150 @@ final nearbyGroupsProvider =
 );
 
 typedef NearbyGroupsRef = AutoDisposeFutureProviderRef<List<GroupSearchResult>>;
+String _$chatMessageNotifierHash() =>
+    r'b6dec06be55442c79339cd7e6989bca965db1c8e';
+
+abstract class _$ChatMessageNotifier
+    extends BuildlessAutoDisposeAsyncNotifier<List<MessageModel>> {
+  late final int chatId;
+
+  FutureOr<List<MessageModel>> build(
+    int chatId,
+  );
+}
+
+/// See also [ChatMessageNotifier].
+@ProviderFor(ChatMessageNotifier)
+const chatMessageNotifierProvider = ChatMessageNotifierFamily();
+
+/// See also [ChatMessageNotifier].
+class ChatMessageNotifierFamily extends Family<AsyncValue<List<MessageModel>>> {
+  /// See also [ChatMessageNotifier].
+  const ChatMessageNotifierFamily();
+
+  /// See also [ChatMessageNotifier].
+  ChatMessageNotifierProvider call(
+    int chatId,
+  ) {
+    return ChatMessageNotifierProvider(
+      chatId,
+    );
+  }
+
+  @override
+  ChatMessageNotifierProvider getProviderOverride(
+    covariant ChatMessageNotifierProvider provider,
+  ) {
+    return call(
+      provider.chatId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'chatMessageNotifierProvider';
+}
+
+/// See also [ChatMessageNotifier].
+class ChatMessageNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    ChatMessageNotifier, List<MessageModel>> {
+  /// See also [ChatMessageNotifier].
+  ChatMessageNotifierProvider(
+    int chatId,
+  ) : this._internal(
+          () => ChatMessageNotifier()..chatId = chatId,
+          from: chatMessageNotifierProvider,
+          name: r'chatMessageNotifierProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$chatMessageNotifierHash,
+          dependencies: ChatMessageNotifierFamily._dependencies,
+          allTransitiveDependencies:
+              ChatMessageNotifierFamily._allTransitiveDependencies,
+          chatId: chatId,
+        );
+
+  ChatMessageNotifierProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.chatId,
+  }) : super.internal();
+
+  final int chatId;
+
+  @override
+  FutureOr<List<MessageModel>> runNotifierBuild(
+    covariant ChatMessageNotifier notifier,
+  ) {
+    return notifier.build(
+      chatId,
+    );
+  }
+
+  @override
+  Override overrideWith(ChatMessageNotifier Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ChatMessageNotifierProvider._internal(
+        () => create()..chatId = chatId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        chatId: chatId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<ChatMessageNotifier,
+      List<MessageModel>> createElement() {
+    return _ChatMessageNotifierProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ChatMessageNotifierProvider && other.chatId == chatId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, chatId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ChatMessageNotifierRef
+    on AutoDisposeAsyncNotifierProviderRef<List<MessageModel>> {
+  /// The parameter `chatId` of this provider.
+  int get chatId;
+}
+
+class _ChatMessageNotifierProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<ChatMessageNotifier,
+        List<MessageModel>> with ChatMessageNotifierRef {
+  _ChatMessageNotifierProviderElement(super.provider);
+
+  @override
+  int get chatId => (origin as ChatMessageNotifierProvider).chatId;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
