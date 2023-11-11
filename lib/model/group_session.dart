@@ -16,9 +16,7 @@ timeFromJson(dynamic json) {
 
 timeToJson(TimeOfDay timeOfDay) {
   final timezoneOffset = DateTime.now().timeZoneOffset;
-  return (timeOfDay.hour - timezoneOffset.inHours).toString() +
-      ":" +
-      (timeOfDay.minute - timezoneOffset.inMinutes % 60).toString();
+  return "${timeOfDay.hour - timezoneOffset.inHours}:${timeOfDay.minute - timezoneOffset.inMinutes % 60}";
 }
 
 @freezed

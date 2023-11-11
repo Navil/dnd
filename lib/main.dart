@@ -3,11 +3,13 @@ import 'package:dnd/app_theme.dart';
 import 'package:dnd/environment.dart';
 import 'package:dnd/pages/warning_screen.dart';
 import 'package:dnd/router.dart';
+import 'package:dnd/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -17,7 +19,13 @@ void main() async {
     url: Environment.subabaseUrl,
     anonKey: Environment.supabaseAnonKey,
   );
-  runApp(const ProviderScope(child: MyApp()));
+  final sharedPreferences = await SharedPreferences.getInstance();
+  return runApp(ProviderScope(
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends ConsumerWidget {
@@ -38,7 +46,7 @@ class MyApp extends ConsumerWidget {
         statusBarColor: themeData.primaryColor,
         systemNavigationBarColor: themeData.primaryColor,
         systemNavigationBarDividerColor: themeData.primaryColor));
-
+  
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(

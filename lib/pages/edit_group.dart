@@ -36,7 +36,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
 
   final List<String> _markedUsersForDeletion = [];
 
-  Map<int, TimeRange> _selectedTimesLocal = {};
+  final Map<int, TimeRange> _selectedTimesLocal = {};
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                           });
                         }),
                     if (!_isRemote) ...[
-                      Text("Address:"),
+                      const Text("Address:"),
                       Autocomplete<AutocompletePrediction>(
                         optionsBuilder: (textEditingValue) async =>
                             await ref.watch(addressAutocompleteProvider(
@@ -142,7 +142,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                     ]
                   ],
                 ),
-                Text(
+                const Text(
                     "Please select times for the sessions. You can also leave this empty. If you can't narrow it down, you can instead put a text."),
                 Wrap(
                   children:
@@ -176,7 +176,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text("Members:"),
+                      const Text("Members:"),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -268,7 +268,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
 
   _pickHours(int weekday) async {
     final startTime = await showTimePicker(
-        context: context, initialTime: TimeOfDay(hour: 18, minute: 00));
+        context: context, initialTime: const TimeOfDay(hour: 18, minute: 00));
     if (startTime != null) {
       final endTime = await showTimePicker(
           context: context,

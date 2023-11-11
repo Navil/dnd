@@ -30,7 +30,7 @@ class MemberCount extends StatelessWidget {
             width: 30,
             child: Text(
               number.toString(),
-              style: TextStyle()
+              style: const TextStyle()
                   .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
               textAlign: TextAlign.center,
             ),

@@ -5,7 +5,8 @@ import 'package:dnd/model/user.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/location_provider.dart';
 import 'package:dnd/services/database_service.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dnd/services/shared_preferences_service.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 part 'database_provider.g.dart';
@@ -49,13 +50,22 @@ Future<GroupModel?> groupDetails(GroupDetailsRef ref, int id) {
 }
 
 @riverpod
-Future<List<GroupSearchResult>> nearbyGroups(NearbyGroupsRef ref) async {
-  final location = await ref.watch(locationProvider.future);
+Future<List<GroupSearchResult>> findGroups(FindGroupsRef ref) async {
+  final filters =
+      ref.watch(sharedPreferencesServiceProvider).getFilterPreferences();
+  Position? location;
+  if (!filters.isRemote) {
+    location = await ref.watch(locationProvider.future);
+  }
+  
   final data =
-      List.from(await Supabase.instance.client.rpc('nearby_groups', params: {
-    'lat': location.latitude,
-    'long': location.longitude,
+      List.from(await Supabase.instance.client.rpc('find_groups', params: {
+    'lat': location != null ? location.latitude : 0,
+    'long': location != null ? location.longitude : 0,
+    ...filters.toJson()
   }));
+
+
   return data
       .map((group) =>
           GroupSearchResult(
@@ -91,16 +101,15 @@ class ChatMessageNotifier extends _$ChatMessageNotifier {
 
   void _initMessages(int chatId) {
     Supabase.instance.client
-        .channel('public:messaged:id=eq.' + chatId.toString())
+        .channel('public:messaged:id=eq.$chatId')
         .on(
       RealtimeListenTypes.postgresChanges,
       ChannelFilter(
           event: 'INSERT',
           schema: 'public',
           table: 'messages',
-          filter: 'chat_id=eq.' + chatId.toString()),
+          filter: 'chat_id=eq.$chatId'),
       (payload, [_]) async {
-        print(payload);
         final newId = payload["new"]["id"];
 
         MessageModel message =

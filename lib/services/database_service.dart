@@ -122,7 +122,7 @@ class DatabaseService {
           .eq('chat_id', chats[i].id)
           .order('created_at', ascending: false)
           .limit(1);
-      print(newestMessage);
+          
       if (newestMessage.isNotEmpty) {
         chats[i] = chats[i]
             .copyWith(messages: [MessageModel.fromJson(newestMessage[0])]);

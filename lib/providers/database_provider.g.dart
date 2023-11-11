@@ -347,23 +347,23 @@ class _GroupDetailsProviderElement
   int get id => (origin as GroupDetailsProvider).id;
 }
 
-String _$nearbyGroupsHash() => r'32a90b2eb0d49466a38441b9cd220ffc0bd9dca4';
+String _$findGroupsHash() => r'63ba7342ba1e72f7977b5980be8cf6992050ad65';
 
-/// See also [nearbyGroups].
-@ProviderFor(nearbyGroups)
-final nearbyGroupsProvider =
+/// See also [findGroups].
+@ProviderFor(findGroups)
+final findGroupsProvider =
     AutoDisposeFutureProvider<List<GroupSearchResult>>.internal(
-  nearbyGroups,
-  name: r'nearbyGroupsProvider',
+  findGroups,
+  name: r'findGroupsProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$nearbyGroupsHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$findGroupsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef NearbyGroupsRef = AutoDisposeFutureProviderRef<List<GroupSearchResult>>;
+typedef FindGroupsRef = AutoDisposeFutureProviderRef<List<GroupSearchResult>>;
 String _$chatMessageNotifierHash() =>
-    r'b6dec06be55442c79339cd7e6989bca965db1c8e';
+    r'c00cf666c6e38502f2996a76121531d8f76a1d39';
 
 abstract class _$ChatMessageNotifier
     extends BuildlessAutoDisposeAsyncNotifier<List<MessageModel>> {

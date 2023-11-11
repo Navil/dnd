@@ -9,7 +9,7 @@ class AppTheme {
 
   static const primaryColor = Color.fromARGB(255, 152, 2, 2);
   static final secondaryColor = primaryColor.withOpacity(0.7);
-  static final backgroundColor = Colors.black38;
+  static const backgroundColor = Colors.black38;
 
   //Change Font Family DefaultR
   static const String fontPath = "Poppins";
@@ -127,7 +127,7 @@ class AppTheme {
       textStyle: lightTextTheme.bodySmall,
       padding: const EdgeInsets.symmetric(horizontal: 6),
     ),
-    chipTheme: ChipThemeData(selectedColor: primaryColor),
+    chipTheme: const ChipThemeData(selectedColor: primaryColor),
     tooltipTheme: const TooltipThemeData(
       margin: EdgeInsets.all(16),
       showDuration: Duration(seconds: 5),

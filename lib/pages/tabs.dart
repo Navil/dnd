@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dnd/pages/tabs/find_group.dart';
+import 'package:dnd/pages/tabs/find_group/find_group.dart';
 import 'package:dnd/pages/tabs/my_groups.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/database_provider.dart';

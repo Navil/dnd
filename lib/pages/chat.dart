@@ -16,11 +16,11 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chat")),
+      appBar: AppBar(title: const Text("Chat")),
       body: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: ref.watch(chatMessageNotifierProvider(widget.chatId)).when(
-              loading: () => AdaptiveLoadingIndicator(),
+              loading: () => const AdaptiveLoadingIndicator(),
               error: (error, stackTrace) => Text(error.toString()),
               data: _showChatMessages)),
     );
@@ -28,7 +28,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   Widget _showChatMessages(List<MessageModel> messages) {
     if (messages.isEmpty) {
-      return Center(
+      return const Center(
         child: Text("No messages yet."),
       );
     }

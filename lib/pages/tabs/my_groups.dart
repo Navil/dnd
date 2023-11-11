@@ -1,10 +1,6 @@
-import 'package:dnd/adaptive/loading_indicator.dart';
-import 'package:dnd/model/group.dart';
 import 'package:dnd/providers/database_provider.dart';
-import 'package:dnd/router.dart';
 import 'package:dnd/widgets/my_chats.dart';
 import 'package:dnd/widgets/my_groups.dart';
-import 'package:dnd/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,7 +27,7 @@ class _MyGroupsTabState extends ConsumerState<MyGroupsTab>
       },
       child: Stack(
         children: [
-          Column(
+          const Column(
             children: [
               Flexible(child: MyChatsList()),
               Flexible(child: MyGroupsList()),
