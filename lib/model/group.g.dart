@@ -18,6 +18,7 @@ _$GroupModelImpl _$$GroupModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : GroupAddressModel.fromJson(
               json['group_addresses'] as Map<String, dynamic>),
+      language: json['language'] as String,
       chat: json['chat'] == null
           ? null
           : ChatModel.fromJson(json['chat'] as Map<String, dynamic>),
@@ -40,5 +41,6 @@ Map<String, dynamic> _$$GroupModelImplToJson(_$GroupModelImpl instance) {
   val['title'] = instance.title;
   val['description'] = instance.description;
   val['owner_id'] = instance.ownerId;
+  val['language'] = instance.language;
   return val;
 }

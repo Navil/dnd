@@ -3,6 +3,7 @@ import 'package:dnd/app_theme.dart';
 import 'package:dnd/environment.dart';
 import 'package:dnd/pages/warning_screen.dart';
 import 'package:dnd/router.dart';
+import 'package:dnd/services/language_service.dart';
 import 'package:dnd/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,9 +21,13 @@ void main() async {
     anonKey: Environment.supabaseAnonKey,
   );
   final sharedPreferences = await SharedPreferences.getInstance();
+  String languageData =
+      await rootBundle.loadString("assets/jsons/languages.json");
+
   return runApp(ProviderScope(
     overrides: [
       sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      languageJsonDataProvider.overrideWithValue(languageData)
     ],
     child: const MyApp(),
   ));

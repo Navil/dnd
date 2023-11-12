@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/group.dart';
@@ -5,10 +7,12 @@ import 'package:dnd/model/group_address.dart';
 import 'package:dnd/providers/address_completer_provider.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/database_provider.dart';
+import 'package:dnd/services/language_service.dart';
 import 'package:dnd/widgets/deletable_group_member.dart';
 import 'package:dnd/widgets/group_marker_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -32,6 +36,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
   String? _selectedAddress;
   LatLng? _location;
 
+  late String _language = Localizations.localeOf(context).languageCode;
   bool _submitPressed = false;
 
   final List<String> _markedUsersForDeletion = [];
@@ -56,6 +61,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
         _isRemote = groupDetails.isRemote;
         _selectedAddress = groupDetails.address?.address;
         _location = groupDetails.address?.location;
+        _language = groupDetails.language;
       }
     }
 
@@ -95,6 +101,15 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                         ),
                       ),
                     ),
+                    Text("In what language will you play?"),
+                    DropdownButton(
+                        value: _language,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _language = newValue!;
+                          });
+                        },
+                        items: languageDropdownItems),
                     CheckboxListTile.adaptive(
                         title: const Text("Is it remote?"),
                         value: _isRemote,
@@ -229,12 +244,14 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                                 description: _descriptionController.text,
                                 title: _titleController.text,
                                 isRemote: _isRemote,
+                                language: _language,
                                 address: address)
                             : GroupModel(
                                 description: _descriptionController.text,
                                 title: _titleController.text,
                                 isRemote: _isRemote,
                                 ownerId: ref.read(loggedInUserProvider).id,
+                                language: _language,
                                 createdAt: DateTime.timestamp(),
                                 address: address);
 
@@ -304,6 +321,29 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
         await ref.read(placeDetailsProvider(selectedPrediction.placeId).future);
     _submitPressed = false;
     setState(() {});
+  }
+
+  List<DropdownMenuItem<String>> get languageDropdownItems {
+    List<DropdownMenuItem<String>> menuItems = ref
+        .watch(languagesProvider)
+        .map((language) => DropdownMenuItem(
+              value: language.isoCode,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: SvgPicture.asset(
+                      language.getPath(),
+                      width: 25,
+                      height: 25,
+                    ),
+                  ),
+                  Text(language.name),
+                ],
+              ),
+            ))
+        .toList();
+    return menuItems;
   }
 
 }

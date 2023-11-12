@@ -19,6 +19,7 @@ class GroupModel with _$GroupModel {
       @JsonKey(name: "owner_id") required String ownerId,
       @JsonKey(name: "group_addresses", includeToJson: false)
       GroupAddressModel? address,
+      required String language,
       @JsonKey(includeToJson: false) ChatModel? chat,
       @JsonKey(includeToJson: false) List<MemberModel>? members}) = _GroupModel;
 

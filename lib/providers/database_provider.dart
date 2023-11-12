@@ -65,7 +65,6 @@ Future<List<GroupSearchResult>> findGroups(FindGroupsRef ref) async {
     ...filters.toJson()
   }));
 
-
   return data
       .map((group) =>
           GroupSearchResult(
@@ -120,9 +119,5 @@ class ChatMessageNotifier extends _$ChatMessageNotifier {
 
       },
     ).subscribe();
-  }
-
-  dispose() {
-
   }
 }
