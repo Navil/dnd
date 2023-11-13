@@ -50,5 +50,6 @@ firebase_app_id_file.json
 
 #Environment
 .env
+.env-prod
 
 secrets.txt

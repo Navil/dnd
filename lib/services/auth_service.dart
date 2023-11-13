@@ -47,9 +47,7 @@ class AuthService {
     } else {
       throw "Platform not configured for Google Sign In.";
     }
-    Platform.isAndroid
-        ? Environment.googleOAuthClientAndroid
-        : Environment.googleOAuthClientIos;
+
     late final String? idToken;
     late final String? accessToken;
     String? rawNonce;
