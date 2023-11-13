@@ -50,3 +50,5 @@ firebase_app_id_file.json
 
 #Environment
 .env
+
+secrets.txt
