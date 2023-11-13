@@ -1,0 +1,25 @@
+name: Add GitHub Tag
+
+on: [workflow_call, workflow_dispatch]
+
+jobs:
+  add_tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: "Retrieve version"
+        id: version
+        run: |
+          echo "OLD_VERSION=$(cat ${GITHUB_WORKSPACE}/pubspec.yaml | grep 'version:' | head -1 | cut -f2- -d: | sed -e 's/^[ \t]*//')" >> $GITHUB_OUTPUT
+          echo "NEW_VERSION=$(awk '{ match($0,/([0-9]+)\+([0-9]+)/,a); a[1]=a[1]+1; a[2]=a[2]+1; sub(/[0-9]+\+[0-9]+/,a[1]"+"a[2])}1' ${GITHUB_WORKSPACE}/pubspec.yaml | grep 'version:' | head -1 | cut -f2- -d: | sed -e 's/^[ \t]*//')" >> $GITHUB_OUTPUT
+      - name: "Increment version"
+        run: |
+          sed -i 's/${{ steps.version.outputs.OLD_VERSION }}/${{ steps.version.outputs.NEW_VERSION }}/g' ${GITHUB_WORKSPACE}/pubspec.yaml
+          echo "${{ steps.version.outputs.OLD_VERSION }} -> ${{ steps.version.outputs.NEW_VERSION }}"
+      - name: "Push changes"
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          tagging_message: "${{ steps.version.outputs.OLD_VERSION }}"
+          commit_message: "Bump version"

@@ -1,0 +1,25 @@
+name: Deploy Production
+
+on: [workflow_dispatch]
+jobs:
+  build_android:
+    name: Release Android
+    uses: ./.github/workflows/android-release.yml
+    secrets: inherit
+
+  build_ios:
+    name: Release iOS
+    uses: ./.github/workflows/ios-release.yml
+    secrets: inherit
+
+  deploy_supabase:
+    name: Deploy Supabase
+    needs: [build_ios, build_android]
+    uses: ./.github/workflows/supabase-production.yml
+    secrets: inherit
+
+  add_github_tag:
+    name: Add GitHub Tag
+    needs: [deploy_supabase]
+    uses: ./.github/workflows/add-github-tag.yml
+    secrets: inherit

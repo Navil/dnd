@@ -55,6 +55,7 @@ dependencies:
   url_launcher:
   google_maps_flutter:
   maps_launcher:
+  sentry_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -121,3 +122,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+sentry:
+  project: dnd
+  org: aupair-valley-kr
+  auth_token: 0320c2f86e4e440ebe941c8aac441439876768f56cbe419a9af7a4d704de6bdd
+  upload_sources: true

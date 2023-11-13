@@ -10,27 +10,37 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  await Supabase.initialize(
-    url: Environment.subabaseUrl,
-    anonKey: Environment.supabaseAnonKey,
-  );
-  final sharedPreferences = await SharedPreferences.getInstance();
-  String languageData =
-      await rootBundle.loadString("assets/jsons/languages.json");
 
-  return runApp(ProviderScope(
-    overrides: [
-      sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-      languageJsonDataProvider.overrideWithValue(languageData)
-    ],
-    child: const MyApp(),
-  ));
+  await SentryFlutter.init((options) {
+    options.environment =
+        Environment.isProduction ? "production" : "development";
+    options.dsn = Environment.sentryUrl;
+    options.enableAutoPerformanceTracing = true;
+    options.attachScreenshot = true;
+  }, appRunner: () async {
+    await Supabase.initialize(
+      url: Environment.subabaseUrl,
+      anonKey: Environment.supabaseAnonKey,
+    );
+    final sharedPreferences = await SharedPreferences.getInstance();
+    String languageData =
+        await rootBundle.loadString("assets/jsons/languages.json");
+
+    return runApp(ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+        languageJsonDataProvider.overrideWithValue(languageData)
+      ],
+      child: const MyApp(),
+    ));
+  });
 }
 
 class MyApp extends ConsumerWidget {
@@ -51,7 +61,7 @@ class MyApp extends ConsumerWidget {
         statusBarColor: themeData.primaryColor,
         systemNavigationBarColor: themeData.primaryColor,
         systemNavigationBarDividerColor: themeData.primaryColor));
-  
+
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
