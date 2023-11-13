@@ -22,6 +22,12 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace "at.valley.dnd"
     compileSdkVersion flutter.compileSdkVersion
@@ -55,12 +61,30 @@ android {
         ]
     }
 
-    buildTypes {
+    
+    signingConfigs {
         release {
-            //signingConfig signingConfigs.debug
-            println "Not signining"
+            if (keystorePropertiesFile.exists()) {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
         }
-         debug{
+    }
+
+    buildTypes {
+         release {
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release   
+                println "Signing with key.properties"
+            }else{
+                signingConfig null
+                println "Not signining"
+            }
+        }
+
+        debug{
             println "Signing with debug key"
             signingConfig signingConfigs.debug
         }
