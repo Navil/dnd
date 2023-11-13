@@ -1,7 +1,6 @@
 name: Deploy Supabase to Production
 
-on:
-  workflow_dispatch:
+on: [workflow_call, workflow_dispatch]
 
 jobs:
   deploy:
