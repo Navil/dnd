@@ -2,8 +2,8 @@ name: Deploy Supabase to Staging
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
+    paths: ["supabase/**"]
   workflow_dispatch:
 
 jobs:
