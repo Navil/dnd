@@ -48,5 +48,5 @@ jobs:
           packageName: at.valley.dnd
           releaseFiles: /home/runner/work/dnd/dnd/build/app/outputs/bundle/release/app-release-signed.aab
           track: internal
-          status: completed
+          status: draft
           mappingFile: /home/runner/work/dnd/dnd/build/app/outputs/mapping/release/mapping.txt
