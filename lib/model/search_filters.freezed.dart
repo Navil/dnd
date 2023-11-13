@@ -22,6 +22,7 @@ SearchFilters _$SearchFiltersFromJson(Map<String, dynamic> json) {
 mixin _$SearchFilters {
   @JsonKey(name: "remote")
   bool get isRemote => throw _privateConstructorUsedError;
+  String get groupLanguage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,7 @@ abstract class $SearchFiltersCopyWith<$Res> {
           SearchFilters value, $Res Function(SearchFilters) then) =
       _$SearchFiltersCopyWithImpl<$Res, SearchFilters>;
   @useResult
-  $Res call({@JsonKey(name: "remote") bool isRemote});
+  $Res call({@JsonKey(name: "remote") bool isRemote, String groupLanguage});
 }
 
 /// @nodoc
@@ -52,12 +53,17 @@ class _$SearchFiltersCopyWithImpl<$Res, $Val extends SearchFilters>
   @override
   $Res call({
     Object? isRemote = null,
+    Object? groupLanguage = null,
   }) {
     return _then(_value.copyWith(
       isRemote: null == isRemote
           ? _value.isRemote
           : isRemote // ignore: cast_nullable_to_non_nullable
               as bool,
+      groupLanguage: null == groupLanguage
+          ? _value.groupLanguage
+          : groupLanguage // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -70,7 +76,7 @@ abstract class _$$SearchFiltersImplCopyWith<$Res>
       __$$SearchFiltersImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: "remote") bool isRemote});
+  $Res call({@JsonKey(name: "remote") bool isRemote, String groupLanguage});
 }
 
 /// @nodoc
@@ -85,12 +91,17 @@ class __$$SearchFiltersImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isRemote = null,
+    Object? groupLanguage = null,
   }) {
     return _then(_$SearchFiltersImpl(
       isRemote: null == isRemote
           ? _value.isRemote
           : isRemote // ignore: cast_nullable_to_non_nullable
               as bool,
+      groupLanguage: null == groupLanguage
+          ? _value.groupLanguage
+          : groupLanguage // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -98,7 +109,9 @@ class __$$SearchFiltersImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$SearchFiltersImpl implements _SearchFilters {
-  _$SearchFiltersImpl({@JsonKey(name: "remote") this.isRemote = true});
+  _$SearchFiltersImpl(
+      {@JsonKey(name: "remote") this.isRemote = true,
+      this.groupLanguage = "en"});
 
   factory _$SearchFiltersImpl.fromJson(Map<String, dynamic> json) =>
       _$$SearchFiltersImplFromJson(json);
@@ -106,10 +119,13 @@ class _$SearchFiltersImpl implements _SearchFilters {
   @override
   @JsonKey(name: "remote")
   final bool isRemote;
+  @override
+  @JsonKey()
+  final String groupLanguage;
 
   @override
   String toString() {
-    return 'SearchFilters(isRemote: $isRemote)';
+    return 'SearchFilters(isRemote: $isRemote, groupLanguage: $groupLanguage)';
   }
 
   @override
@@ -118,12 +134,14 @@ class _$SearchFiltersImpl implements _SearchFilters {
         (other.runtimeType == runtimeType &&
             other is _$SearchFiltersImpl &&
             (identical(other.isRemote, isRemote) ||
-                other.isRemote == isRemote));
+                other.isRemote == isRemote) &&
+            (identical(other.groupLanguage, groupLanguage) ||
+                other.groupLanguage == groupLanguage));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, isRemote);
+  int get hashCode => Object.hash(runtimeType, isRemote, groupLanguage);
 
   @JsonKey(ignore: true)
   @override
@@ -140,8 +158,9 @@ class _$SearchFiltersImpl implements _SearchFilters {
 }
 
 abstract class _SearchFilters implements SearchFilters {
-  factory _SearchFilters({@JsonKey(name: "remote") final bool isRemote}) =
-      _$SearchFiltersImpl;
+  factory _SearchFilters(
+      {@JsonKey(name: "remote") final bool isRemote,
+      final String groupLanguage}) = _$SearchFiltersImpl;
 
   factory _SearchFilters.fromJson(Map<String, dynamic> json) =
       _$SearchFiltersImpl.fromJson;
@@ -149,6 +168,8 @@ abstract class _SearchFilters implements SearchFilters {
   @override
   @JsonKey(name: "remote")
   bool get isRemote;
+  @override
+  String get groupLanguage;
   @override
   @JsonKey(ignore: true)
   _$$SearchFiltersImplCopyWith<_$SearchFiltersImpl> get copyWith =>

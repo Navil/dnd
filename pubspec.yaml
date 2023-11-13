@@ -91,7 +91,6 @@ flutter:
   assets:
     - .env
     - assets/jsons/
-    - assets/illustrations/
     - assets/language-icons/
     - assets/language-icons/language/
 

@@ -347,7 +347,7 @@ class _GroupDetailsProviderElement
   int get id => (origin as GroupDetailsProvider).id;
 }
 
-String _$findGroupsHash() => r'63ba7342ba1e72f7977b5980be8cf6992050ad65';
+String _$findGroupsHash() => r'666809357c3df415d5bbc2a3d80a442d1bb844a0';
 
 /// See also [findGroups].
 @ProviderFor(findGroups)
@@ -363,7 +363,7 @@ final findGroupsProvider =
 
 typedef FindGroupsRef = AutoDisposeFutureProviderRef<List<GroupSearchResult>>;
 String _$chatMessageNotifierHash() =>
-    r'c00cf666c6e38502f2996a76121531d8f76a1d39';
+    r'7c846d998f6b8da0158e7ef829922c1688f36a7e';
 
 abstract class _$ChatMessageNotifier
     extends BuildlessAutoDisposeAsyncNotifier<List<MessageModel>> {

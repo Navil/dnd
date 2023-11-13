@@ -10,6 +10,7 @@ import 'package:dnd/providers/database_provider.dart';
 import 'package:dnd/services/language_service.dart';
 import 'package:dnd/widgets/deletable_group_member.dart';
 import 'package:dnd/widgets/group_marker_map.dart';
+import 'package:dnd/widgets/language_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -86,6 +87,12 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                         hintText: "e.g. Critical Role",
                         border: OutlineInputBorder(),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        return null;
+                      },
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16.0),
@@ -99,6 +106,12 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                           label: Text("Description"),
                           border: OutlineInputBorder(),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Required';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     Text("In what language will you play?"),
@@ -109,7 +122,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                             _language = newValue!;
                           });
                         },
-                        items: languageDropdownItems),
+                        items: ref.watch(languageDropdownItemsProvider)),
                     CheckboxListTile.adaptive(
                         title: const Text("Is it remote?"),
                         value: _isRemote,
@@ -321,29 +334,6 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
         await ref.read(placeDetailsProvider(selectedPrediction.placeId).future);
     _submitPressed = false;
     setState(() {});
-  }
-
-  List<DropdownMenuItem<String>> get languageDropdownItems {
-    List<DropdownMenuItem<String>> menuItems = ref
-        .watch(languagesProvider)
-        .map((language) => DropdownMenuItem(
-              value: language.isoCode,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: SvgPicture.asset(
-                      language.getPath(),
-                      width: 25,
-                      height: 25,
-                    ),
-                  ),
-                  Text(language.name),
-                ],
-              ),
-            ))
-        .toList();
-    return menuItems;
   }
 
 }

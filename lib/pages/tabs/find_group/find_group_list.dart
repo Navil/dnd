@@ -40,7 +40,7 @@ class FindGroupList extends ConsumerWidget {
                   ),
                   trailing: result.group.isRemote
                       ? null
-                      : GroupDistance((result.distanceInMeters)),
+                      : GroupDistance((result.distanceInMeters!)),
                   leading: IconButton(
                       onPressed: () => {
                             ref

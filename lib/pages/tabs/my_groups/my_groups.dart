@@ -1,6 +1,6 @@
 import 'package:dnd/providers/database_provider.dart';
-import 'package:dnd/widgets/my_chats.dart';
-import 'package:dnd/widgets/my_groups.dart';
+import 'package:dnd/pages/tabs/my_groups/my_chats_list.dart';
+import 'package:dnd/pages/tabs/my_groups/my_groups_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

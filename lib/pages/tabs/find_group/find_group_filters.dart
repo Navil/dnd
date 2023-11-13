@@ -1,18 +1,26 @@
 import 'package:dnd/providers/shared_preferences_provider.dart';
+import 'package:dnd/services/language_service.dart';
 import 'package:dnd/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class FindGroupFilters extends ConsumerWidget {
+class FindGroupFilters extends ConsumerStatefulWidget {
   const FindGroupFilters({super.key});
 
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FindGroupFilters> createState() => _FindGroupFiltersState();
+}
+
+class _FindGroupFiltersState extends ConsumerState<FindGroupFilters> {
+  @override
+  Widget build(BuildContext context) {
     final filters = ref.watch(filterNotifierProvider);
     return Row(
       children: [
-        Expanded(
+        Flexible(
           child: CheckboxListTile.adaptive(
             title: const Text("Remote"),
             value: filters.isRemote,
@@ -22,6 +30,19 @@ class FindGroupFilters extends ConsumerWidget {
                   .updateFilters(filters.copyWith(isRemote: value == true));
             },
           ),
+        ),
+        Flexible(
+          child: DropdownButton(
+              value: filters.groupLanguage,
+              selectedItemBuilder: (context) {
+                return ref.watch(languageDropdownIconsProvider);
+              },
+              onChanged: (String? newValue) {
+                ref
+                    .read(filterNotifierProvider.notifier)
+                    .updateFilters(filters.copyWith(groupLanguage: newValue!));
+              },
+              items: ref.watch(languageDropdownItemsProvider)),
         ),
         IconButton(
           onPressed: () async {

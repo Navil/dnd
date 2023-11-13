@@ -20,6 +20,56 @@ final languagesProvider = AutoDisposeProvider<List<Language>>.internal(
 );
 
 typedef LanguagesRef = AutoDisposeProviderRef<List<Language>>;
+String _$systemLanguageHash() => r'b5afda7847651a33dd409c8b49697f414d58294e';
+
+/// See also [systemLanguage].
+@ProviderFor(systemLanguage)
+final systemLanguageProvider = AutoDisposeProvider<String>.internal(
+  systemLanguage,
+  name: r'systemLanguageProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$systemLanguageHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef SystemLanguageRef = AutoDisposeProviderRef<String>;
+String _$languageDropdownItemsHash() =>
+    r'4ec75fb0a090a0831d24169f74a067d0ee59031d';
+
+/// See also [languageDropdownItems].
+@ProviderFor(languageDropdownItems)
+final languageDropdownItemsProvider =
+    AutoDisposeProvider<List<DropdownMenuItem<String>>>.internal(
+  languageDropdownItems,
+  name: r'languageDropdownItemsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$languageDropdownItemsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef LanguageDropdownItemsRef
+    = AutoDisposeProviderRef<List<DropdownMenuItem<String>>>;
+String _$languageDropdownIconsHash() =>
+    r'4dbbe7a34265f371e987cb3b341951c24f5d5641';
+
+/// See also [languageDropdownIcons].
+@ProviderFor(languageDropdownIcons)
+final languageDropdownIconsProvider =
+    AutoDisposeProvider<List<Widget>>.internal(
+  languageDropdownIcons,
+  name: r'languageDropdownIconsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$languageDropdownIconsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef LanguageDropdownIconsRef = AutoDisposeProviderRef<List<Widget>>;
 String _$languageJsonDataHash() => r'6ebdc11e4045b7096223dfd462a3c0b862947c9c';
 
 /// See also [languageJsonData].

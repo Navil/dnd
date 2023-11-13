@@ -33,13 +33,6 @@ class WarningScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(
-                height: 40,
-              ),
-              SvgPicture.asset(
-                "assets/illustrations/undraw_warning.svg",
-                height: 220,
-              ),
             ],
           ),
         ),

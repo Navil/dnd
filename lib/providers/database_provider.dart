@@ -65,6 +65,8 @@ Future<List<GroupSearchResult>> findGroups(FindGroupsRef ref) async {
     ...filters.toJson()
   }));
 
+  print(data);
+
   return data
       .map((group) =>
           GroupSearchResult(
@@ -78,7 +80,7 @@ Future<List<GroupSearchResult>> findGroups(FindGroupsRef ref) async {
 
 class GroupSearchResult {
   GroupModel group;
-  num distanceInMeters;
+  double? distanceInMeters;
   int numMembers;
   int numDungeonMasters;
   int numPlayers;

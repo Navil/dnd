@@ -42,9 +42,18 @@ PODS:
     - Flutter
   - maps_launcher (0.0.1):
     - Flutter
+  - package_info_plus (0.4.5):
+    - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - Sentry/HybridSDK (8.14.2):
+    - SentryPrivate (= 8.14.2)
+  - sentry_flutter (0.0.1):
+    - Flutter
+    - FlutterMacOS
+    - Sentry/HybridSDK (= 8.14.2)
+  - SentryPrivate (8.14.2)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -69,7 +78,9 @@ DEPENDENCIES:
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - maps_launcher (from `.symlinks/plugins/maps_launcher/ios`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -84,6 +95,8 @@ SPEC REPOS:
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
+    - Sentry
+    - SentryPrivate
     - TOCropViewController
 
 EXTERNAL SOURCES:
@@ -105,8 +118,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   maps_launcher:
     :path: ".symlinks/plugins/maps_launcher/ios"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  sentry_flutter:
+    :path: ".symlinks/plugins/sentry_flutter/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sign_in_with_apple:
@@ -134,7 +151,11 @@ SPEC CHECKSUMS:
   image_cropper: a3291c624a953049bc6a02e1f8c8ceb162a24b25
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   maps_launcher: 2e5b6a2d664ec6c27f82ffa81b74228d770ab203
+  package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  Sentry: e0ea366f95ebb68f26d6030d8c22d6b2e6d23dd0
+  sentry_flutter: 9a04c51c373d76ee22167bf1e65bc468c0a91fed
+  SentryPrivate: 949a21fa59872427edc73b524c3ec8456761d97f
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
@@ -142,6 +163,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 68d46cc9766d0c41dbdc884310529557e3cd7a86
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
-PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
+PODFILE CHECKSUM: b1c1551d1d9eeda3440cb5cc324dd55f14c40670
 
 COCOAPODS: 1.14.2

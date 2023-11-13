@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:dnd/widgets/language_row.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'language_service.g.dart';
 
@@ -7,6 +10,39 @@ part 'language_service.g.dart';
 List<Language> languages(LanguagesRef ref) {
   final languageJsonString = ref.watch(languageJsonDataProvider);
   return _decodeAndParseLanguages(languageJsonString);
+}
+
+@riverpod
+String systemLanguage(SystemLanguageRef ref) {
+  //TODO: Take the device language
+  return "en";
+}
+
+@riverpod
+List<DropdownMenuItem<String>> languageDropdownItems(
+    LanguageDropdownItemsRef ref) {
+  List<Language> availableLanguages = ref.watch(languagesProvider);
+
+  List<DropdownMenuItem<String>> menuItems = availableLanguages
+      .map((language) => DropdownMenuItem(
+          value: language.isoCode,
+          child: SizedBox(child: LanguageRow(language))))
+      .toList();
+  return menuItems;
+}
+
+@riverpod
+List<Widget> languageDropdownIcons(LanguageDropdownIconsRef ref) {
+  List<Language> availableLanguages = ref.watch(languagesProvider);
+
+  List<Widget> menuItems = availableLanguages
+      .map((language) => SvgPicture.asset(
+            getLanguageAsset(language.isoCode),
+            width: 25,
+            height: 25,
+          ))
+      .toList();
+  return menuItems;
 }
 
 List<Language> _decodeAndParseLanguages(String languageData) {
@@ -31,7 +67,8 @@ class Language {
     return Language(json['isoCode'] as String, json['name'] as String);
   }
 
-  String getPath() {
-    return "assets/language-icons/language/${isoCode.toLowerCase()}.svg";
-  }
+}
+
+String getLanguageAsset(String isoCode) {
+  return "assets/language-icons/language/${isoCode.toLowerCase()}.svg";
 }

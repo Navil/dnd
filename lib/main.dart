@@ -36,7 +36,7 @@ void main() async {
     return runApp(ProviderScope(
       overrides: [
         sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-        languageJsonDataProvider.overrideWithValue(languageData)
+        languageJsonDataProvider.overrideWithValue(languageData),
       ],
       child: const MyApp(),
     ));

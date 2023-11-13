@@ -23,7 +23,7 @@ class _FindGroupTabState extends ConsumerState<FindGroupTab>
         const Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            FindGroupFilters(),
+            Flexible(child: FindGroupFilters()),
             Expanded(child: FindGroupList()),
           ],
         ),
