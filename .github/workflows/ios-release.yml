@@ -53,31 +53,17 @@ jobs:
             ${{ runner.os }}-flutter-
       - name: Install Flutter
         uses: subosito/flutter-action@v2
-        if: steps.cache-flutter.outputs.cache-hit != 'true'
         with:
           channel: "stable"
-
-       - name: Setup Pods Cache
-        id: cache-pods
-        uses: actions/cache@v2
-        with:
-          path: Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
-      - name: Install dependencies
-        run: flutter pub get
-
-       - name: Setup Pods
-        if: steps.cache-pods.outputs.cache-hit != 'true'
-        run: |
-          (cd ios && pod install)
+          cache: true
 
       - name: Add ENV
         env:
           ENV_FILE_CONTENT: ${{ secrets.ENV }}
         run: echo $ENV_FILE_CONTENT > ${GITHUB_WORKSPACE}/.env
+
+      - name: Install dependencies
+        run: flutter pub get
 
       - name: Build Flutter
         run: flutter build ios --release --no-codesign --obfuscate --split-debug-info=${GITHUB_WORKSPACE}/debug-symbols
