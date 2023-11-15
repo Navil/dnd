@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   supabase_flutter:
+  cupertino_icons:
   google_fonts:
   flutter_riverpod:
   font_awesome_flutter:
