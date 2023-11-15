@@ -1,2 +1,2 @@
 package_name("at.valley.dnd")
-json_key_file("android/api-111-222-333.json")
+json_key_file("google_services_accounts.json")
