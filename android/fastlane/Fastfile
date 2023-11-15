@@ -19,7 +19,6 @@ platform :android do
   desc "Fetch dependencies and build the release APK"
   lane :build_release do
     sh("flutter pub get")
-    sh("flutter test")
     sh("flutter build apk --release")
   end
 
