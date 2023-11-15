@@ -33,6 +33,7 @@ jobs:
 
     # Configure Keystore.
     - name: Configure Keystore
+      working-directory: ./android
       run: |
         echo "storeFile=production.jks" >> key.properties
         echo "keyAlias=$KEYSTORE_KEY_ALIAS" >> key.properties
