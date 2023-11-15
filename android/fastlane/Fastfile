@@ -1,0 +1,31 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Fetch dependencies and build the release APK"
+  lane :build_release do
+    sh("flutter pub get")
+    sh("flutter test")
+    sh("flutter build apk --release")
+  end
+
+  desc "Submit a new Beta Build to Play Store"
+  lane :beta do
+    build_release
+    upload_to_play_store(track: 'internal')
+  end
+end

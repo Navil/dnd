@@ -1,0 +1,31 @@
+name: Android Fastlane
+
+on: [workflow_call, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v1
+      with:
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Install Fastlane
+      run: |
+        sudo gem install fastlane -NV
+
+    - name: Build APK
+      run: fastlane android build_release
+
+    - name: Beta Deployment to Play Store
+      if: github.ref == 'refs/heads/main'
+      run: fastlane android beta
+      env:
+        PLAY_STORE_JSON_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
