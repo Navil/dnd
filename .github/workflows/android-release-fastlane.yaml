@@ -12,6 +12,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v1
       with:
+        channel: 'stable'
         cache: true
 
     - name: Install dependencies
@@ -20,12 +21,14 @@ jobs:
     - name: Install Fastlane
       run: |
         sudo gem install fastlane -NV
-        cd android
+       
 
     - name: Build APK
+      working-directory: ./android
       run: fastlane android build_release
 
     - name: Internal Deployment to Play Store
+      working-directory: ./android
       run: fastlane android internal
       env:
         PLAY_STORE_JSON_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
