@@ -1,1 +1,2 @@
-package_name("at.valley.dnd") # e.g. com.krausefx.app
+package_name("at.valley.dnd")
+json_key_file("android/api-111-222-333.json")
