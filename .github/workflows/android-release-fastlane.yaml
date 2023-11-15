@@ -37,7 +37,7 @@ jobs:
       working-directory: ./android
       run: |
         echo "storeFile=production.keystore" >> key.properties
-        echo "upload" >> key.properties
+        echo "keyAlias=upload" >> key.properties
         echo "storePassword=$KEYSTORE_STORE_PASSWORD" >> key.properties
         echo "keyPassword=$KEYSTORE_KEY_PASSWORD" >> key.properties
       env:
