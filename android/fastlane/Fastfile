@@ -19,7 +19,7 @@ platform :android do
   desc "Fetch dependencies and build the release APK"
   lane :build_release do
     sh("flutter pub get")
-    sh("flutter build apk --release")
+    sh("flutter build appbundle --release")
   end
 
   desc "Submit a new Internal Build to Play Store"
