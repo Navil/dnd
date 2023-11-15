@@ -14,9 +14,6 @@ jobs:
           channel: "stable"
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
-
       - name: Install Fastlane
         run: |
           sudo gem install fastlane -NV
@@ -50,12 +47,6 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
         run: echo $GOOGLE_SERVICE_ACCOUNT > google_services_accounts.json
 
-      - name: Build APK
-        working-directory: ./android
-        run: fastlane android build_release
-
       - name: Internal Deployment to Play Store
         working-directory: ./android
         run: fastlane android internal
-        env:
-          PLAY_STORE_JSON_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
