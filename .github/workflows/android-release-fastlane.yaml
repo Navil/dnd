@@ -45,7 +45,7 @@ jobs:
         working-directory: ./android
         env:
           GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
-        run: echo $GOOGLE_SERVICE_ACCOUNT > google_services_accounts.json
+        run: echo $GOOGLE_SERVICE_ACCOUNT > google-services.json
 
       - name: Fastlane supply
         working-directory: ./android
