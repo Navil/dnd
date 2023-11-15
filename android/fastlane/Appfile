@@ -1,2 +1,2 @@
 package_name("at.valley.dnd")
-json_key_file("google_services_accounts.json")
+json_key_file("google-services.json")
