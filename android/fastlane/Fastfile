@@ -23,8 +23,8 @@ platform :android do
     sh("flutter build apk --release")
   end
 
-  desc "Submit a new Beta Build to Play Store"
-  lane :beta do
+  desc "Submit a new Internal Build to Play Store"
+  lane :internal do
     build_release
     upload_to_play_store(track: 'internal')
   end

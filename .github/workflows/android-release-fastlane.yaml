@@ -20,12 +20,12 @@ jobs:
     - name: Install Fastlane
       run: |
         sudo gem install fastlane -NV
+        cd android
 
     - name: Build APK
       run: fastlane android build_release
 
-    - name: Beta Deployment to Play Store
-      if: github.ref == 'refs/heads/main'
-      run: fastlane android beta
+    - name: Internal Deployment to Play Store
+      run: fastlane android internal
       env:
         PLAY_STORE_JSON_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
