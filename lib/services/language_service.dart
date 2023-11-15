@@ -26,7 +26,7 @@ List<DropdownMenuItem<String>> languageDropdownItems(
   List<DropdownMenuItem<String>> menuItems = availableLanguages
       .map((language) => DropdownMenuItem(
           value: language.isoCode,
-          child: SizedBox(child: LanguageRow(language))))
+          child: SizedBox(width: 500, child: LanguageRow(language))))
       .toList();
   return menuItems;
 }

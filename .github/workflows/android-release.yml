@@ -14,7 +14,8 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: "zulu"
-          java-version: "11"
+          java-version: "12.x"
+          cache: 'gradle'
 
       - name: Create the Keystore
         env:
@@ -26,7 +27,6 @@ jobs:
         with:
           channel: "stable"
           cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
 
       - name: Add ENV
         env:

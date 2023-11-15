@@ -32,17 +32,22 @@ class _FindGroupFiltersState extends ConsumerState<FindGroupFilters> {
           ),
         ),
         Flexible(
-          child: DropdownButton(
-              value: filters.groupLanguage,
-              selectedItemBuilder: (context) {
-                return ref.watch(languageDropdownIconsProvider);
-              },
-              onChanged: (String? newValue) {
-                ref
-                    .read(filterNotifierProvider.notifier)
-                    .updateFilters(filters.copyWith(groupLanguage: newValue!));
-              },
-              items: ref.watch(languageDropdownItemsProvider)),
+          child: DropdownButtonHideUnderline(
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton(
+                  isDense: true,
+                  value: filters.groupLanguage,
+                  selectedItemBuilder: (context) {
+                    return ref.watch(languageDropdownIconsProvider);
+                  },
+                  onChanged: (String? newValue) {
+                    ref.read(filterNotifierProvider.notifier).updateFilters(
+                        filters.copyWith(groupLanguage: newValue!));
+                  },
+                  items: ref.watch(languageDropdownItemsProvider)),
+            ),
+          ),
         ),
         IconButton(
           onPressed: () async {
