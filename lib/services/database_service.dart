@@ -30,7 +30,7 @@ class DatabaseService {
     await memberDatabase
         .delete()
         .eq("group_id", groupId)
-        .in_("user_id", members);
+        .inFilter("user_id", members);
   }
 
   updateLastOnline() async {
@@ -45,7 +45,7 @@ class DatabaseService {
   Future<UserModel?> loadUser(String uid) async {
     try {
       final response = await userDatabase.select().eq('id', uid).maybeSingle();
-    
+
       if (response == null) {
         return null;
       }
@@ -100,7 +100,7 @@ class DatabaseService {
 
   Future<List<GroupModel>> getGroupsOfUser() async {
     final memberResponse = await memberDatabase
-        .select<List<Map<String, dynamic>>>('groups(*, members(*, users(*)))')
+        .select('groups(*, members(*, users(*)))')
         .eq('user_id', uid);
 
     return memberResponse.map((group) {
@@ -109,20 +109,19 @@ class DatabaseService {
   }
 
   Future<List<ChatModel>> getChatRequestsOfUser() async {
-    final chatResponse = await chatDatabase
-        .select<List<Map<String, dynamic>>>('*,groups(*)')
-        .eq('user_id', uid);
+    final chatResponse =
+        await chatDatabase.select('*,groups(*)').eq('user_id', uid);
 
     List<ChatModel> chats =
         chatResponse.map((chat) => ChatModel.fromJson(chat)).toList();
 
     for (var i = 0; i < chats.length; i++) {
       final newestMessage = await messagesDatabase
-          .select<List<Map<String, dynamic>>>('*, users(*)')
-          .eq('chat_id', chats[i].id)
+          .select('*, users(*)')
+          .eq('chat_id', chats[i].id!)
           .order('created_at', ascending: false)
           .limit(1);
-          
+
       if (newestMessage.isNotEmpty) {
         chats[i] = chats[i]
             .copyWith(messages: [MessageModel.fromJson(newestMessage[0])]);
@@ -133,7 +132,7 @@ class DatabaseService {
 
   Future<List<MessageModel>> getMessagesForChat(int chatId) async {
     final messagesResponse = await messagesDatabase
-        .select<List<Map<String, dynamic>>>("*, users(*)")
+        .select("*, users(*)")
         .eq("chat_id", chatId)
         .order("created_at", ascending: false)
         .limit(50);

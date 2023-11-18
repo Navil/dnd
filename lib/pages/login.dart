@@ -19,6 +19,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             onPressed: () => ref.read(authServiceProvider).loginGoogle(),
             child: const Text("Google")),
         ElevatedButton(
+            onPressed: () => ref.read(authServiceProvider).loginApple(),
+            child: const Text("Apple")),
+        ElevatedButton(
             onPressed: () => ref.read(authServiceProvider).loginTestuser1(),
             child: const Text("Testuser 1")),
         ElevatedButton(

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dnd/adaptive/loading_indicator.dart';
 import 'package:dnd/model/group.dart';
@@ -10,10 +8,8 @@ import 'package:dnd/providers/database_provider.dart';
 import 'package:dnd/services/language_service.dart';
 import 'package:dnd/widgets/deletable_group_member.dart';
 import 'package:dnd/widgets/group_marker_map.dart';
-import 'package:dnd/widgets/language_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -46,7 +42,6 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
 
   @override
   Widget build(BuildContext context) {
-   
     if (widget.id != null) {
       final groupDetailsListener = ref.watch(groupDetailsProvider(widget.id!));
 
@@ -114,7 +109,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                         },
                       ),
                     ),
-                    Text("In what language will you play?"),
+                    const Text("In what language will you play?"),
                     DropdownButton(
                         value: _language,
                         onChanged: (String? newValue) {
@@ -199,7 +194,6 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                     );
                   }).toList(),
                 ),
-                
                 if (_group?.members?.isNotEmpty == true)
                   Column(
                     mainAxisSize: MainAxisSize.max,
@@ -246,7 +240,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                           await databaseService.removeMembersFromGroup(
                               _markedUsersForDeletion, _group!.id!);
                         }
-                       
+
                         GroupAddressModel? address;
                         if (_selectedAddress != null && _location != null) {
                           address = GroupAddressModel(
@@ -335,7 +329,6 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
     _submitPressed = false;
     setState(() {});
   }
-
 }
 
 final weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];

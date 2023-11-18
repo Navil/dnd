@@ -9,6 +9,7 @@ import 'package:dnd/services/shared_preferences_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+
 part 'database_provider.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -57,7 +58,7 @@ Future<List<GroupSearchResult>> findGroups(FindGroupsRef ref) async {
   if (!filters.isRemote) {
     location = await ref.watch(locationProvider.future);
   }
-  
+
   final data =
       List.from(await Supabase.instance.client.rpc('find_groups', params: {
     'lat': location != null ? location.latitude : 0,
@@ -68,8 +69,7 @@ Future<List<GroupSearchResult>> findGroups(FindGroupsRef ref) async {
   print(data);
 
   return data
-      .map((group) =>
-          GroupSearchResult(
+      .map((group) => GroupSearchResult(
           GroupModel.fromJson(group),
           group["dist_meters"],
           group["num_members"],
@@ -89,21 +89,16 @@ class GroupSearchResult {
       this.numDungeonMasters, this.numPlayers);
 }
 
-
 @riverpod
 class ChatMessageNotifier extends _$ChatMessageNotifier {
-
-
   @override
   Future<List<MessageModel>> build(int chatId) async {
     _initMessages(chatId);
-    return ref.read(databaseServiceProvider).getMessagesForChat(chatId);
+    return ref.watch(databaseServiceProvider).getMessagesForChat(chatId);
   }
 
   void _initMessages(int chatId) {
-    Supabase.instance.client
-        .channel('public:messaged:id=eq.$chatId')
-        .on(
+    Supabase.instance.client.channel('public:messaged:id=eq.$chatId').on(
       RealtimeListenTypes.postgresChanges,
       ChannelFilter(
           event: 'INSERT',
@@ -114,11 +109,10 @@ class ChatMessageNotifier extends _$ChatMessageNotifier {
         final newId = payload["new"]["id"];
 
         MessageModel message =
-            await ref.read(databaseServiceProvider).getMessageById(newId);
+            await ref.watch(databaseServiceProvider).getMessageById(newId);
         state.whenData((value) {
           state = AsyncValue.data([message, ...value]);
         });
-
       },
     ).subscribe();
   }
