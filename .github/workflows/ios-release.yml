@@ -23,15 +23,12 @@ jobs:
           ENV_FILE_CONTENT: ${{ secrets.ENV }}
         run: echo $ENV_FILE_CONTENT > ${GITHUB_WORKSPACE}/.env
 
-      - name: Create the API Key
-        working-directory: ./ios
-        env:
-          APPSTORE_API_PRIVATE_KEY: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
-        run: echo $APPSTORE_API_PRIVATE_KEY > AuthKey_GitHub_Actions.p8
-
       - name: Internal Deployment to TestFlight
         working-directory: ./ios
         env:
-          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
+          APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY_ID }}
+
         run: fastlane ios beta
 

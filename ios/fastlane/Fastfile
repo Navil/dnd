@@ -19,9 +19,8 @@ platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
    api_key = app_store_connect_api_key(
-    key_id: "272836593J",
-    issuer_id: "789d7ff0-d97c-4705-8c01-ec392cd3c6cc",
-    key_filepath: "./AuthKey_GitHub_Actions.p8"
+      in_house: false,
+      is_key_content_base64: true
   )
 
   pilot(api_key: api_key)
