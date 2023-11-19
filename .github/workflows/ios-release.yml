@@ -25,5 +25,5 @@ jobs:
 
       - name: Internal Deployment to TestFlight
         working-directory: ./ios
-        run: fastlane android internal
+        run: fastlane ios beta
 
