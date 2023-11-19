@@ -36,7 +36,7 @@ final systemLanguageProvider = AutoDisposeProvider<String>.internal(
 
 typedef SystemLanguageRef = AutoDisposeProviderRef<String>;
 String _$languageDropdownItemsHash() =>
-    r'852ef9046a800dd7778fdc91f748fdc95cc8f031';
+    r'6ad0fcb8c49452e21981695797dd9c5c686a0c5e';
 
 /// See also [languageDropdownItems].
 @ProviderFor(languageDropdownItems)

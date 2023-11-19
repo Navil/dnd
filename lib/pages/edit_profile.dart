@@ -50,10 +50,8 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
           .toDouble();
     }
 
-    return WillPopScope(
-      onWillPop: () async {
-        return _user != null;
-      },
+    return PopScope(
+      canPop: _user != null,
       child: Scaffold(
           appBar: AppBar(
               title: const Text("Edit profile"),

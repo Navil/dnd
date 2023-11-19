@@ -9,11 +9,11 @@ part of 'search_filters.dart';
 _$SearchFiltersImpl _$$SearchFiltersImplFromJson(Map<String, dynamic> json) =>
     _$SearchFiltersImpl(
       isRemote: json['remote'] as bool? ?? true,
-      groupLanguage: json['groupLanguage'] as String? ?? "en",
+      groupLanguage: json['lang'] as String? ?? "en",
     );
 
 Map<String, dynamic> _$$SearchFiltersImplToJson(_$SearchFiltersImpl instance) =>
     <String, dynamic>{
       'remote': instance.isRemote,
-      'groupLanguage': instance.groupLanguage,
+      'lang': instance.groupLanguage,
     };

@@ -6,7 +6,7 @@ part 'search_filters.g.dart';
 class SearchFilters with _$SearchFilters {
   factory SearchFilters({
   @Default(true) @JsonKey(name: "remote") bool isRemote,
-      @Default("en") String groupLanguage
+          @Default("en") @JsonKey(name: "lang") String groupLanguage
   }) = _SearchFilters;
 
   factory SearchFilters.fromJson(Map<String, dynamic> json) =>

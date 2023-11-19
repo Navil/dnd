@@ -22,6 +22,7 @@ SearchFilters _$SearchFiltersFromJson(Map<String, dynamic> json) {
 mixin _$SearchFilters {
   @JsonKey(name: "remote")
   bool get isRemote => throw _privateConstructorUsedError;
+  @JsonKey(name: "lang")
   String get groupLanguage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +37,9 @@ abstract class $SearchFiltersCopyWith<$Res> {
           SearchFilters value, $Res Function(SearchFilters) then) =
       _$SearchFiltersCopyWithImpl<$Res, SearchFilters>;
   @useResult
-  $Res call({@JsonKey(name: "remote") bool isRemote, String groupLanguage});
+  $Res call(
+      {@JsonKey(name: "remote") bool isRemote,
+      @JsonKey(name: "lang") String groupLanguage});
 }
 
 /// @nodoc
@@ -76,7 +79,9 @@ abstract class _$$SearchFiltersImplCopyWith<$Res>
       __$$SearchFiltersImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: "remote") bool isRemote, String groupLanguage});
+  $Res call(
+      {@JsonKey(name: "remote") bool isRemote,
+      @JsonKey(name: "lang") String groupLanguage});
 }
 
 /// @nodoc
@@ -111,7 +116,7 @@ class __$$SearchFiltersImplCopyWithImpl<$Res>
 class _$SearchFiltersImpl implements _SearchFilters {
   _$SearchFiltersImpl(
       {@JsonKey(name: "remote") this.isRemote = true,
-      this.groupLanguage = "en"});
+      @JsonKey(name: "lang") this.groupLanguage = "en"});
 
   factory _$SearchFiltersImpl.fromJson(Map<String, dynamic> json) =>
       _$$SearchFiltersImplFromJson(json);
@@ -120,7 +125,7 @@ class _$SearchFiltersImpl implements _SearchFilters {
   @JsonKey(name: "remote")
   final bool isRemote;
   @override
-  @JsonKey()
+  @JsonKey(name: "lang")
   final String groupLanguage;
 
   @override
@@ -160,7 +165,7 @@ class _$SearchFiltersImpl implements _SearchFilters {
 abstract class _SearchFilters implements SearchFilters {
   factory _SearchFilters(
       {@JsonKey(name: "remote") final bool isRemote,
-      final String groupLanguage}) = _$SearchFiltersImpl;
+      @JsonKey(name: "lang") final String groupLanguage}) = _$SearchFiltersImpl;
 
   factory _SearchFilters.fromJson(Map<String, dynamic> json) =
       _$SearchFiltersImpl.fromJson;
@@ -169,6 +174,7 @@ abstract class _SearchFilters implements SearchFilters {
   @JsonKey(name: "remote")
   bool get isRemote;
   @override
+  @JsonKey(name: "lang")
   String get groupLanguage;
   @override
   @JsonKey(ignore: true)
