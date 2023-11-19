@@ -1,0 +1,8 @@
+app_identifier("at.valley.dnd") # The bundle identifier of your app
+apple_id("thomas.anderl@aon.at") # Your Apple Developer Portal username
+
+itc_team_id("119120434") # App Store Connect Team ID
+team_id("7296M39392") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
