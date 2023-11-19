@@ -12,6 +12,6 @@ platform :ios do
     scheme: "Runner",
     export_method: "app-store"
   )
-  pilot(api_key: api_key)
+  upload_to_testflight(api_key: api_key)
   end
 end

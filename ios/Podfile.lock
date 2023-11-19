@@ -19,10 +19,10 @@ PODS:
   - google_sign_in_ios (0.0.1):
     - Flutter
     - GoogleSignIn (~> 6.2)
-  - GoogleMaps (5.2.0):
-    - GoogleMaps/Maps (= 5.2.0)
-  - GoogleMaps/Base (5.2.0)
-  - GoogleMaps/Maps (5.2.0):
+  - GoogleMaps (6.2.1):
+    - GoogleMaps/Maps (= 6.2.1)
+  - GoogleMaps/Base (6.2.1)
+  - GoogleMaps/Maps (6.2.1):
     - GoogleMaps/Base
   - GoogleSignIn (6.2.4):
     - AppAuth (~> 1.5)
@@ -132,7 +132,7 @@ SPEC CHECKSUMS:
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   google_maps_flutter_ios: abdac20d6ce8931f6ebc5f46616df241bfaa2cfd
   google_sign_in_ios: 1256ff9d941db546373826966720b0c24804bcdd
-  GoogleMaps: 025272d5876d3b32604e5c080dc25eaf68764693
+  GoogleMaps: 20d7b12be49a14287f797e88e0e31bc4156aaeb4
   GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
