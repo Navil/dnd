@@ -61,10 +61,7 @@ class DatabaseService {
         .select("*, group_addresses(*),members(*,users(*))")
         .eq('id', id)
         .single();
-    if (response == null) {
-      return null;
-    }
-
+        
     GroupModel model = GroupModel.fromJson(response);
     return model;
   }

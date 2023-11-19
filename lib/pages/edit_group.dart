@@ -110,14 +110,19 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                       ),
                     ),
                     const Text("In what language will you play?"),
-                    DropdownButton(
-                        value: _language,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _language = newValue!;
-                          });
-                        },
-                        items: ref.watch(languageDropdownItemsProvider)),
+                    
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                          isExpanded: true,
+                          value: _language,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _language = newValue!;
+                            });
+                          },
+                          items: ref.watch(languageDropdownItemsProvider)),
+                    ),
+                    
                     CheckboxListTile.adaptive(
                         title: const Text("Is it remote?"),
                         value: _isRemote,

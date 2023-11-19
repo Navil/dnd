@@ -54,10 +54,15 @@ Future<GroupModel?> groupDetails(GroupDetailsRef ref, int id) {
 Future<List<GroupSearchResult>> findGroups(FindGroupsRef ref) async {
   final filters =
       ref.watch(sharedPreferencesServiceProvider).getFilterPreferences();
+
   Position? location;
   if (!filters.isRemote) {
     location = await ref.watch(locationProvider.future);
   }
+
+  final test = await Supabase.instance.client
+      .rpc('is_user_member_of_group', params: {"p_group_id": 3000});
+  print(test);
 
   final data =
       List.from(await Supabase.instance.client.rpc('find_groups', params: {

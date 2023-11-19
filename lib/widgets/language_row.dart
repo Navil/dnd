@@ -10,6 +10,7 @@ class LanguageRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
+      mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 8.0),
@@ -19,7 +20,11 @@ class LanguageRow extends ConsumerWidget {
             height: 25,
           ),
         ),
-        Text(language.name),
+        Flexible(
+            child: Text(
+          language.name,
+          overflow: TextOverflow.ellipsis,
+        )),
       ],
     );
   }
