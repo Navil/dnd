@@ -27,7 +27,7 @@ jobs:
         working-directory: ./ios
         env:
           APPSTORE_API_PRIVATE_KEY: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
-        run: echo $APPSTORE_API_PRIVATE_KEY | base64 -di > AuthKey_GitHub_Actions.p8
+        run: echo $APPSTORE_API_PRIVATE_KEY > AuthKey_GitHub_Actions.p8
 
       - name: Internal Deployment to TestFlight
         working-directory: ./ios
