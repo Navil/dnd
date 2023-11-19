@@ -12,15 +12,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install CocoaPods dependencies
-        working-directory: ./ios
-        run: pod install
-     
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
           cache: true
+          
+      - name: Install CocoaPods dependencies
+        working-directory: ./ios
+        run:  |
+          flutter pub get
+          pod install
 
       - name: Add ENV
         env:
