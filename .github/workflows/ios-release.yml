@@ -25,5 +25,7 @@ jobs:
 
       - name: Internal Deployment to TestFlight
         working-directory: ./ios
+        env:
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
         run: fastlane ios beta
 
