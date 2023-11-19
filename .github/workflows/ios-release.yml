@@ -17,12 +17,24 @@ jobs:
         with:
           channel: "stable"
           cache: true
+      
+      - name: Cache Pods
+        uses: actions/cache@v2
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
           
       - name: Install CocoaPods dependencies
         working-directory: ./ios
         run:  |
           flutter pub get
-          pod install
+          if [ -d "Pods" ]; then
+            echo "Pods directory exists. Skipping pod install."
+          else
+            pod install
+          fi
 
       - name: Add ENV
         env:
