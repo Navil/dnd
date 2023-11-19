@@ -25,6 +25,7 @@ jobs:
       - name: Install CocoaPods dependencies
         working-directory: ./ios
         run:  |
+          gem install fastlane -NV
           flutter pub get
           pod install
 
@@ -42,4 +43,5 @@ jobs:
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: bundle exec fastlane ios beta
+        bundle exec fastlane ios beta
 
