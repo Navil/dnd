@@ -12,6 +12,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0.2'
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -37,5 +41,5 @@ jobs:
           APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY_ID }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: fastlane ios beta
+        run: bundle exec fastlane ios beta
 
