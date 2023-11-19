@@ -9,8 +9,6 @@ platform :ios do
       is_key_content_base64: true
     )
     match(type: "appstore")
-    get_certificates
-    get_provisioning_profile
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
