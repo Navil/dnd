@@ -19,6 +19,9 @@ jobs:
           ENV_FILE_CONTENT: ${{ secrets.ENV }}
         run: echo $ENV_FILE_CONTENT > .env
 
+      - name: List directory contents
+        run: ls -la
+
       - name: Create the Keystore
         working-directory: ./android
         env:
