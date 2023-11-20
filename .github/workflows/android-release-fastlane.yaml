@@ -14,11 +14,8 @@ jobs:
           channel: "stable"
           cache: true
 
-      - name: Install Fastlane
-        run: |
-          sudo gem install fastlane -NV
-
       - name: Add ENV
+        working-directory: ./android
         env:
           ENV_FILE_CONTENT: ${{ secrets.ENV }}
         run: echo $ENV_FILE_CONTENT > ${GITHUB_WORKSPACE}/.env

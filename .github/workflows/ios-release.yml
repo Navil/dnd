@@ -15,7 +15,7 @@ jobs:
         with:
           channel: "stable"
           cache: true
-      
+
       - name: Cache Pods
         uses: actions/cache@v2
         with:
@@ -26,10 +26,10 @@ jobs:
 
       - name: Get Flutter Packages
         run: flutter pub get
-          
+
       - name: Install CocoaPods dependencies
         working-directory: ./ios
-        run:  |
+        run: |
           if [ -d "Pods" ]; then
             echo "Pods directory exists. Skipping pod install."
           else
@@ -37,9 +37,10 @@ jobs:
           fi
 
       - name: Add ENV
+        working-directory: ./ios
         env:
           ENV_FILE_CONTENT: ${{ secrets.ENV }}
-        run: echo $ENV_FILE_CONTENT > ${GITHUB_WORKSPACE}/.env
+        run: echo $ENV_FILE_CONTENT > .env
 
       - name: Internal Deployment to TestFlight
         working-directory: ./ios
@@ -50,4 +51,3 @@ jobs:
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: fastlane ios beta
-
