@@ -15,10 +15,9 @@ jobs:
           cache: true
 
       - name: Add ENV
-        working-directory: ./android
         env:
           ENV_FILE_CONTENT: ${{ secrets.ENV }}
-        run: echo $ENV_FILE_CONTENT > ${GITHUB_WORKSPACE}/.env
+        run: echo $ENV_FILE_CONTENT > .env
 
       - name: Create the Keystore
         working-directory: ./android

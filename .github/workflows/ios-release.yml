@@ -37,7 +37,6 @@ jobs:
           fi
 
       - name: Add ENV
-        working-directory: ./ios
         env:
           ENV_FILE_CONTENT: ${{ secrets.ENV }}
         run: echo $ENV_FILE_CONTENT > .env
