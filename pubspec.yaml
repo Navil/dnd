@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  supabase_flutter: 2.0.0-dev.2
+  supabase_flutter: 2.0.0-dev.3
   cupertino_icons:
   google_fonts:
   flutter_riverpod:
@@ -92,7 +92,6 @@ flutter:
   assets:
     - .env
     - assets/jsons/
-    - assets/language-icons/
     - assets/language-icons/language/
 
   #   - images/a_dot_burr.jpeg
