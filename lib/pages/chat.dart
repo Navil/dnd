@@ -15,8 +15,13 @@ class ChatPage extends ConsumerStatefulWidget {
 class _ChatPageState extends ConsumerState<ChatPage> {
   @override
   Widget build(BuildContext context) {
+    List<Widget>? appBarActions;
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Chat")),
+      appBar: AppBar(
+        title: const Text("Chat"),
+        actions: appBarActions,
+      ),
       body: Padding(
           padding: const EdgeInsets.all(16),
           child: ref.watch(chatMessageNotifierProvider(widget.chatId)).when(

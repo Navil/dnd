@@ -6,7 +6,6 @@ import 'package:dnd/pages/tabs.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/database_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -25,6 +24,11 @@ final _key = GlobalKey<NavigatorState>();
 
 @riverpod
 GoRouter router(RouterRef ref) {
+  final authState = ref.watch(authUserProvider);
+  final isLoggedIn =
+      authState.maybeWhen(data: (user) => user != null, orElse: () => false);
+  final isLoggingIn =
+      authState.maybeWhen(loading: () => true, orElse: () => false);
   return GoRouter(
       navigatorKey: _key,
       debugLogDiagnostics: true,
@@ -42,10 +46,10 @@ GoRouter router(RouterRef ref) {
                 builder: (context, state) => const EditProfilePage(),
               ),
               GoRoute(
-                  path: _editGroupPath,
-                  builder: (context, state) {
-                    String? id = state.uri.queryParameters["id"];
-                    return EditGroupPage(id == null ? null : int.parse(id));
+                path: _editGroupPath,
+                builder: (context, state) {
+                  String? id = state.uri.queryParameters["id"];
+                  return EditGroupPage(id == null ? null : int.parse(id));
                 },
               ),
               GoRoute(
@@ -59,28 +63,20 @@ GoRouter router(RouterRef ref) {
                   }),
             ]),
       ],
-      redirect: (context, state) => _redirectLogic(ref, state));
-}
+      redirect: (context, state) {
+        if (!isLoggedIn && !isLoggingIn && state.path != loginPath) {
+          return loginPath;
+        }
 
-FutureOr<String?> _redirectLogic(AutoDisposeRef ref, GoRouterState state) {
-  final authState = ref.watch(authUserProvider);
-  final isLoggedIn =
-      authState.maybeWhen(data: (user) => user != null, orElse: () => false);
-  final isLoggingIn =
-      authState.maybeWhen(loading: () => true, orElse: () => false);
+        if (isLoggedIn) {
+          final hasUserProfile = ref.watch(hasUserProfileProvider);
+          if (!hasUserProfile && state.path != _editProfilePath) {
+            return homePath + _editProfilePath;
+          }
+        } else if (state.path != loginPath) {
+          return loginPath;
+        }
 
-  if (!isLoggedIn && !isLoggingIn && state.path != loginPath) {
-    return loginPath;
-  }
-
-  if (isLoggedIn) {
-    final hasUserProfile = ref.watch(hasUserProfileProvider);
-    if (!hasUserProfile && state.path != _editProfilePath) {
-      return homePath + _editProfilePath;
-    }
-  } else if (state.path != loginPath) {
-    return loginPath;
-  }
-
-  return null;
+        return null;
+      });
 }

@@ -1,4 +1,4 @@
-name: Android Fastlane
+name: Android Release
 
 on: [workflow_call, workflow_dispatch]
 
@@ -14,14 +14,13 @@ jobs:
           channel: "stable"
           cache: true
 
-      - name: Install Fastlane
-        run: |
-          sudo gem install fastlane -NV
-
       - name: Add ENV
         env:
           ENV_FILE_CONTENT: ${{ secrets.ENV }}
-        run: echo $ENV_FILE_CONTENT > ${GITHUB_WORKSPACE}/.env
+        run: echo $ENV_FILE_CONTENT > .env
+
+      - name: List directory contents
+        run: ls -la
 
       - name: Create the Keystore
         working-directory: ./android

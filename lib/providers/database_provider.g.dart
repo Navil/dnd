@@ -6,11 +6,11 @@ part of 'database_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$databaseServiceHash() => r'c6e4ca566341314a19eaa7b7ac5a6c9f80e43eb8';
+String _$databaseServiceHash() => r'5d72a1e429c9e9d33389fcf98e0481e519017ea7';
 
 /// See also [databaseService].
 @ProviderFor(databaseService)
-final databaseServiceProvider = Provider<DatabaseService>.internal(
+final databaseServiceProvider = AutoDisposeProvider<DatabaseService>.internal(
   databaseService,
   name: r'databaseServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,7 +20,7 @@ final databaseServiceProvider = Provider<DatabaseService>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef DatabaseServiceRef = ProviderRef<DatabaseService>;
+typedef DatabaseServiceRef = AutoDisposeProviderRef<DatabaseService>;
 String _$getGroupsOfUserHash() => r'da36e2b479469176ba29bda69f92fd9992a2d4b7';
 
 /// See also [getGroupsOfUser].
@@ -55,7 +55,7 @@ final getChatRequestsOfUserProvider =
 
 typedef GetChatRequestsOfUserRef
     = AutoDisposeFutureProviderRef<List<ChatModel>>;
-String _$userProfileHash() => r'c4cb00540d3e3f4b5d3fa5b27aa3ae9bacf7f671';
+String _$userProfileHash() => r'f39033ff1ff0210be4add512b39a0971061eb285';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -121,7 +121,7 @@ class UserProfileFamily extends Family<AsyncValue<UserModel?>> {
 }
 
 /// See also [userProfile].
-class UserProfileProvider extends FutureProvider<UserModel?> {
+class UserProfileProvider extends AutoDisposeFutureProvider<UserModel?> {
   /// See also [userProfile].
   UserProfileProvider(
     String uid,
@@ -173,7 +173,7 @@ class UserProfileProvider extends FutureProvider<UserModel?> {
   }
 
   @override
-  FutureProviderElement<UserModel?> createElement() {
+  AutoDisposeFutureProviderElement<UserModel?> createElement() {
     return _UserProfileProviderElement(this);
   }
 
@@ -191,24 +191,24 @@ class UserProfileProvider extends FutureProvider<UserModel?> {
   }
 }
 
-mixin UserProfileRef on FutureProviderRef<UserModel?> {
+mixin UserProfileRef on AutoDisposeFutureProviderRef<UserModel?> {
   /// The parameter `uid` of this provider.
   String get uid;
 }
 
-class _UserProfileProviderElement extends FutureProviderElement<UserModel?>
-    with UserProfileRef {
+class _UserProfileProviderElement
+    extends AutoDisposeFutureProviderElement<UserModel?> with UserProfileRef {
   _UserProfileProviderElement(super.provider);
 
   @override
   String get uid => (origin as UserProfileProvider).uid;
 }
 
-String _$hasUserProfileHash() => r'e63c31aeee107b9cea9753f2f6eaf834415ff8ab';
+String _$hasUserProfileHash() => r'19707ce7f67da7d262f97dd1afa6ecc5068eb4f9';
 
 /// See also [hasUserProfile].
 @ProviderFor(hasUserProfile)
-final hasUserProfileProvider = Provider<bool>.internal(
+final hasUserProfileProvider = AutoDisposeProvider<bool>.internal(
   hasUserProfile,
   name: r'hasUserProfileProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -218,7 +218,7 @@ final hasUserProfileProvider = Provider<bool>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef HasUserProfileRef = ProviderRef<bool>;
+typedef HasUserProfileRef = AutoDisposeProviderRef<bool>;
 String _$groupDetailsHash() => r'a34a4a428a07a94d8dda18c70b9e20e3c391fc3d';
 
 /// See also [groupDetails].
@@ -347,7 +347,7 @@ class _GroupDetailsProviderElement
   int get id => (origin as GroupDetailsProvider).id;
 }
 
-String _$findGroupsHash() => r'207592f059ba84878447fa10e20185c74954d983';
+String _$findGroupsHash() => r'666809357c3df415d5bbc2a3d80a442d1bb844a0';
 
 /// See also [findGroups].
 @ProviderFor(findGroups)

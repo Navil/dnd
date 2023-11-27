@@ -56,7 +56,6 @@ class _FindGroupFiltersState extends ConsumerState<FindGroupFilters> {
                 },
               ),
             ),
-           
             IconButton(
               onPressed: () async {
                 await ref

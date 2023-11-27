@@ -14,7 +14,7 @@ class DatabaseService {
   final groupDatabase = Supabase.instance.client.from("groups");
   final memberDatabase = Supabase.instance.client.from("members");
   final chatDatabase = Supabase.instance.client.from("chats");
-  final messagesDatabase = Supabase.instance.client.from("messages");
+  final messageDatabase = Supabase.instance.client.from("messages");
 
   final groupAddressesDatabase =
       Supabase.instance.client.from("group_addresses");
@@ -61,7 +61,7 @@ class DatabaseService {
         .select("*, group_addresses(*),members(*,users(*))")
         .eq('id', id)
         .single();
-        
+
     GroupModel model = GroupModel.fromJson(response);
     return model;
   }
@@ -113,7 +113,7 @@ class DatabaseService {
         chatResponse.map((chat) => ChatModel.fromJson(chat)).toList();
 
     for (var i = 0; i < chats.length; i++) {
-      final newestMessage = await messagesDatabase
+      final newestMessage = await messageDatabase
           .select('*, users(*)')
           .eq('chat_id', chats[i].id!)
           .order('created_at', ascending: false)
@@ -128,7 +128,14 @@ class DatabaseService {
   }
 
   Future<List<MessageModel>> getMessagesForChat(int chatId) async {
-    final messagesResponse = await messagesDatabase
+    final chat = await chatDatabase
+        .select("*, groups(*), messages(*)")
+        .eq("id", chatId)
+        .order("created_at", ascending: false, referencedTable: "messages")
+        .limit(50, referencedTable: "messages");
+    print(chat);
+
+    final messagesResponse = await messageDatabase
         .select("*, users(*)")
         .eq("chat_id", chatId)
         .order("created_at", ascending: false)
@@ -140,7 +147,7 @@ class DatabaseService {
   }
 
   Future<MessageModel> getMessageById(int messageId) async {
-    return MessageModel.fromJson(await messagesDatabase
+    return MessageModel.fromJson(await messageDatabase
         .select("*, users(*)")
         .eq("id", messageId)
         .single());

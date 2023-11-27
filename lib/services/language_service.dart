@@ -4,6 +4,7 @@ import 'package:dnd/widgets/language_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'language_service.g.dart';
 
 @riverpod
@@ -25,8 +26,7 @@ List<DropdownMenuItem<String>> languageDropdownItems(
 
   List<DropdownMenuItem<String>> menuItems = availableLanguages
       .map((language) => DropdownMenuItem(
-          value: language.isoCode,
-          child: LanguageRow(language)))
+          value: language.isoCode, child: LanguageRow(language)))
       .toList();
   return menuItems;
 }
@@ -66,7 +66,6 @@ class Language {
   factory Language.fromJson(Map<String, dynamic> json) {
     return Language(json['isoCode'] as String, json['name'] as String);
   }
-
 }
 
 String getLanguageAsset(String isoCode) {

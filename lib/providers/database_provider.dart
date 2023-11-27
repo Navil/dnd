@@ -8,11 +8,11 @@ import 'package:dnd/services/database_service.dart';
 import 'package:dnd/services/shared_preferences_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'database_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 DatabaseService databaseService(DatabaseServiceRef ref) {
   final userId = ref.watch(loggedInUserProvider.select((value) => value.id));
   return DatabaseService(ref, userId);
@@ -29,12 +29,12 @@ Future<List<ChatModel>> getChatRequestsOfUser(
   return ref.watch(databaseServiceProvider).getChatRequestsOfUser();
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<UserModel?> userProfile(UserProfileRef ref, String uid) {
   return ref.watch(databaseServiceProvider).loadUser(uid);
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 bool hasUserProfile(HasUserProfileRef ref) {
   final userId = ref.watch(loggedInUserProvider.select((value) => value.id));
   final userProfileData = ref.watch(userProfileProvider(userId));
@@ -54,15 +54,10 @@ Future<GroupModel?> groupDetails(GroupDetailsRef ref, int id) {
 Future<List<GroupSearchResult>> findGroups(FindGroupsRef ref) async {
   final filters =
       ref.watch(sharedPreferencesServiceProvider).getFilterPreferences();
-
   Position? location;
   if (!filters.isRemote) {
     location = await ref.watch(locationProvider.future);
   }
-
-  final test = await Supabase.instance.client
-      .rpc('is_user_member_of_group', params: {"p_group_id": 3000});
-  print(test);
 
   final data =
       List.from(await Supabase.instance.client.rpc('find_groups', params: {
