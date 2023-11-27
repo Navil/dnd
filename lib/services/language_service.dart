@@ -70,5 +70,5 @@ class Language {
 }
 
 String getLanguageAsset(String isoCode) {
-  return "assets/language-icons/language/${isoCode.toLowerCase()}.svg";
+  return "assets/language-icons/${isoCode.toLowerCase()}.svg";
 }

@@ -93,7 +93,6 @@ flutter:
     - .env
     - assets/jsons/
     - assets/language-icons/
-    - assets/language-icons/language/
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
