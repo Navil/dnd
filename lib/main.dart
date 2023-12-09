@@ -74,7 +74,7 @@ class MyApp extends ConsumerWidget {
           ..indicatorColor = Theme.of(context).primaryColor
           ..maskType = EasyLoadingMaskType.black
           ..textColor = Theme.of(context).primaryColor;
-
+    
         return Builder(builder: (context) {
           ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
             return const WarningScreen();
