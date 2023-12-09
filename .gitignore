@@ -49,7 +49,7 @@ GoogleService-Info.plist
 firebase_app_id_file.json
 
 #Environment
-.env
-.env-prod
+env
+env-prod
 
 secrets.txt

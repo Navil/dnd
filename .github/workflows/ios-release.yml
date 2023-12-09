@@ -42,7 +42,7 @@ jobs:
           ENV_FILE_CONTENT: ${{ secrets.ENV }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
-          echo $ENV_FILE_CONTENT > .env
+          echo $ENV_FILE_CONTENT > env
           export SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 
       - name: Internal Deployment to TestFlight

@@ -16,7 +16,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load();
+  await dotenv.load(fileName: "env");
 
   await SentryFlutter.init((options) {
     options.environment =
@@ -74,7 +74,7 @@ class MyApp extends ConsumerWidget {
           ..indicatorColor = Theme.of(context).primaryColor
           ..maskType = EasyLoadingMaskType.black
           ..textColor = Theme.of(context).primaryColor;
-    
+
         return Builder(builder: (context) {
           ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
             return const WarningScreen();
