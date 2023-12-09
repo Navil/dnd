@@ -17,7 +17,10 @@ jobs:
       - name: Add ENV
         env:
           ENV_FILE_CONTENT: ${{ secrets.ENV }}
-        run: echo $ENV_FILE_CONTENT > .env
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: |
+          echo $ENV_FILE_CONTENT > .env
+          export SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 
       - name: List directory contents
         run: ls -la

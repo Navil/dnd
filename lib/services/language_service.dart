@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dnd/widgets/language_row.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,7 @@ List<Language> languages(LanguagesRef ref) {
 
 @riverpod
 String systemLanguage(SystemLanguageRef ref) {
-  //TODO: Take the device language
-  return "en";
+  return Platform.localeName.split("_")[0];
 }
 
 @riverpod
