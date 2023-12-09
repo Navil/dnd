@@ -9,5 +9,5 @@ class Environment {
   static final googleOAuthClientIos = dotenv.env["GOOGLE_OAUTH_CLIENT_IOS"]!;
   static final googleOAuthClientWeb = dotenv.env["GOOGLE_OAUTH_CLIENT_WEB"]!;
   static final isProduction = dotenv.env["IS_PRODUCTION"] == "true";
-  static final sentryUrl = dotenv.env["SENTRY_URL"];
+  static final sentryUrl = dotenv.env["SENTRY_URL"]!;
 }
