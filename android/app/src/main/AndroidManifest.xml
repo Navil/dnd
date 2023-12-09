@@ -33,9 +33,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-        <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyBvf2ELyeEj6CWSqj_BaTrgXWpoRZRHNUY"/>
-
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
