@@ -98,22 +98,26 @@ class ChatMessageNotifier extends _$ChatMessageNotifier {
   }
 
   void _initMessages(int chatId) {
-    Supabase.instance.client.channel('public:messaged:id=eq.$chatId').on(
-      RealtimeListenTypes.postgresChanges,
-      ChannelFilter(
-          event: 'INSERT',
-          schema: 'public',
-          table: 'messages',
-          filter: 'chat_id=eq.$chatId'),
-      (payload, [_]) async {
-        final newId = payload["new"]["id"];
+    Supabase.instance.client
+        .channel('public:messaged:id=eq.$chatId')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.insert,
+            schema: 'public',
+            table: 'messages',
+            filter: PostgresChangeFilter(
+                type: PostgresChangeFilterType.eq,
+                column: "chat_id",
+                value: chatId),
+            callback: (payload) async {
+              final newId = payload.newRecord["id"];
 
-        MessageModel message =
-            await ref.watch(databaseServiceProvider).getMessageById(newId);
-        state.whenData((value) {
-          state = AsyncValue.data([message, ...value]);
-        });
-      },
-    ).subscribe();
+              MessageModel message = await ref
+                  .watch(databaseServiceProvider)
+                  .getMessageById(newId);
+              state.whenData((value) {
+                state = AsyncValue.data([message, ...value]);
+              });
+            })
+        .subscribe();
   }
 }
