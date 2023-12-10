@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
-import 'package:dnd/environment.dart';
+import 'package:dnd/env.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -43,9 +43,9 @@ class AuthService {
 
   Future<void> loginGoogle() async {
     debugPrint('Loging in Google');
-    final String webClientId = Environment.googleOAuthClientWeb;
+    const String webClientId = Env.googleOAuthClientWeb;
 
-    final String iosClientId = Environment.googleOAuthClientIos;
+    const String iosClientId = Env.googleOAuthClientIos;
 
     final GoogleSignIn googleSignIn =
         GoogleSignIn(clientId: iosClientId, serverClientId: webClientId);

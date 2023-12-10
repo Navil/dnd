@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dnd/environment.dart';
+import 'package:dnd/env.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -15,7 +15,7 @@ Future<List<AutocompletePrediction>> addressAutocomplete(
   }
 
   final url =
-      'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$query&key=${Environment.googlePlacesKey}&types=address';
+      'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$query&key=${Env.googlePlacesKey}&types=address';
   final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {
@@ -38,7 +38,7 @@ class AutocompletePrediction {
 final placeDetailsProvider =
     FutureProvider.family<LatLng, String>((ref, placeId) async {
   final url =
-      'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=${Environment.googlePlacesKey}';
+      'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=${Env.googlePlacesKey}';
   final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {
