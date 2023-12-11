@@ -22,6 +22,9 @@ class AuthService {
     final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
 
     final credential = await SignInWithApple.getAppleIDCredential(
+      webAuthenticationOptions: WebAuthenticationOptions(
+          clientId: "com.dndvalley",
+          redirectUri: Uri.parse("${Env.subabaseUrl}/auth/v1/callback")),
       scopes: [
         AppleIDAuthorizationScopes.fullName,
       ],
