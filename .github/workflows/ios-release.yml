@@ -54,3 +54,6 @@ jobs:
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: fastlane ios beta
+
+      - name: Upload debug symbols
+        run: flutter packages pub run sentry_dart_plugin

@@ -4,6 +4,7 @@ import 'package:dnd/pages/tabs/find_group/find_group.dart';
 import 'package:dnd/pages/tabs/my_groups/my_groups.dart';
 import 'package:dnd/providers/auth_provider.dart';
 import 'package:dnd/providers/database_provider.dart';
+import 'package:dnd/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,9 +32,10 @@ class _TabsPageState extends ConsumerState<TabsPage> {
   @override
   void initState() {
     super.initState();
+    DatabaseService databaseService = ref.read(databaseServiceProvider);
     _timer = Timer.periodic(const Duration(minutes: 10), (timer) {
       ref.invalidate(getGroupsOfUserProvider);
-      ref.read(databaseServiceProvider).updateLastOnline();
+      databaseService.updateLastOnline();
     });
   }
 

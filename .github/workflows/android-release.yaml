@@ -50,3 +50,6 @@ jobs:
       - name: Internal Deployment to Play Store
         working-directory: ./android
         run: fastlane android internal
+
+      - name: Upload debug symbols
+        run: flutter packages pub run sentry_dart_plugin
