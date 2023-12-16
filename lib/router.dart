@@ -29,9 +29,14 @@ GoRouter router(RouterRef ref) {
       authState.maybeWhen(data: (user) => user != null, orElse: () => false);
   final isLoggingIn =
       authState.maybeWhen(loading: () => true, orElse: () => false);
+
+  bool hasUserProfile = false;
+  if (isLoggedIn) {
+    hasUserProfile = ref.watch(hasUserProfileProvider);
+  }
+
   return GoRouter(
       navigatorKey: _key,
-      debugLogDiagnostics: true,
       routes: [
         GoRoute(
           path: loginPath,
@@ -69,7 +74,6 @@ GoRouter router(RouterRef ref) {
         }
 
         if (isLoggedIn) {
-          final hasUserProfile = ref.watch(hasUserProfileProvider);
           if (!hasUserProfile && state.path != _editProfilePath) {
             return homePath + _editProfilePath;
           }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:dnd/env.dart';
@@ -11,14 +10,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthService {
   final supabase = Supabase.instance.client;
 
-  //TODO: use generateRawNonce from supabase
-  String _generateRandomString() {
-    final random = Random.secure();
-    return base64Url.encode(List<int>.generate(16, (_) => random.nextInt(256)));
-  }
-
   Future<void> loginApple() async {
-    final rawNonce = _generateRandomString();
+    final rawNonce = supabase.auth.generateRawNonce();
     final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
 
     final credential = await SignInWithApple.getAppleIDCredential(
@@ -69,6 +62,18 @@ class AuthService {
       idToken: idToken,
       accessToken: accessToken,
     );
+  }
+
+  loginEmail(String email, String password) async {
+    await supabase.auth.signInWithPassword(email: email, password: password);
+  }
+
+  registerEmail(String email, String password) async {
+    try {
+      await supabase.auth.signUp(email: email, password: password);
+    } catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
   loginTestuser1() async {

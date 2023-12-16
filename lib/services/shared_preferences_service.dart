@@ -4,6 +4,7 @@ import 'package:dnd/model/search_filters.dart';
 import 'package:dnd/services/language_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 part 'shared_preferences_service.g.dart';
 
 @riverpod
@@ -22,10 +23,8 @@ SharedPreferencesService sharedPreferencesService(
 }
 
 class SharedPreferencesService {
-  SharedPreferencesService({
-    required this.sharedPreferences,
-    required this.systemLanguage
-  });
+  SharedPreferencesService(
+      {required this.sharedPreferences, required this.systemLanguage});
   final SharedPreferences sharedPreferences;
   final String systemLanguage;
 

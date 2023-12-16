@@ -60,33 +60,35 @@ class MyApp extends ConsumerWidget {
 
     final router = ref.watch(routerProvider);
 
-    return MaterialApp.router(
-      builder:
-          EasyLoading.init(builder: (BuildContext context, Widget? widget) {
-        EasyLoading.instance
-          ..loadingStyle = EasyLoadingStyle.custom
-          ..indicatorType = EasyLoadingIndicatorType.ring
-          ..backgroundColor = Colors.white
-          ..indicatorColor = Theme.of(context).primaryColor
-          ..maskType = EasyLoadingMaskType.black
-          ..textColor = Theme.of(context).primaryColor;
+    return ProviderScope(
+      child: MaterialApp.router(
+        builder:
+            EasyLoading.init(builder: (BuildContext context, Widget? widget) {
+          EasyLoading.instance
+            ..loadingStyle = EasyLoadingStyle.custom
+            ..indicatorType = EasyLoadingIndicatorType.ring
+            ..backgroundColor = Colors.white
+            ..indicatorColor = Theme.of(context).primaryColor
+            ..maskType = EasyLoadingMaskType.black
+            ..textColor = Theme.of(context).primaryColor;
 
-        return Builder(builder: (context) {
-          ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
-            return const WarningScreen();
-          };
-          if (widget == null) {
-            return const AdaptiveLoadingIndicator();
-          }
-          return widget;
-        });
-      }),
-      title: 'DnD',
-      debugShowCheckedModeBanner: false,
-      theme: themeData,
-      routeInformationParser: router.routeInformationParser,
-      routerDelegate: router.routerDelegate,
-      routeInformationProvider: router.routeInformationProvider,
+          return Builder(builder: (context) {
+            ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+              return const WarningScreen();
+            };
+            if (widget == null) {
+              return const AdaptiveLoadingIndicator();
+            }
+            return widget;
+          });
+        }),
+        title: 'DnD',
+        debugShowCheckedModeBanner: false,
+        theme: themeData,
+        routeInformationParser: router.routeInformationParser,
+        routerDelegate: router.routerDelegate,
+        routeInformationProvider: router.routeInformationProvider,
+      ),
     );
   }
 }
