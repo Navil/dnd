@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:dnd/main.dart' as app;
 
-
+//Run with: flutter drive --driver=integration_test/test_driver.dart --target=integration_test/screenshots.dart --dart-define-from-file=api-keys.json
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
