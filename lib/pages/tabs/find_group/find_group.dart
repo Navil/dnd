@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FindGroupTab extends ConsumerStatefulWidget {
   const FindGroupTab({super.key});
+  static const searchButton = "find_group_search";
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _FindGroupTabState();

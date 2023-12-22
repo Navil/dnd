@@ -19,6 +19,8 @@ import 'package:image_picker/image_picker.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
   const EditProfilePage({super.key});
+  static const firstnameInput = "edit_profile_firstname";
+  static const submitButton = "edit_profile_submit";
 
   @override
   ConsumerState<EditProfilePage> createState() => _EditProfilePageState();
@@ -66,6 +68,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                   children: [
                     _getProfilePictureWidget(),
                     TextFormField(
+                      key: Key(EditProfilePage.firstnameInput),
                       controller: _firstnameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -108,6 +111,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                       height: 48,
                       width: MediaQuery.of(context).size.width / 2,
                       child: ElevatedButton(
+                        key: Key(EditProfilePage.submitButton),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             String? newImageUrl;

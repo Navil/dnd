@@ -54,6 +54,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
 
         // We need an empty manifestPlaceholders for appauth to not throw an error
         manifestPlaceholders += [
@@ -95,5 +96,6 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
 }

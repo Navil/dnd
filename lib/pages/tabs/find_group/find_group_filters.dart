@@ -1,3 +1,4 @@
+import 'package:dnd/pages/tabs/find_group/find_group.dart';
 import 'package:dnd/providers/shared_preferences_provider.dart';
 import 'package:dnd/services/language_service.dart';
 import 'package:dnd/services/shared_preferences_service.dart';
@@ -8,7 +9,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FindGroupFilters extends ConsumerStatefulWidget {
   const FindGroupFilters({super.key});
-
   @override
   ConsumerState<FindGroupFilters> createState() => _FindGroupFiltersState();
 }
@@ -57,6 +57,7 @@ class _FindGroupFiltersState extends ConsumerState<FindGroupFilters> {
               ),
             ),
             IconButton(
+              key: Key(FindGroupTab.searchButton),
               onPressed: () async {
                 await ref
                     .read(sharedPreferencesServiceProvider)
